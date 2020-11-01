@@ -4,7 +4,7 @@ from django.http import HttpResponse
 
 # Create your views here.
 def home(request):
-    return HttpResponse('<h1>Kurdish Language Home ماڵپەڕی زمانی کوردی</h1>')
+    return render(request, 'home/home.html')
 
 
 def about(request):

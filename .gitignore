@@ -40,3 +40,4 @@ Thumbs.db
 # secret keys
 .env
 .idea
+*.pyc
