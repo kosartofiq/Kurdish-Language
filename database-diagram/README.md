@@ -9,7 +9,7 @@
 ئەم خشتەیە داتای پلەبەندی ستافی پشتەوە تێدایە.
 
 فێڵدەکان:
-* *ID*
+* *Id*
 * Name
 * Power
 * Active
@@ -92,18 +92,174 @@
 
 ##### Active
 بۆ دیاری کردنی ئەوەی کە ئایا ئەو پۆستە مافی کارەکانی هەیە یاخود نا، مانای سڕکردن لە کارەکانی ، 
-بەپێی خشتەی گشتی ئەوانەی پلەیان نزم ئەکرێتەوە یاخود بەرەو لەکارخستن دەبرێن، ناچالاک ئەکرێن.
+بەپێی خشتەی گشتی ئەوانەی پلەیان نزم ئەکرێتەوە یاخود بەرەو لەکارخستن دەبرێن، ناچالاک ئەکرێن. تەنها دەتوانن بچنە ناو دیوی پشتەوە و بتوانن دەنگ بدەن و ئاگایان لە چالاکی و کارەکان ببێت. هۆی ئەمە دەگەڕێتەوە بۆ ئەوەی ئەو کەسەی سڕ دەکرێت بەهۆکاری ڕق یان تۆڵە کاری تێکدەر نەکات. تاوەکو بەتەووی مافی بۆ دیاری دەکرێت.
+ماوەی دەنگدان و وەرگرتنی ئەنجام نابێت لە مانگێک زیاتری پێ بچێت. ئەگەر لەو ماوەیەدا دەنگی تەواو کۆنەکرایەوە بۆ بڕیارەکە ئەوا ئەو دەنگدانە ئەچێتەوە سەر باری ئاسایی خۆی. ئەگەر کەسێک سڕکرا و دەنگی تەواوی بەدەست هێنا ئەوا ئەو کاتە هاتنە ناوەوەی نامێنێت. تەنها داتاکانی لە سیستەم دەمێنێت.
+هەر کاتێک دەنگدان هەبوو ، ئەوانەی مافی دەنگدانیان هەبێت. لەگەڵ هەر داخڵبوونێکدا یەکسەر دەنگدانەکە بێتە بەردەمی و دەنگ بدات، تاوەکو دەنگ نەدات نەتوانێت بچێتە سەر بەشەکانی تر، بەڵام تا دووجار بۆی هەیە دوای بخات. لە سێیەم جاردا ئەبێت دەنگ بدات. ماوەی هەر داواکاری دەنگدانێک نابێت لە ڕۆژێک کەمتر بێت. واتە دوای یەک ڕۆژ تێپەڕی بێتەوە بەردەمی.
+
 
 ##### Standard
 ئەمە تەنها بۆ ئەم پۆستە ستانداردانە هەیە، کە سیستەمەکە دیاری دەکات. کاتێک پۆستی نوێ تۆمار بکرێت. ئەمەی بۆ چالاک ناکرێت. ئەمەش بۆ ئەوەیە ئەم تۆمارانە بەدوور بگیرێت لە لابردن لە سیستەمە.
 
-ستافەکە بۆیان هەیە دەستکاری ڕێژەی هێزی پۆستە ستانداردەکان بکەن. (بێگومان دوای بەدەستهێنای دەنگدان لەسەری) هەروەها دەتوانن پۆستی نوێش تۆمار بکەن. بەڵام نابێت هیچ پۆستێک هێزەکانیان وەکو یەک بێت.
+ستافەکە بۆیان هەیە دەستکاری ڕێژەی هێزی پۆستە ستانداردەکان بکەن. (بێگومان دوای بەدەستهێنانی دەنگدان لەسەری) هەروەها دەتوانن پۆستی نوێش تۆمار بکەن. بەڵام نابێت هیچ پۆستێک هێزەکانیان وەکو یەک بێت.
+
+خشتەی پۆستەکانی ستاف:
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Power</th>
+        <th>Active</th>
+        <th>Standard</th>
+    </tr>
+    <tr>
+        <td>NewManager</td>
+        <td>New Manager</td>
+        <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Manager</td>
+        <td>Manager</td>
+        <td>1</td>
+        <td>Yes</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DeactivatingManager</td>
+        <td>Inactive Manager</td>
+        <td>1</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DisabledManager</td>
+        <td>Disabled Manager</td>
+        <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ActivatingManager</td>
+        <td>Disabled Manager</td>
+        <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>UpgradingManager</td>
+        <td>Manager</td>
+        <td>1</td>
+        <td>Yes</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>Administrator</td>
+        <td>Administrator</td>
+        <td>10</td>
+        <td>Yes</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DeactivatingAdministrator</td>
+        <td>Inactive Administrator</td>
+        <td>10</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DisabledAdministrator</td>
+        <td>Disabled Administrator</td>
+        <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ActivatingAdministrator</td>
+        <td>Disabled Administrator</td>
+        <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DowngradingAdministrator</td>
+        <td>Inactive Administrator</td>
+        <td>10</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>UpgradingAdministrator</td>
+        <td>Administrator</td>
+        <td>10</td>
+        <td>Yes</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>SuperAdministrator</td>
+        <td>Super Administrator</td>
+        <td>25</td>
+        <td>Yes</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DeactivatingSuperAdministrator</td>
+        <td>Inactive Super Administrator</td>
+        <td>25</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DisabledSuperAdministrator</td>
+        <td>Disabled Super Administrator</td>
+        <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>ActivatingSuperAdministrator</td>
+        <td>Disabled Super Administrator</td>
+        <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>DowngradingSuperAdministrator</td>
+        <td>Inactive Super Administrator</td>
+        <td>25</td>
+        <td>No</td>
+        <td>Yes</td>
+    </tr>
+    <tr>
+        <td>UpgradingAdministrator</td>
+        <td>Administrator</td>
+        <td>10</td>
+        <td>Yes</td>
+        <td>Yes</td>
+    </tr>
+</table>
 
 
  
 ## Staff Entity:
 بۆ زانیاری ستافی پشتەوە
-### Backend Role Id
+فێڵدەکان:
+* *Id*
+* *Backend Rolde Id*
+* Username
+* Email
+* Password
+* First Name
+* Middle Name
+* Last Name
+* Birthdate
+* Profile
+* Mobile Number
+* Photo
+* Last Login
+* Timestamp
+
+#### Backend Role Id
 
 ##### Username
 ##### Email
