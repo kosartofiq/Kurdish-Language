@@ -20,7 +20,7 @@
 ##### Name
 وەکو ستانداردی پرۆژەکە سێ پۆست لەسەرەتا هەن:
 
-* Super Admininstrator
+* Super Administrator
 * Administrator
 * Manager
 
@@ -120,8 +120,8 @@
         <th>Standard</th>
     </tr>
     <tr>
-        <td>NewManager</td>
-        <td>New Manager</td>
+        <td>New</td>
+        <td>New</td>
         <td>0</td>
         <td>No</td>
         <td>Yes</td>
@@ -274,13 +274,102 @@
     </tr>
 </table>
 
+## Role Grading Entity:
+لەم خشتەیەدا بەگشتی ئەو پۆستانەی کە فێڵدی کاتی دەنگدان واتە Vote Time یان داگیرساوە دێنە ئەم خشتەیە بۆ دیاریکردنی ئەوەی دوای یەکلایی بوونەوەی دەنگدان بچێتە سەر چ پۆستێک. 
+* *Id*
+* *Current Role Id* Current
+* *Yes Role Id* Yes Vote
+* *No Role Id* No Vote
+* Standard
 
- 
+##### Current
+پۆستێک کە لەدەنگداندایە
+##### Yes Vote
+پۆستێک دوای بەدەستهێنانی بەڵێ
+##### No Vote
+پۆستێک دوای بەدەستهێنانی نەخێر
+##### Standard
+بۆ ڕیکۆردە ستانداردەکان، واتە ئەمانەی ئەمەی بۆ دادەگیرسێت و ناتوانرێت لاببرێت بەڵام دەتوانرێت دەستکاری بکرێت. هەمان کاری هەیە وەکو خشتەی Backend Role
+
+خشتەی پلەبەندی ستاف (ستاندار):
+
+
+<table>
+    <tr>
+        <th>Current</th>
+        <th>Yes Vote</th>
+        <th>No Vote</th>
+    </tr>
+    <tr>
+        <td>NewManger</td>
+        <td>Manager</td>
+        <td>DisabledManager</td>
+    </tr>
+    <tr>
+        <td>DeactivatingManager</td>
+        <td>DisabledManager</td>
+        <td>Manager</td>
+    </tr>
+    <tr>
+        <td>ActivatingManager</td>
+        <td>Manager</td>
+        <td>DisabledManager</td>
+    </tr>
+    <tr>
+        <td>UpgradingManager</td>
+        <td>Administrator</td>
+        <td>Manager</td>
+    </tr>
+    <tr>
+        <td>DeactivatingAdministrator</td>
+        <td>DisabledAdministrator</td>
+        <td>Administrator</td>
+    </tr>
+    <tr>
+        <td>ActivatingAdministrator</td>
+        <td>Administrator</td>
+        <td>DisabledAdministrator</td>
+    </tr>
+    <tr>
+        <td>DowngradingAdministrator</td>
+        <td>Manager</td>
+        <td>Administrator</td>
+    </tr>
+    <tr>
+        <td>UpgradingAdministrator</td>
+        <td>SuperAdministrator</td>
+        <td>Administrator</td>
+    </tr>
+    <tr>
+        <td>DeactivatingSuperAdministrator</td>
+        <td>DisabledSuperAdministrator</td>
+        <td>SuperAdministrator</td>
+    </tr>
+    <tr>
+        <td>ActivatingSuperAdministrator</td>
+        <td>SuperAdministrator</td>
+        <td>DisabledSuperAdministrator</td>
+    </tr>
+    <tr>
+        <td>DowngradingSuperAdministrator</td>
+        <td>Administrator</td>
+        <td>SuperAdministrator</td>
+    </tr>
+ </table>
+
+ تێبینی:
+ ئەم تێبینییە بۆ کاتی پڕۆگرامینە،
+ کاتێک پلە ئەگۆڕدرێت بێگومان لە لیستی بەردەم بەکارهێنەر تەنها ئەو پۆستانە پیشاندەدرێت کە فێڵدی Vote Time کوژاوە بێت. ئینجا و ئەو پۆستەی تیا نابێت کە خۆی ئێستا ئەو پۆستەیە واتە کە بەڕێوەبەر بوو تەنها پۆستی دواتری پیشان دەدرێت، چۆن ئەو پۆستە ئەدۆزرێتەوە. لە ڕێگەی پاوەرەکەی کە بزانرێت سەروو خۆی کە پاوەرەکەی زیاتر بێت، خواروو خۆی کە پاوەرەکەی کەمتر بێت بەڵام سفر نەبێت. ئینجا ئەگەر ئیختیاری دەنگدان هەبێت لەناو سیستەمەکە لەم خشتەیە بگەڕێت لە فێڵدی نەخێر یەکسان بێت بەم پۆستەی ئێستای ، فێڵدی بەڵێ یەکسان بێت بۆ پۆستە نوێیەکە بەمە پلەکەی دەنگدانەکە دەدۆزرێتەوە، لەبەر ئەوەی بەڕێوەبەر بۆ بەڕێوەبەری وەستاو دوو ڕیکۆرد هەیە، بۆیە ئەم مەرجەش بەهەند وەرگیرێت کە فێڵدی نوێ New یش دەبێت کوژاوە بێت.
+ هەر پلەیەکی نوێ زیاد دەکرێت پاوەری یان دەبێت سفر بێت یاخود لەنێوان دوو لە پۆستەکانی تردا بێت واتە سفر یان یەکسان نەبێت بە هیچ لەوانەی تر کە سفر نین. 
+
+ هەر پۆستێک زیاد دەکرێت دەبێت دوو پۆست بەیەکەوە زیاد بکرێت بە شێوەیەک یەکیان بۆ چالاک و دووەمیان بۆ وەستێنراو هەروەها ئینجا بەلایەنی کەمەوە یەکێک لە پۆستەکان بۆ داگرتنی پلە دیاری بکرێت ، یاخود یەکێک بۆ بەرزکردنەوەی پلە دیاری بکرێت، یاخود هەردووکیان ، واتە بۆ هەر پۆستێکی نوێ سێ پۆستی بۆ دروست ئەکرێت بەلایەنی کەمەوە. چونکە پۆستی ئەمسەر و ئەوسەر وەکو بەڕێوەبەر و سوپەر ئەدمین پێویستیان بە هەردوو جۆرەکەی داگرتن و بەرزکردنەوە نییە. بەڵام بەپێی پاوەرکەی سەیر بکرێت ئەگەر نەکەوێتە ئەمسەر یان ئەوسەر ئەوا هەردووکی داوا بکات، ئەگەر کەوتە ئەمسەر و ئەوسەر ،ئەوا ئەو پلە نوخسانەی پلەکەی تریش داوابکات
+
+
 ## Staff Entity:
 بۆ زانیاری ستافی پشتەوە
 فێڵدەکان:
 * *Id*
-* *Backend Rolde Id*
+* *Backend Role Id*
 * Username
 * Email
 * Password
@@ -294,7 +383,7 @@
 * Last Login
 * Timestamp
 
-#### Backend Role Id
+##### Backend Role Id
 
 ##### Username
 ##### Email
