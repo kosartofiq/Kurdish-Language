@@ -13,6 +13,8 @@
 * Name
 * Power
 * Active
+* Vote Time
+* New
 * Standard
 
 ##### Name
@@ -96,6 +98,10 @@
 ماوەی دەنگدان و وەرگرتنی ئەنجام نابێت لە مانگێک زیاتری پێ بچێت. ئەگەر لەو ماوەیەدا دەنگی تەواو کۆنەکرایەوە بۆ بڕیارەکە ئەوا ئەو دەنگدانە ئەچێتەوە سەر باری ئاسایی خۆی. ئەگەر کەسێک سڕکرا و دەنگی تەواوی بەدەست هێنا ئەوا ئەو کاتە هاتنە ناوەوەی نامێنێت. تەنها داتاکانی لە سیستەم دەمێنێت.
 هەر کاتێک دەنگدان هەبوو ، ئەوانەی مافی دەنگدانیان هەبێت. لەگەڵ هەر داخڵبوونێکدا یەکسەر دەنگدانەکە بێتە بەردەمی و دەنگ بدات، تاوەکو دەنگ نەدات نەتوانێت بچێتە سەر بەشەکانی تر، بەڵام تا دووجار بۆی هەیە دوای بخات. لە سێیەم جاردا ئەبێت دەنگ بدات. ماوەی هەر داواکاری دەنگدانێک نابێت لە ڕۆژێک کەمتر بێت. واتە دوای یەک ڕۆژ تێپەڕی بێتەوە بەردەمی.
 
+##### Vote Time
+ئەو پۆستانەی کە پۆستی سەرەکین ئەمە بۆیان کۆژاوەتەوە، واتە وەکو ئەدمین و سوپەر ئەدمین و بەڕێوەبەر، ئەو پۆستانەی کە ئەچێتە ناو دەنگدانەوە ، واتە کاتێک دەنگدان لەسەر پلەبەرزکردنەوە یان داگرتن، یاخود وەستاندنی کەسێک دەکرێت یەکسەر دەچێتە سەر ئەم پۆستە و چاوەڕێی یەکلاییبوونەوەی دەنگدان دەکات تا بچێتە سەر پۆستی سەرەکی دواتری کە دیاریکراوە
+##### New
+ئەمە تەنها بۆ یەک پۆست داگیرساوبێت، بۆ ئەوانەی تر کوژاوە بێت. ئەمە ئەوە دیاری دەکات کاتێک ستافێکی نوێ زیاد دەکرێت چ پۆستێک وەردەگرێت. کە ئاسایی خۆی بەڕێوەەری نوێیە. 
 
 ##### Standard
 ئەمە تەنها بۆ ئەم پۆستە ستانداردانە هەیە، کە سیستەمەکە دیاری دەکات. کاتێک پۆستی نوێ تۆمار بکرێت. ئەمەی بۆ چالاک ناکرێت. ئەمەش بۆ ئەوەیە ئەم تۆمارانە بەدوور بگیرێت لە لابردن لە سیستەمە.
@@ -109,6 +115,8 @@
         <th>Name</th>
         <th>Power</th>
         <th>Active</th>
+        <th>Vote Time</th>
+        <th>New</th>
         <th>Standard</th>
     </tr>
     <tr>
@@ -117,12 +125,16 @@
         <td>0</td>
         <td>No</td>
         <td>Yes</td>
+        <td>Yes</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>Manager</td>
         <td>Manager</td>
         <td>1</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>No</td>
         <td>Yes</td>
     </tr>
     <tr>
@@ -131,11 +143,15 @@
         <td>1</td>
         <td>No</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>DisabledManager</td>
         <td>Disabled Manager</td>
         <td>0</td>
+        <td>No</td>
+        <td>No</td>
         <td>No</td>
         <td>Yes</td>
     </tr>
@@ -145,6 +161,8 @@
         <td>0</td>
         <td>No</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>UpgradingManager</td>
@@ -152,18 +170,24 @@
         <td>1</td>
         <td>Yes</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>Administrator</td>
         <td>Administrator</td>
         <td>10</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>No</td>
         <td>Yes</td>
     </tr>
     <tr>
         <td>DeactivatingAdministrator</td>
         <td>Inactive Administrator</td>
         <td>10</td>
+        <td>No</td>
+        <td>Yes</td>
         <td>No</td>
         <td>Yes</td>
     </tr>
@@ -173,11 +197,15 @@
         <td>0</td>
         <td>No</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>ActivatingAdministrator</td>
         <td>Disabled Administrator</td>
         <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
         <td>No</td>
         <td>Yes</td>
     </tr>
@@ -187,6 +215,8 @@
         <td>10</td>
         <td>No</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>UpgradingAdministrator</td>
@@ -194,18 +224,24 @@
         <td>10</td>
         <td>Yes</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>SuperAdministrator</td>
         <td>Super Administrator</td>
         <td>25</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>No</td>
         <td>Yes</td>
     </tr>
     <tr>
         <td>DeactivatingSuperAdministrator</td>
         <td>Inactive Super Administrator</td>
         <td>25</td>
+        <td>No</td>
+        <td>Yes</td>
         <td>No</td>
         <td>Yes</td>
     </tr>
@@ -215,11 +251,15 @@
         <td>0</td>
         <td>No</td>
         <td>Yes</td>
+        <td>No</td>
+        <td>Yes</td>
     </tr>
     <tr>
         <td>ActivatingSuperAdministrator</td>
         <td>Disabled Super Administrator</td>
         <td>0</td>
+        <td>No</td>
+        <td>Yes</td>
         <td>No</td>
         <td>Yes</td>
     </tr>
@@ -229,12 +269,7 @@
         <td>25</td>
         <td>No</td>
         <td>Yes</td>
-    </tr>
-    <tr>
-        <td>UpgradingAdministrator</td>
-        <td>Administrator</td>
-        <td>10</td>
-        <td>Yes</td>
+        <td>No</td>
         <td>Yes</td>
     </tr>
 </table>
