@@ -14,13 +14,7 @@
     <link rel="stylesheet" href="{% static 'home/css/main.css' %}">
 
 
-    {% if title %}
-    <title>{{ website }} - {{ title }} </title>
-    {% elif website %}
-    <title>{{ website }}</title>
-    {% else %}
-    <title>Kurdish Language</title>
-    {% endif %}
+    <title>Kurdish Language - {% block title %}{% endblock title %}</title>
 </head>
 <body>
 <!-- navigation bar -->
@@ -52,7 +46,7 @@
     <div class="col-md-8">
         <!-- content blcok -->
         {% block content %}
-        {% endblock %}
+        {% endblock content%}
     </div>
     <div class="col-md-4">
       <div class="content-section">
