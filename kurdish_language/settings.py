@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     # local app
+    'users.apps.UsersConfig',
     'home.apps.HomeConfig',
 ]
 
@@ -120,3 +121,11 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+
+###################
+# my codes
+
+# it will cause our project to use CustomUser instead of the default User model.
+AUTH_USER_MODEL = 'users.CustomUser'
