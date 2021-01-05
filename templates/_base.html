@@ -1,5 +1,6 @@
-<!DOCTYPE html>
 {% load static %}
+{% load i18n %}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
@@ -14,26 +15,26 @@
     <link rel="stylesheet" href="{% static 'home/css/main.css' %}">
 
 
-    <title>Kurdish Language - {% block title %}{% endblock title %}</title>
+    <title>{% trans 'Kurdish Language' %} - {% block title %}{% trans 'Home' %}{% endblock title %}</title>
 </head>
 <body>
 <!-- navigation bar -->
 <header class="site-header">
   <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
     <div class="container">
-      <a class="navbar-brand mr-4" href="{% url 'home' %}">Kurdish Language</a>
+      <a class="navbar-brand mr-4" href="{% url 'home' %}">{% trans 'Kurdish Language' %}</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
       </button>
       <div class="collapse navbar-collapse" id="navbarToggle">
         <div class="navbar-nav mr-auto">
-          <a class="nav-item nav-link" href="{% url 'home' %}">Home</a>
-          <a class="nav-item nav-link" href="{% url 'about' %}">About</a>
+          <a class="nav-item nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
+          <a class="nav-item nav-link" href="{% url 'about' %}">{% trans 'About' %}</a>
         </div>
         <!-- Navbar Right Side -->
         <div class="navbar-nav">
-          <a class="nav-item nav-link" href="#">Login</a>
-          <a class="nav-item nav-link" href="#">Register</a>
+          <a class="nav-item nav-link" href="#">{% trans 'Login' %}</a>
+          <a class="nav-item nav-link" href="#">{% trans 'Register' %}</a>
         </div>
       </div>
     </div>
