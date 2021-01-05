@@ -12,6 +12,8 @@ WORKDIR /kurdish
 # Install dependencies
 COPY Pipfile Pipfile.lock /kurdish/
 RUN pip install pipenv && pipenv install --system
+RUN apt update
+RUN apt install gettext -y
  
 # Copy project
 COPY . /kurdish/
