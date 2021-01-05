@@ -1,16 +1,58 @@
 from django.test import TestCase, SimpleTestCase
-from django.urls import reverse
+from django.urls import reverse, resolve
+
+from .views import HomePageView,AboutPageView
 
 
-class SimpleTests(SimpleTestCase):
+class HomepageTest(SimpleTestCase):
+
+    def setUp(self):
+        url = reverse('home')
+        self.response = self.client.get(url)
+
     def test_home_page_status_code(self):
-        response = self.client.get('/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_home_page_url_name(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_home_page_template(self): 
+        self.assertTemplateUsed(self.response, 'home/home.html')
+
+    def test_home_page_contains_correct_html(self):
+        self.assertContains(self.response, 'Homepage')
+
+    def test_home_page_url_resolve_homepageview(self):
+        view = resolve('/')
+        self.assertEqual(
+            view.func.__name__,
+            HomePageView.as_view().__name__
+        )
+
+class AboutpageTest(SimpleTestCase):
+    
+    def setUp(self):
+        url = reverse('about')
+        self.response = self.client.get(url)
 
     def test_about_page_status_code(self):
-        response = self.client.get('/about/')
-        self.assertEqual(response.status_code, 200)
+        self.assertEqual(self.response.status_code, 200)
 
+    def test_about_page_url_name(self):
+        self.assertEqual(self.response.status_code, 200)
+
+    def test_about_page_template(self): 
+        self.assertTemplateUsed(self.response, 'home/about.html')
+
+    def test_about_page_contains_correct_html(self):
+        self.assertContains(self.response, 'About')
+    
+    def test_about_page_url_resolve_aboutpageview(self):
+        view = resolve('/about/')
+        self.assertEqual(
+            view.func.__name__,
+            AboutPageView.as_view().__name__
+        )
 
 """
 class HomePageViewTest(TestCase):  # new

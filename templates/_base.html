@@ -14,13 +14,7 @@
     <link rel="stylesheet" href="{% static 'home/css/main.css' %}">
 
 
-    {% if title %}
-    <title>{{ website }} - {{ title }} </title>
-    {% elif website %}
-    <title>{{ website }}</title>
-    {% else %}
-    <title>Kurdish Language</title>
-    {% endif %}
+    <title>Kurdish Language - {% block title %}Home{% endblock title %}</title>
 </head>
 <body>
 <!-- navigation bar -->
