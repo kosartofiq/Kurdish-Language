@@ -2,13 +2,13 @@
 {% load i18n %}
 
 {% block title %}
-{% trans 'Log In' %}
+    {% trans 'Log In' %}
 {% endblock title %}
 
 
 {% block content %}
 
-<h2>Log In</h2>
+<h2>{% trans 'Log In' %}</h2>
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}

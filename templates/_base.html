@@ -41,7 +41,7 @@
                             <a class="nav-item nav-link" href="{% url 'logout' %}">{% trans 'Logout' %}</a>
                         {% else %}
                             <a class="nav-item nav-link" href="{% url 'login' %}">{% trans 'Login' %}</a>
-                            <a class="nav-item nav-link" href="#">{% trans 'Register' %}</a>
+                            <a class="nav-item nav-link" href="{% url 'signup' %}">{% trans 'Sign Up' %}</a>
                         {% endif %}
                     </div>
                 </div>

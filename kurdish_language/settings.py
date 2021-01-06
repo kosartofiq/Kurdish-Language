@@ -161,5 +161,4 @@ AUTH_USER_MODEL = 'users.CustomUser'#
 LOGIN_REDIRECT_URL = 'home'#
 
 # like login , also determine where to go after logout, normally it goes to logout page of admin site
-
 LOGOUT_REDIRECT_URL = 'home'
