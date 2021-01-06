@@ -158,4 +158,8 @@ STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'users.CustomUser'# 
 
 # normally django redirect user after login to /accounts/profile, but we want redirect to home page
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'home'#
+
+# like login , also determine where to go after logout, normally it goes to logout page of admin site
+
+LOGOUT_REDIRECT_URL = 'home'
