@@ -156,3 +156,6 @@ STATIC_URL = '/static/'
 
 # it will cause our project to use CustomUser instead of the default User model.
 AUTH_USER_MODEL = 'users.CustomUser'# 
+
+# normally django redirect user after login to /accounts/profile, but we want redirect to home page
+LOGIN_REDIRECT_URL = 'home'
