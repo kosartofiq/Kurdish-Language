@@ -14,7 +14,8 @@
     <!-- my css -->
     <link rel="stylesheet" href="{% static 'home/css/main.css' %}">
 
-
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
     <title>{% trans 'Kurdish Language' %} - {% block title %}{% trans 'Home' %}{% endblock title %}</title>
 </head>
 <body>
@@ -23,6 +24,8 @@
         <nav class="navbar navbar-expand-md navbar-dark bg-steel fixed-top">
             <div class="container">
                 <!-- Brand/logo -->
+                {# Translators: Navbar title. #}
+                {# Translators: تایتڵی ناڤباڕ. #}
                 <a class="navbar-brand mr-4" href="{% url 'home' %}">{% trans 'Kurdish Language' %}</a>
                 <!-- Toggler/collapsibe Button -->
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,16 +34,28 @@
                 <!-- Navbar Links Left Side -->
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
+                        {# Translators: Navbar Button title. #}
+                        {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                         <a class="nav-item nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
+                        {# Translators: Navbar Button title. #}
+                        {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                         <a class="nav-item nav-link" href="{% url 'about' %}">{% trans 'About' %}</a>
                     </div>
                     <!-- Navbar Right Side -->
                     <div class="navbar-nav">
                         {% if user.is_authenticated %}
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                             <a class="nav-item nav-link" href="#">{% trans 'Profile' %}</a>
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                             <a class="nav-item nav-link" href="{% url 'logout' %}">{% trans 'Logout' %}</a>
                         {% else %}
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                             <a class="nav-item nav-link" href="{% url 'login' %}">{% trans 'Login' %}</a>
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                             <a class="nav-item nav-link" href="{% url 'signup' %}">{% trans 'Sign Up' %}</a>
                         {% endif %}
                     </div>

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-06 22:26+0000\n"
+"POT-Creation-Date: 2021-01-07 01:11+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -47,32 +47,54 @@ msgstr ""
 msgid "Farsi"
 msgstr ""
 
-#: templates/_base.html:18 templates/_base.html:26
+#. Translators: Page title.
+#. Translators: تایتڵی پەڕە.
+#. Translators: Navbar title.
+#. Translators: تایتڵی ناڤباڕ.
+#: templates/_base.html:19 templates/_base.html:29
 msgid "Kurdish Language"
 msgstr ""
 
-#: templates/_base.html:18 templates/_base.html:34
+#. Translators: Navbar Button title.
+#. Translators: تایتڵی دوگمەی ناڤباڕ.
+#: templates/_base.html:19 templates/_base.html:39
 msgid "Home"
 msgstr ""
 
-#: templates/_base.html:35
+#. Translators: Navbar Button title.
+#. Translators: تایتڵی دوگمەی ناڤباڕ.
+#: templates/_base.html:42
 msgid "About"
 msgstr ""
 
-#: templates/_base.html:40
+#. Translators: Navbar Button title.
+#. Translators: تایتڵی دوگمەی ناڤباڕ.
+#: templates/_base.html:49
 msgid "Profile"
 msgstr ""
 
-#: templates/_base.html:41
+#. Translators: Navbar Button title.
+#. Translators: تایتڵی دوگمەی ناڤباڕ.
+#: templates/_base.html:52
 msgid "Logout"
 msgstr ""
 
-#: templates/_base.html:43
+#. Translators: Navbar Button title.
+#. Translators: تایتڵی دوگمەی ناڤباڕ.
+#: templates/_base.html:56
 msgid "Login"
 msgstr ""
 
-#: templates/_base.html:44 users/templates/users/signup.html:5
-#: users/templates/users/signup.html:11 users/templates/users/signup.html:15
+#. Translators: Navbar Button title.
+#. Translators: تایتڵی دوگمەی ناڤباڕ.
+#. Translators: Page title.
+#. Translators: تایتڵی پەڕە.
+#. Translators: Start title.
+#. Translators: تایتڵی سەرەتا.
+#. Translators: Button title.
+#. Translators: تایتڵی دوگمە.
+#: templates/_base.html:59 users/templates/users/signup.html:7
+#: users/templates/users/signup.html:14 users/templates/users/signup.html:20
 msgid "Sign Up"
 msgstr ""
 
