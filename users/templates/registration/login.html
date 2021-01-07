@@ -1,5 +1,6 @@
 {% extends '_base.html' %}
 {% load i18n %}
+{% load crispy_forms_tags %}
 
 {% block title %}
     {# Translators: Page title. #}
@@ -15,10 +16,10 @@
     <h2>{% trans 'Log In' %}</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        {{ form|crispy }}
         {# Translators: Button title. #}
         {# Translators: تایتڵی دوگمە. #}
-        <button type="submit">{% trans 'Log In' %}</button>
+        <button class="btn btn-success" type="submit">{% trans 'Log In' %}</button>
     </form>
 
 {% endblock content %}
