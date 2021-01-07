@@ -162,7 +162,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
+# This sets the URL that we can use to use to reference static files. 
+# Note that it is important to include a trailing slash / at the end of the directory name.
 STATIC_URL = '/static/'
+
+# defines the location of static files in local development. 
+# In our project these will all live within a top-level static directory.
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'),] #
+
+# is the location of static files for production so it must be set to a different name, 
+# typically staticfiles. When it comes time to deploy a Django project, 
+# the collectstatic command will automatically compile all available static files 
+# throughout the entire project into a single directory. 
+# This is far faster than having static files sprinkled across the project as is the case in local development.
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles') #
+
+# it tells Django how to look for static file directories. 
+# It is implicitly set for us and although this is an optional step, 
+# I prefer to make it explicit in all projects.
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.FileSystemFinder",
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 
 
 # ##################
