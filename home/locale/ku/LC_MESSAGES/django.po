@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-05 17:03+0000\n"
+"POT-Creation-Date: 2021-01-06 22:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,18 +17,20 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: home/templates/home/about.html:5 home/templates/home/about.html:11
+#. Translators: Page title.
+#. Translators: تایتڵی پەڕە.
+#: home/templates/home/about.html:7
 msgid "About"
 msgstr ""
 
-#: home/templates/home/about.html:10
+#. Translators: Start title.
+#. Translators: تایتڵی سەرەتا.
+#: home/templates/home/about.html:13
 msgid "About Kurdish Language"
 msgstr ""
 
-#: home/templates/home/home.html:5
+#. Translators: Page title.
+#. Translators: تایتڵی پەڕە.
+#: home/templates/home/home.html:7
 msgid "Home"
-msgstr ""
-
-#: home/templates/home/home.html:10
-msgid "Homepage"
 msgstr ""

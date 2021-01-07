@@ -2,17 +2,23 @@
 {% load i18n %}
 
 {% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
     {% trans 'Log In' %}
 {% endblock title %}
 
 
 {% block content %}
 
-<h2>{% trans 'Log In' %}</h2>
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">{% trans 'Log In' %}</button>
-</form>
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h2>{% trans 'Log In' %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <button type="submit">{% trans 'Log In' %}</button>
+    </form>
 
 {% endblock content %}

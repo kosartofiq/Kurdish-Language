@@ -36,7 +36,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    #'django.middleware.locale.LocaleMiddleware',#
+    # 'django.middleware.locale.LocaleMiddleware',#
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -114,21 +114,36 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Provide a lists of languages which your site supports.
 LANGUAGES = (
+    # Translators: Language name.
+    # Translators: ناوی زمان.
     ('en', _('English')),
+    # Translators: Language name.
+    # Translators: ناوی زمان.
     ('ku', _('Kurdish')),
+    # Translators: Language name.
+    # Translators: ناوی زمان.
     ('ar', _('Arabic')),
+    # Translators: Language name.
+    # Translators: ناوی زمان.
     ('tr', _('Turkey')),
+    # Translators: Language name.
+    # Translators: ناوی زمان.
     ('fa', _('Farsi')),
-    #('ku-Kr', _('Kurdish Kirmanci')),
-    #('ku-So', _('Kurdish Sorani')),
-    #('ku-Sd', _('Kurdish Standard')),
+    # Translators: Kurdish dialect name.
+    # Translators: ناوی دیالێکتی زمان.
+    # ('ku-Kr', _('Kurdish Kirmanci')),
+    # Translators: Kurdish dialect name.
+    # Translators: ناوی دیالێکتی زمان.
+    # ('ku-So', _('Kurdish Sorani')),
+    # Translators: Kurdish dialect name.
+    # Translators: ناوی دیالێکتی زمان.
+    # ('ku-Sd', _('Kurdish Standard')),
 )
-
 
 
 # Set the default language for your site.
 LANGUAGE_CODE = 'en-us'
-#LANGUAGE_CODE = 'ku'
+# LANGUAGE_CODE = 'ku'
 
 TIME_ZONE = 'UTC'
 
@@ -150,15 +165,14 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
-
-###################
+# ##################
 # my codes
 
 # it will cause our project to use CustomUser instead of the default User model.
-AUTH_USER_MODEL = 'users.CustomUser'# 
+AUTH_USER_MODEL = 'users.CustomUser'  # 
 
 # normally django redirect user after login to /accounts/profile, but we want redirect to home page
-LOGIN_REDIRECT_URL = 'home'#
+LOGIN_REDIRECT_URL = 'home'  #
 
 # like login , also determine where to go after logout, normally it goes to logout page of admin site
-LOGOUT_REDIRECT_URL = 'home'
+LOGOUT_REDIRECT_URL = 'home'  #

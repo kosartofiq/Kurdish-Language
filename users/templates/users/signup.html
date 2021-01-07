@@ -2,16 +2,21 @@
 {% load i18n %}
 
 {% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
     {% trans 'Sign Up' %}
 {% endblock title %}
 
 
 {% block content %}
-
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
     <h2>{% trans 'Sign Up' %}</h2>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
         <button type="submit">{% trans 'Sign Up' %}</button>
     </form>
     

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-01-05 17:03+0000\n"
+"POT-Creation-Date: 2021-01-06 22:26+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,42 +17,73 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: kurdish_language/settings.py:117
+#. Translators: Language name.
+#. Translators: ناوی زمان.
+#: kurdish_language/settings.py:119
 msgid "English"
 msgstr ""
 
-#: kurdish_language/settings.py:118
+#. Translators: Language name.
+#. Translators: ناوی زمان.
+#: kurdish_language/settings.py:122
 msgid "Kurdish"
 msgstr ""
 
-#: kurdish_language/settings.py:119
+#. Translators: Language name.
+#. Translators: ناوی زمان.
+#: kurdish_language/settings.py:125
 msgid "Arabic"
 msgstr ""
 
-#: kurdish_language/settings.py:120
+#. Translators: Language name.
+#. Translators: ناوی زمان.
+#: kurdish_language/settings.py:128
 msgid "Turkey"
 msgstr ""
 
-#: kurdish_language/settings.py:121
+#. Translators: Language name.
+#. Translators: ناوی زمان.
+#: kurdish_language/settings.py:131
 msgid "Farsi"
 msgstr ""
 
-#: templates/_base.html:18 templates/_base.html:25
+#: templates/_base.html:18 templates/_base.html:26
 msgid "Kurdish Language"
 msgstr ""
 
-#: templates/_base.html:18 templates/_base.html:31
+#: templates/_base.html:18 templates/_base.html:34
 msgid "Home"
 msgstr ""
 
-#: templates/_base.html:32
+#: templates/_base.html:35
 msgid "About"
 msgstr ""
 
-#: templates/_base.html:36
+#: templates/_base.html:40
+msgid "Profile"
+msgstr ""
+
+#: templates/_base.html:41
+msgid "Logout"
+msgstr ""
+
+#: templates/_base.html:43
 msgid "Login"
 msgstr ""
 
-#: templates/_base.html:37
-msgid "Register"
+#: templates/_base.html:44 users/templates/users/signup.html:5
+#: users/templates/users/signup.html:11 users/templates/users/signup.html:15
+msgid "Sign Up"
+msgstr ""
+
+#. Translators: Page title.
+#. Translators: تایتڵی پەڕە.
+#. Translators: Start title.
+#. Translators: تایتڵی سەرەتا.
+#. Translators: Button title.
+#. Translators: تایتڵی دوگمە.
+#: users/templates/registration/login.html:7
+#: users/templates/registration/login.html:15
+#: users/templates/registration/login.html:21
+msgid "Log In"
 msgstr ""
