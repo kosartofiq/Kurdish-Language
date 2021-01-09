@@ -198,25 +198,26 @@ STATICFILES_FINDERS = [
 # it will cause our project to use CustomUser instead of the default User model.
 AUTH_USER_MODEL = 'users.CustomUser'  #
 
-# normally django redirect user after login to /accounts/profile, but we want redirect to home page
-LOGIN_REDIRECT_URL = 'home'  #
-
-# like login , also determine where to go after logout, normally it goes to logout page of admin site
-LOGOUT_REDIRECT_URL = 'home'  #
-
 
 # django-crispy-forms
 # it will provide pre-styled forms for us
 CRISPY_TEMPLATE_PACK = 'bootstrap4'  #
 
-
+# #######################################
 # django-allauth config
-SITE_ID = 1  # new
+# link: https://django-allauth.readthedocs.io/en/latest/configuration.html
+
+# normally django redirect user after login to /accounts/profile, but we want redirect to home page
+LOGIN_REDIRECT_URL = 'home'  #
+
+# like login , also determine where to go after logout, normally it goes to logout page of admin site
+ACCOUNT_LOGOUT_REDIRECT = 'home'  #
+
+SITE_ID = 1  #
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',  #
 )
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  #
