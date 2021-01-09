@@ -50,14 +50,14 @@
                             <a class="nav-item nav-link" href="#">{% trans 'Profile' %}</a>
                             {# Translators: Navbar Button title. #}
                             {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                            <a class="nav-item nav-link" href="{% url 'logout' %}">{% trans 'Logout' %}</a>
+                            <a class="nav-item nav-link" href="{% url 'account_logout' %}">{% trans 'Logout' %}</a>
                         {% else %}
                             {# Translators: Navbar Button title. #}
                             {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                            <a class="nav-item nav-link" href="{% url 'login' %}">{% trans 'Login' %}</a>
+                            <a class="nav-item nav-link" href="{% url 'account_login' %}">{% trans 'Login' %}</a>
                             {# Translators: Navbar Button title. #}
                             {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                            <a class="nav-item nav-link" href="{% url 'signup' %}">{% trans 'Sign Up' %}</a>
+                            <a class="nav-item nav-link" href="{% url 'account_signup' %}">{% trans 'Sign Up' %}</a>
                         {% endif %}
                     </div>
                 </div>
