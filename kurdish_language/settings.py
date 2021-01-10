@@ -221,6 +221,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  #
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'  #
 
 # for making email will be used to login instead username
 ACCOUNT_USERNAME_REQUIRED = False  #
