@@ -1,7 +1,16 @@
-{% extends "home/base.html" %}
-{% block content %}
+{% extends "_base.html" %}
+{% load i18n %}
 
-    <h1>About Kurdish Language</h1>
-    <p>About</p>
-
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'About' %}
 {% endblock %}
+
+{% block content %}
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h1>{% trans 'About Kurdish Language' %}</h1>
+    <p>about</p>
+
+{% endblock content%}

@@ -1,7 +1,15 @@
-{% extends "home/base.html" %}
+{% extends "_base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Home' %}
+{% endblock %}
+
 {% block content %}
 
-    <h1>homepage</h1>
+    <h1>Homepage</h1>
     <p>homepage</p>
 
-{% endblock %}
+{% endblock content %}

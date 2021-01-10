@@ -1,0 +1,31 @@
+{% extends '_base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Log Out' %}
+
+{% endblock %}
+
+
+{% block content %} 
+
+    <div class="container">
+        {# Translators: Start title. #}
+        {# Translators: تایتڵی سەرەتا. #}
+        <h1>{% trans 'Log Out' %}</h1>
+        {# Translators: Question in logout page. #}
+        {# Translators: پرسیار لە پەڕەی چوونەدەرەوە. #}
+        <p>{% trans 'Are you sure you want to log out?' %}</p>
+        <form method="post" action="{% url 'account_logout' %}">
+            {% csrf_token %}
+            {{ form|crispy }}
+            {# Translators: Button title. #}
+            {# Translators: تایتڵی دوگمە. #}
+            <button class="btn btn-danger" type="submit">{% trans 'Log Out' %}</button>
+        </form>
+    </div>
+
+{% endblock content %}

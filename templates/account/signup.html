@@ -1,0 +1,24 @@
+{% extends '_base.html' %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Sign Up' %}
+{% endblock title %}
+
+
+{% block content %}
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h2>{% trans 'Sign Up' %}</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <button class="btn btn-success" type="submit">{% trans 'Sign Up' %}</button>
+    </form>
+    
+{% endblock content %}
