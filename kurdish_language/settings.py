@@ -222,6 +222,12 @@ AUTHENTICATION_BACKENDS = (
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  #
 
+# for making email will be used to login instead username
+ACCOUNT_USERNAME_REQUIRED = False  #
+ACCOUNT_AUTHENTICATION_METHOD = 'email'  #
+ACCOUNT_EMAIL_REQUIRED = True  #
+ACCOUNT_UNIQUE_EMAIL = True  #
+
 # for remove remember me in login page, and make it automatically always remember
 # ACCOUNT_SESSION_REMEMBER = True  #
 
