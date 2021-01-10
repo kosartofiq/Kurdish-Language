@@ -221,3 +221,6 @@ AUTHENTICATION_BACKENDS = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'  #
+
+# for remove remember me in login page, and make it automatically always remember
+# ACCOUNT_SESSION_REMEMBER = True  #
