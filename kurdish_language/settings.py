@@ -228,6 +228,9 @@ ACCOUNT_AUTHENTICATION_METHOD = 'email'  #
 ACCOUNT_EMAIL_REQUIRED = True  #
 ACCOUNT_UNIQUE_EMAIL = True  #
 
+# sender email
+DEFAULT_FROM_EMAIL = 'admin@kurdishlanguage.com'
+
 # for remove remember me in login page, and make it automatically always remember
 # ACCOUNT_SESSION_REMEMBER = True  #
 

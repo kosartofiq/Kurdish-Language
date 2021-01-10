@@ -1,0 +1,7 @@
+{% load i18n %}
+
+{% autoescape off %}
+    {# Translators: Title of confirm Signup email. #}
+    {# Translators: تایتڵی ئیمەیڵی دڵنیاکردنەوەی ژمێرەی نوێ. #}
+    {% blocktrans %}Confirm Your Sign Up{% endblocktrans %}
+{% endautoescape %}
