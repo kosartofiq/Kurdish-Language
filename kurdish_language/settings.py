@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     # local app
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
+    'language.apps.LanguageConfig',
 ]
 
 MIDDLEWARE = [
