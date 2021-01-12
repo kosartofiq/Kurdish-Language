@@ -33,7 +33,7 @@ class Language(models.Model):
         help_text=_('for more info: https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes'))
     description = models.TextField(_('Description'), blank=True)
     timestamp = models.DateTimeField(_('Created Date'), auto_now_add=True)
-    
+
     # MANAGERS
     # languages = models.Manager()
 
@@ -57,4 +57,3 @@ class Language(models.Model):
         return reverse('language-detail', kwargs={'pk': self.id})
 
     # OTHER METHODS
-
