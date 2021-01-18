@@ -32,12 +32,16 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarToggle" aria-controls="navbarToggle" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
+
                 <!-- Navbar Links Left Side -->
                 <div class="collapse navbar-collapse" id="navbarToggle">
                     <div class="navbar-nav mr-auto">
                         {# Translators: Navbar Button title. #}
                         {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                         <a class="nav-item nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
+                        {# Translators: Navbar Button title. #}
+                        {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                        <a class="nav-item nav-link" href="{% url 'language-list' %}">{% trans 'Languges' %}</a>
                         {# Translators: Navbar Button title. #}
                         {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
                         <a class="nav-item nav-link" href="{% url 'about' %}">{% trans 'About' %}</a>
