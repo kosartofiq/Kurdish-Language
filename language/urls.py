@@ -1,10 +1,9 @@
-from django.contrib import admin
 from django.urls import path
 from . import views
 
 
 urlpatterns = [
-    # path('', views.LanguageListView.as_view(), name='language'),
+    path('', views.LanguageListView.as_view(), name='language-list'),
     # path('<int:pk>/', views.LanguageDetailView.as_view(), name='language-detail'),
     # path('<int:pk>/update', views.LanguageUpdateView.as_view(), name='language-update'),
     # path('new/', views.LanguageCreateView.as_view(), name='language-create'),
