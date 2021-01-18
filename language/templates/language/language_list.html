@@ -1,0 +1,50 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Languages' %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% trans 'Languages' %}</li>
+    </ul>
+
+    <!-- title -->
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h1>{% trans 'Languages:' %}</h1>
+
+    <!-- Button to add writer-->
+    <div>
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'language-add' %}">{% trans 'Add Language' %}</a>
+    </div>
+
+
+    <!-- content -->
+    {% for language in languages %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <h2>
+                        <a class="mr-2" href="{% url 'language-detail' language.id %}">{{ language.name }}</a>
+                    </h2>
+                    <small class="text-muted">{{ language.native_name }}</small>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+    
+{% endblock content%}
+
