@@ -16,26 +16,28 @@ class LanguaeTests(TestCase):
 
         self.language = Language.objects.create(
             creator=self.user,
-            name='Kurdish',
-            native_name='kurdi',
-            iso_639_1='ku',
-            iso_639_2='kur',
-            description='kurdish is a language.'
+            name='English',
+            native_name='Englizi',
+            iso_639_1='en',
+            iso_639_2='eng',
+            description='English is a language.'
         )
 
     # model testing
-    def test_language_listing(self):
-        self.assertEqual(f'{self.language.name}', 'Kurdish')
-        self.assertEqual(f'{self.language.iso_639_1}', 'ku')
-        self.assertEqual(f'{self.language.iso_639_2}', 'kur')
-        self.assertEqual(f'{self.language.description}', 'kurdish is a language.')
+    def test_language_model(self):
+        self.assertEqual(f'{self.language.name}', 'English')
+        self.assertEqual(f'{self.language.native_name}', 'Englizi')
+        self.assertEqual(f'{self.language.iso_639_1}', 'en')
+        self.assertEqual(f'{self.language.iso_639_2}', 'eng')
+        self.assertEqual(f'{self.language.description}', 'English is a language.')
 
     # list view
     def test_language_list_view(self):
-        response = self.client.get(reverse('language_list'))
+        response = self.client.get(reverse('language-list'))
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Kurdish')
-        self.assertTemplateUsed(response, 'languages/language_list.html')
+        self.assertContains(response, 'English')
+        self.assertContains(response, 'Englizi')
+        self.assertTemplateUsed(response, 'language/language_list.html')
 
     def test_language_detail_view(self):
         response = self.client.get(self.language.get_absolute_url())
