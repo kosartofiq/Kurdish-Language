@@ -25,7 +25,7 @@ class Language(models.Model):
         _('Native Language Name'),
         max_length=100,
         unique=True,
-        help_text=_("Name of language and written in native of it's Language."))
+        help_text=_("Name of language and written in native of it's language."))
     iso_639_1 = models.CharField(
         _('ISO 639-1'),
         max_length=2,
