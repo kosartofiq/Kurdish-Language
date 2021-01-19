@@ -1,0 +1,45 @@
+{% extends "_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'New Language' %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item">{% trans 'Languages' %}</li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% trans 'New Language' %}</li>
+    </ul>
+
+    <div class="content-section">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {# Translators: Start title. #}
+                {# Translators: تایتڵی سەرەتا. #}
+                <legend class="border-bottom mb-4">{% trans 'Add new language:' %}</legend>
+                {{ form|crispy }}
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <a class="btn btn-outline-secondary" href="{% url 'language-list' %}">{% trans 'Cancel' %}</a>
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <button class="btn btn-outline-success" type="submit">{% trans 'Create' %}</button>
+            </fieldset>
+        </form>
+    </div>
+
+{% endblock content %}
+

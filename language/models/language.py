@@ -15,23 +15,31 @@ class Language(models.Model):
         related_query_name='language',
         verbose_name=_('Creator Id'))
     #
-    name = models.CharField(_('Langauge Name'), max_length=100, unique=True)
+    name = models.CharField(
+        _('Langauge Name'),
+        max_length=100,
+        unique=True,
+        help_text=_("Name of the language.")
+    )
     native_name = models.CharField(
         _('Native Language Name'),
         max_length=100,
         unique=True,
-        help_text=_("Name of language and written in native of it's Language"))
+        help_text=_("Name of language and written in native of it's Language."))
     iso_639_1 = models.CharField(
         _('ISO 639-1'),
         max_length=2,
         unique=True,
-        help_text=_('for more info: https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes'))
+        help_text=_('for more info in <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" target="_blank">Wikipedia</a>.'))
     iso_639_2 = models.CharField(
         _('ISO 639-2'),
         max_length=3,
         unique=True,
-        help_text=_('for more info: https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes'))
-    description = models.TextField(_('Description'), blank=True)
+        help_text=_('for more info in <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes" target="_blank">Wikipedia</a>.'))
+    description = models.TextField(
+        _('Description'),
+        blank=True,
+        help_text=_("Description about the language."))
     timestamp = models.DateTimeField(_('Created Date'), auto_now_add=True)
 
     # MANAGERS
