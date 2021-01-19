@@ -1,0 +1,111 @@
+{% extends "_base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {{ language.name }}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'language-list' %}">{% trans 'Languages' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{{ language.name }}</li>
+    </ul>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#detail">{% trans 'Detail' %}</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#history">{% trans "History" %}</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="detail" class="tab-pane active">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        {% trans "Created by:" %} 
+                        <a class="mr-2" href="#">{{ language.creator.first_name }} {{language.creator.last_name}}</a>
+                        <small class="text-muted">in {{ language.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{#% url 'language-update' object.id %#}">{% trans "Update" %}</a>
+                        <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %} </a>
+                    </div>
+                    <h2 class="article-title">{{ language.name }}</h2>
+                    <small class="text-muted">{% trans "Native Name: " %} {{ language.native_name}}</small>
+                    <br>
+                    <small class="text-muted">ISO 639-1: {{ language.iso_639_1 }}</small>
+                    <br>
+                    <small class="text-muted">ISO 639-2: {{ language.iso_639_2}}</small>
+                    <p class="article-content">{% trans "Description:" %} 
+                        <small class="text-muted">{{ language.description }}</small>
+                    </p>
+                    <a class="btn btn-info btn-sm mt-1 mb-1" href="{#% url 'dialect' object.id %#}">{% trans "Dialects" %}</a>
+                </div>
+            </article>
+        </div>
+
+        <div id="history" class="tab-pane fade"><br>
+            <table class="table table-hover">
+                <thead class="thead-dark">
+                <tr>
+                    <th>Name</th>
+                    <th>Native Name</th>
+                    <th>ISO 639-1</th>
+                    <th>ISO 639-2</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for history in historys %}
+                <tr role="button" data-toggle="collapse" data-target="#show{{ history.id }}">
+                    <td {% ifchanged history.name %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.name }}</td>
+                    <td {% ifchanged history.native_name %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.native_name }}</td>
+                    <td {% ifchanged history.iso639_1 %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.iso639_1 }}</td>
+                    <td {% ifchanged history.iso639_2 %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.iso639_2 }}</td>
+                    <td {% ifchanged history.description %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.description|truncatechars:20 }}</td>
+                </tr>
+                <tr>
+                    <td colspan="5" id="show{{ history.id }}" class="collapse">
+                        <article class="media content-section">
+                            <div class="media-body">
+                                <div class="article-metadata">
+                                    Created by:
+                                    <a class="mr-2" href="#">{{ history.modifier.first_name }} {{history.modifier.last_name}}</a>
+                                    <small class="text-muted">in {{ history.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                                </div>
+                                <h2 class="article-title{% ifchanged history.name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{{ history.name }}</h2>
+                                <small class="text-muted{% ifchanged history.native_name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Native Name: {{ object.native_name}}</small>
+                                <br>
+                                <small class="text-muted{% ifchanged history.iso639_1 %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">ISO 639-1: {{ object.iso639_1 }}</small>
+                                <br>
+                                <small class="text-muted{% ifchanged history.iso639_2 %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">ISO 639-2: {{ object.iso639_2}}</small>
+                                <p class="article-content{% ifchanged history.description %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Description:
+                                    <small class="text-muted">{{ history.description }}</small>
+                                </p>
+                            </div>
+                        </article>
+                    </td>
+                </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+
+{% endblock %}
+

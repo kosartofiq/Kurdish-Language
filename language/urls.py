@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path('', views.LanguageListView.as_view(), name='language-list'),
     path('new/', views.LanguageCreateView.as_view(), name='language-add'),
-    # path('<int:pk>/', views.LanguageDetailView.as_view(), name='language-detail'),
+    path('<int:pk>/', views.LanguageDetailView.as_view(), name='language-detail'),
     # path('<int:pk>/update', views.LanguageUpdateView.as_view(), name='language-update'),
 
 

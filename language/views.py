@@ -1,4 +1,4 @@
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, CreateView, DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import ugettext as _
@@ -22,3 +22,14 @@ class LanguageCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         form.instance.creator = self.request.user
 
         return super().form_valid(form)
+
+
+class LanguageDetailView(DetailView):
+    model = Language
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        # context['historys'] = LanguageHistory.objects.filter(language=self.object.id).order_by('-timestamp')
+        return context
