@@ -45,4 +45,5 @@ Thumbs.db
 # secret keys
 .env
 
-
+# package for pycharm in windows
+venv/*
