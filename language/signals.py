@@ -6,7 +6,7 @@ from .models import Language, LanguageHistory, Dialect, DialectHistory
 
 
 @receiver(post_save, sender=Language)
-def create_language_history(instance, created):
+def create_language_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
@@ -31,7 +31,7 @@ def create_language_history(instance, created):
 
 
 @receiver(pre_save, sender=Language)
-def update_language_history(instance):
+def update_language_history(sender, instance, **kwargs):
     # check if any change happen or only clicked save without change, to not make history
     # get object if is not first time creation
     old_record = Language.objects.filter(pk=instance.pk).first()
@@ -57,7 +57,7 @@ def update_language_history(instance):
 
 
 @receiver(post_save, sender=Dialect)
-def create_dialect_history(instance, created):
+def create_dialect_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
@@ -73,7 +73,7 @@ def create_dialect_history(instance, created):
 
 
 @receiver(pre_save, sender=Dialect)
-def update_dialect_history(instance):
+def update_dialect_history(sender, instance, **kwargs):
     # check if any change happen or only clicked save without change, to not make history
     # get object if is not first time creation
     old_record = Dialect.objects.filter(pk=instance.pk).first()
@@ -82,7 +82,7 @@ def update_dialect_history(instance):
     # we will create history only in update
     if old_record:
         # check for similarity
-        if old_record.is_same(instance):
+        if is_same(old_record, instance):
             # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
