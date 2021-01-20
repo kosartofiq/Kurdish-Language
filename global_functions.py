@@ -1,5 +1,5 @@
 # check if two model object is same of different
-def is_same(obj1, obj2, excluded_keys=None):
+def is_same(obj1, obj2, excluded_keys=[]):
     # make dictionary from objects
     d1, d2 = obj1.__dict__, obj2.__dict__
     # loop according to keys and values in first object
