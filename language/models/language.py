@@ -3,8 +3,6 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from general_functions import compare_if_is_same
-
 
 class Language(models.Model):
     # CHOICES

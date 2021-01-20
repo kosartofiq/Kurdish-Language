@@ -3,7 +3,7 @@ from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from .language import Language
+from . import Language
 
 
 class Dialect(models.Model):

@@ -5,8 +5,8 @@ def is_same(obj1, obj2, excluded_keys=None):
     # loop according to keys and values in first object
     for k, v in d1.items():
         # if passed special excluded keys, or those key always different , so we don't want make result different
-        # _state, _django_cleanup_original_cache: belongs to django
-        # timestamp, creator_id: belongs to our models, timestamp always will be different, but creator some time will be same and most time different
+        # _state, _django_cleanup_original_cache: belongs to django timestamp, creator_id: belongs to our models,
+        # timestamp always will be different, but creator some time will be same and most time different
         if k in excluded_keys or k in ['_state', '_django_cleanup_original_cache', 'timestamp', 'creator_id']:
             # continue to check next key
             continue

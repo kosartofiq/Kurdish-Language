@@ -31,7 +31,7 @@ class DialectHistory(models.Model):
         related_query_name='dialect_history',
         verbose_name=_('Dialect Id')
     )
-    super_dialect_history = models.ForeignKey(
+    super_dialect = models.ForeignKey(
         Dialect,
         on_delete=models.PROTECT,
         related_name='sub_dialect_histories',
