@@ -2,10 +2,10 @@ from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
-from . import Language
+from . import Language, Dialect
 
 
-class LanguageHistory(models.Model):
+class DialectHistory(models.Model):
     # CHOICES
 
     # DATABASE FIELDS
@@ -13,44 +13,48 @@ class LanguageHistory(models.Model):
     editor = models.ForeignKey(
         get_user_model(),
         on_delete=models.PROTECT,
-        related_name='language_histories',
-        related_query_name='language_history',
+        related_name='dialect_histories',
+        related_query_name='dialect_history',
         verbose_name=_('Editor Id')
     )
     language = models.ForeignKey(
         Language,
-        on_delete=models.CASCADE,
-        related_name='language_histories',
-        related_query_name='language_history',
+        on_delete=models.PROTECT,
+        related_name='dialect_histories',
+        related_query_name='dialect_history',
         verbose_name=_('Language Id')
+    )
+    dialect = models.ForeignKey(
+        Dialect,
+        on_delete=models.CASCADE,
+        related_name='dialect_histories',
+        related_query_name='dialect_history',
+        verbose_name=_('Dialect Id')
+    )
+    super_dialect_history = models.ForeignKey(
+        Dialect,
+        on_delete=models.PROTECT,
+        related_name='sub_dialect_histories',
+        related_query_name='sub_dialect_history',
+        blank=True,
+        null=True,
+        verbose_name=_('Super Dialect Id')
     )
     # Fields
     name = models.CharField(
-        _('Language Name'),
+        _('Dialect Name'),
         max_length=100,
-        help_text=_("Name of the language.")
+        help_text=_("Name of the dialect.")
     )
     native_name = models.CharField(
-        _('Native Language Name'),
+        _('Native Dialect Name'),
         max_length=100,
-        help_text=_("Name of language and written in native of it's Language")
-    )
-    iso_639_1 = models.CharField(
-        _('ISO 639-1'),
-        max_length=2,
-        help_text=_('more info in <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes" '
-                    'target="_blank">Wikipedia</a>.')
-    )
-    iso_639_2 = models.CharField(
-        _('ISO 639-2'),
-        max_length=3,
-        help_text=_('more info in <a href="https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes" '
-                    'target="_blank">Wikipedia</a>.')
+        help_text=_("Name of the dialect and written in native of it's language.")
     )
     description = models.TextField(
         _('Description'),
         blank=True,
-        help_text=_("Description about the language.")
+        help_text=_("Description about the dialect.")
     )
     timestamp = models.DateTimeField(
         _('Edited Timestamp'),
@@ -62,12 +66,12 @@ class LanguageHistory(models.Model):
 
     # META CLASS
     class Meta:
-        verbose_name = _('language history')
-        verbose_name_plural = _('languages histories')
+        verbose_name = _('dialect history')
+        verbose_name_plural = _('dialect histories')
 
     # TO STRING METHOD
     def __str__(self):
-        return self.name
+        return f'{self.name}-{self.language.name}'
 
     # SAVE METHOD
     def save(self, *args, **kwargs):
