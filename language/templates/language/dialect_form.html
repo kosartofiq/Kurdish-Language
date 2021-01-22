@@ -6,9 +6,9 @@
     {# Translators: Page title. #}
     {# Translators: تایتڵی پەڕە. #}
     {% if update %}
-        {% trans 'Update Language' %}
+        {% trans 'Update Dialect' %}
     {% else %}
-        {% trans 'New Language' %}
+        {% trans 'New Dialect' %}
     {% endif %}
 {% endblock title %}
 
@@ -22,13 +22,18 @@
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
         <li class="breadcrumb-item"><a href="{% url 'language-list' %}">{% trans 'Languages' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'language-detail' language.id %}">{{ language.name }}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'dialect-list' language.id %}">{% trans 'Dialects' %}</a></li>
         {% if update %}
-            <li class="breadcrumb-item"><a href="{% url 'language-detail' language.id %}">{{ language.name }}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'dialect-detail' language.id dialect.id %}">{{ dialect.name }}</a></li>
         {% endif %}
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item active">{% if update %}{% trans 'Update Language' %}{% else %}{% trans 'New Language' %}{% endif %}</li>
+        <li class="breadcrumb-item active">{% if update %}{% trans 'Update Dialect' %}{% else %}{% trans 'New Dialect' %}{% endif %}</li>
     </ul>
+
 
     <div class="content-section">
         <form method="post">
@@ -36,17 +41,12 @@
             <fieldset class="form-group">
                 {# Translators: Start title. #}
                 {# Translators: تایتڵی سەرەتا. #}
-                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update language:' %}{% else %}{% trans 'Add new language:' %}{% endif %}</legend>
+                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update dialect' %}{% else %}{% trans 'Add new dialect for' %}{{ language.name }}{% endif %}:</legend>
                 {{ form|crispy }}
-                {# Translators: Button title. #}
-                {# Translators: تایتڵی دوگمە. #}
-                <a class="btn btn-outline-secondary" href="{% if update %}{% url 'language-detail' language.id %}{% else %}{% url 'language-list' %}{% endif %}">{% trans 'Cancel' %}</a>
-                {# Translators: Button title. #}
-                {# Translators: تایتڵی دوگمە. #}
+                <a class="btn btn-outline-secondary" href="{% if dialect %}{% url 'dialect-detail' language.id dialect.id %}{% else %} {% url 'dialect-list' language.id %}{% endif %}">{% trans 'Cancel' %}</a>
                 <button class="btn btn-outline-success" type="submit">{% if update %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>
             </fieldset>
         </form>
     </div>
-
-{% endblock content %}
+{% endblock %}
 

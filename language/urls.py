@@ -12,7 +12,7 @@ urlpatterns = [
 
     # dialect
     path('<int:pk>/dialects/', views.dialect_list_view, name='dialect-list'),
-    # path('<int:language_pk>/dialect/<int:dialect_pk>/new/', views.dialectCreateView, name='dialect-create'),
+    path('<int:language_pk>/dialect/<int:dialect_pk>/new/', views.dialect_create_view, name='dialect-create'),
     # path('<int:pk1>/dialect/<int:pk2>/detail', views.dialectDetailView, name='dialect-detail'),
     # path('<int:pk1>/dialect/<int:pk2>/update', views.dialectUpdateView, name='dialect-update'),
     # path('<int:pk1>/dialect/<int:pk2>/new/', views.dialectCreateView, name='dialect-create'),

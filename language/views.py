@@ -1,12 +1,15 @@
 from django.views.generic import ListView, CreateView, DetailView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
+from django.contrib import messages
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
 from django.http import JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Language, LanguageHistory, Dialect, DialectHistory
+from .forms import DialectCreateForm
 
 
 class LanguageListView(ListView):
@@ -83,4 +86,32 @@ def dialect_list_view(request, pk, dialect_pk=None):
         'breadcrumbs': breadcrumbs,
     }
     return render(request, 'language/dialect_list.html', context)
+
+
+@login_required
+def dialect_create_view(request, language_pk, dialect_pk=None, instance=None):
+    language = Language.objects.get(pk=language_pk)
+    # if dialect created under another dialect
+    dialect = None
+    if dialect_pk:
+        dialect = Dialect.objects.get(pk=dialect_pk)
+
+    # post request , it means filled data , or we create new fresh one
+    if request.method == 'POST':
+        form = DialectCreateForm(language, request.POST)
+        if form.is_valid():
+            form.instance.creator = request.user
+            form.instance.language = language
+            form.save()
+            messages.success(request, f'New dialect has added successfully.')
+            return redirect('dialect-detail', pk1=language.id, pk2=form.instance.id)
+    else:
+        form = DialectCreateForm(language, initial={'super_dialect': dialect})
+    context = {
+        'form': form,
+        'language': language,
+        'dialect': dialect,
+        'update': False
+    }
+    return render(request, 'language/dialect_form.html', context)
 
