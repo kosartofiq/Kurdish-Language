@@ -30,11 +30,12 @@ class LanguageDetailView(DetailView):
     model = Language
 
 
-def language_detail_histories(request, pk):
+def language_histories(request, pk):
     language = Language.objects.get(pk=pk)
     histories = LanguageHistory.objects.filter(language=language).order_by('-timestamp')
-    rendered_history_html = render_to_string('language/language_histories.html', {'histories': histories})
+    rendered_histories_html = render_to_string('language/language_histories.html', {'histories': histories})
     return_json_data = {
-        'history_html': rendered_history_html,
+        'histories_html': rendered_histories_html,
     }
     return JsonResponse(return_json_data)
+

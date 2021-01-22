@@ -68,13 +68,10 @@
             <div class="spinner-grow text-secondary"></div>
             <div class="spinner-grow text-dark"></div>
             <div class="spinner-grow text-light"></div>
-           
-    
         </div>
     </div>
 
-
-{% endblock %}
+{% endblock content%}
 
 
 {% block javascript %}
@@ -85,8 +82,7 @@
                     url: "{% url 'language-histories' language.pk %}",
                     dataType: 'json',
                     success: function(returned_data){
-                        $('#history').html(returned_data.history_html)
-
+                        $('#history').html(returned_data.histories_html)
                     }
                 });
 
