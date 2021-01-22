@@ -41,7 +41,7 @@
                         {% trans "Created by:" %} 
                         <a class="mr-2" href="#">{{ language.creator.first_name }} {{language.creator.last_name}}</a>
                         <small class="text-muted">in {{ language.timestamp|date:"d/m/Y - H:i:s" }}</small>
-                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{#% url 'language-update' object.id %#}">{% trans "Update" %}</a>
+                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'language-update' language.id %}">{% trans "Update" %}</a>
                         <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %} </a>
                     </div>
                     <h2 class="article-title">{{ language.name }}</h2>

@@ -7,7 +7,7 @@ urlpatterns = [
     path('new/', views.LanguageCreateView.as_view(), name='language-add'),
     path('<int:pk>/', views.LanguageDetailView.as_view(), name='language-detail'),
     path('<int:pk>/histories/', views.language_histories, name='language-histories'),
-    # path('<int:pk>/update', views.LanguageUpdateView.as_view(), name='language-update'),
+    path('<int:pk>/update', views.LanguageUpdateView.as_view(), name='language-update'),
 
 
     # path('<int:pk>/dialect/', views.dialectListView, name='dialect'),
