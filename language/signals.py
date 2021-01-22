@@ -1,5 +1,6 @@
 from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
+from django.utils.translation import ugettext as _
 
 from global_functions import is_same
 from .models import Language, LanguageHistory, Dialect, DialectHistory
@@ -24,8 +25,8 @@ def create_language_history(sender, instance, created, **kwargs):
             language=instance,
             creator=instance.creator,
             super_dialect=None,
-            name='Standard',
-            native_name='Standard',
+            name=_('Standard'),
+            native_name=_('Standard'),
             description=instance.description
         )
 
