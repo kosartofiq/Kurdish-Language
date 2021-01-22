@@ -37,4 +37,4 @@ def language_detail_histories(request, pk):
     return_json_data = {
         'history_html': rendered_history_html,
     }
-    return JsonResponse(rendered_history_html)
+    return JsonResponse(return_json_data)
