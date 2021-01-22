@@ -53,7 +53,7 @@
                     <p class="article-content">{% trans "Description:" %} 
                         <small class="text-muted">{{ language.description }}</small>
                     </p>
-                    <a class="btn btn-info btn-sm mt-1 mb-1" href="{#% url 'dialect' object.id %#}">{% trans "Dialects" %}</a>
+                    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'dialect-list' object.id %}">{% trans "Dialects" %}</a>
                 </div>
             </article>
         </div>

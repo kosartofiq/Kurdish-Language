@@ -1,0 +1,53 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Dialects' %}
+{% endblock title %}
+    
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'language-list' %}">{% trans 'Languages' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'language-detail' language.id %}">{{ language.name }}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% trans 'Dialects' %}</li>
+    </ul>
+
+    <!-- title -->
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h1>{% trans 'Dialects' %}:</h1>
+
+    <!-- Button to add new item -->
+    <div>
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <a class="btn btn-outline-info btn-sm mb-1" href="{#% url 'dialect-create' language.id 0 %#}">{% trans 'Add Dialect' %}</a>
+    </div>
+
+    <!-- content -->
+    <div class="treeview-animated content-section">
+        <ul class="treeview-animated-list">
+            {% include "language/dialect_recursive.html" %}
+        </ul>
+    </div>
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+

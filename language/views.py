@@ -4,8 +4,9 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.utils.translation import ugettext as _
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+from django.shortcuts import render
 
-from .models import Language, LanguageHistory
+from .models import Language, LanguageHistory, Dialect, DialectHistory
 
 
 class LanguageListView(ListView):
@@ -53,3 +54,33 @@ class LanguageUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+
+
+def dialect_list_view(request, pk, dialect_pk=None):
+    language = Language.objects.get(pk=pk)
+    dialects = Dialect.objects.filter(language=language, super_dialect=dialect_pk).order_by('name')
+    # create breadcrumbs to dig in dialects
+    breadcrumbs = []
+    # if we get pk2, it means it ask for detail a dialect not dialect
+    if dialect_pk:
+        # get current dialect
+        loop = Dialect.objects.get(pk=dialect_pk)
+        # if found
+        if loop:
+            # add to breadcrumbs
+            breadcrumbs.append(loop)
+            # while current dialect has super dialect
+            while loop.super_dialect:
+                # add to breadcrumbs
+                breadcrumbs.append(loop.super_dialect)
+                # make super dialect to current dialect
+                loop = loop.super_dialect
+            # reverse arrangement
+            breadcrumbs.reverse()
+    context = {
+        'language': language,
+        'dialects': dialects,
+        'breadcrumbs': breadcrumbs,
+    }
+    return render(request, 'language/dialect_list.html', context)
+

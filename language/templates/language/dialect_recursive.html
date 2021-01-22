@@ -1,0 +1,17 @@
+{% load i18n %}
+{% for dialect in dialects %}
+    <li class="treeview-animated-items">
+        <i class="fas fa-angle-{% if dialect.sub_dialect.all %}double-{% endif %}right"></i>
+        <a class="mr-2" href="{#% url 'dialect-detail' language.id dialect.id %#}">{{ dialect.name }}</a>
+        {% if dialect.sub_dialect.all %}
+            <ul class="nested">
+                {% with dialect.sub_dialect.all as dialects %}
+                    {% include "language/dialect_recursive.html" %}
+                {% endwith %}
+            </ul>
+        {% endif %}
+    </li>
+{% empty %}
+    <li>{% trans "No dialect" %}</li>
+{% endfor %}
+
