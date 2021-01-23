@@ -11,10 +11,10 @@ urlpatterns = [
     path('<int:pk>/update', views.LanguageUpdateView.as_view(), name='language-update'),
 
     # dialect
-    path('<int:pk>/dialects/', views.dialect_list_view, name='dialect-list'),
+    path('<int:language_pk>/dialects/', views.dialect_list_view, name='dialect-list'),
     path('<int:language_pk>/dialect/<int:dialect_pk>/new/', views.dialect_create_view, name='dialect-create'),
-    # path('<int:pk1>/dialect/<int:pk2>/detail', views.dialectDetailView, name='dialect-detail'),
-    # path('<int:pk1>/dialect/<int:pk2>/update', views.dialectUpdateView, name='dialect-update'),
-    # path('<int:pk1>/dialect/<int:pk2>/new/', views.dialectCreateView, name='dialect-create'),
+    path('<int:language_pk>/dialect/<int:dialect_pk>/detail', views.dialect_detail_view, name='dialect-detail'),
+    path('dialect/<int:dialect_pk>/histories/', views.dialect_histories, name='dialect-histories'),
+    path('<int:language_pk>/dialect/<int:dialect_pk>/update', views.dialect_update_view, name='dialect-update'),
 
 ]

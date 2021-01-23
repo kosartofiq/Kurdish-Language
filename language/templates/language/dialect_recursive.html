@@ -1,11 +1,11 @@
 {% load i18n %}
-{% for dialect in dialects %}
+{% for sub_dialect in sub_dialects %}
     <li class="treeview-animated-items">
-        <i class="fas fa-angle-{% if dialect.sub_dialect.all %}double-{% endif %}right"></i>
-        <a class="mr-2" href="{#% url 'dialect-detail' language.id dialect.id %#}">{{ dialect.name }}</a>
-        {% if dialect.sub_dialect.all %}
+        <i class="fas fa-angle-{% if sub_dialect.sub_dialects.all %}double-{% endif %}right"></i>
+        <a class="mr-2" href="{% url 'dialect-detail' language.id sub_dialect.id %}">{{ sub_dialect.name }}</a>
+        {% if sub_dialect.sub_dialects.all %}
             <ul class="nested">
-                {% with dialect.sub_dialect.all as dialects %}
+                {% with sub_dialect.sub_dialects.all as sub_dialects %}
                     {% include "language/dialect_recursive.html" %}
                 {% endwith %}
             </ul>

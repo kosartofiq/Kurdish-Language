@@ -59,9 +59,10 @@ class LanguageUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
-def dialect_list_view(request, pk, dialect_pk=None):
-    language = Language.objects.get(pk=pk)
-    dialects = Dialect.objects.filter(language=language, super_dialect=dialect_pk).order_by('name')
+def dialect_list_view(request, language_pk, dialect_pk=None):
+    language = Language.objects.get(pk=language_pk)
+    sub_dialects = Dialect.objects.filter(language=language, super_dialect=dialect_pk).order_by('name')
+    print(sub_dialects)
     # create breadcrumbs to dig in dialects
     breadcrumbs = []
     # if we get pk2, it means it ask for detail a dialect not dialect
@@ -82,7 +83,7 @@ def dialect_list_view(request, pk, dialect_pk=None):
             breadcrumbs.reverse()
     context = {
         'language': language,
-        'dialects': dialects,
+        'sub_dialects': sub_dialects,
         'breadcrumbs': breadcrumbs,
     }
     return render(request, 'language/dialect_list.html', context)
@@ -103,8 +104,8 @@ def dialect_create_view(request, language_pk, dialect_pk=None, instance=None):
             form.instance.creator = request.user
             form.instance.language = language
             form.save()
-            messages.success(request, f'New dialect has added successfully.')
-            return redirect('dialect-detail', pk1=language.id, pk2=form.instance.id)
+            messages.success(request, _(f'New dialect has added successfully.'))
+            return redirect('dialect-detail', language_pk=language.id, dialect_pk=form.instance.id)
     else:
         form = DialectCreateForm(language, initial={'super_dialect': dialect})
     context = {
@@ -115,3 +116,62 @@ def dialect_create_view(request, language_pk, dialect_pk=None, instance=None):
     }
     return render(request, 'language/dialect_form.html', context)
 
+def dialect_detail_view(request, language_pk, dialect_pk):
+    language = Language.objects.get(pk=language_pk)
+    dialect = Dialect.objects.get(pk=dialect_pk)
+    sub_dialects = Dialect.objects.filter(language=language, super_dialect=dialect_pk).order_by('name')
+    
+    # create breadcrumbs to dig in dialects
+    breadcrumbs = []
+    # get current dialect
+    loop = Dialect.objects.get(pk=dialect_pk)
+    # while current dialect has super dialect
+    while loop.super_dialect:
+        # add to breadcrumbs
+        breadcrumbs.append(loop.super_dialect)
+        # make super dialect to current dialect
+        loop = loop.super_dialect
+    # reverse arrangement
+    breadcrumbs.reverse()
+    
+
+    context = {
+        'language': language,
+        'dialect': dialect,
+        'sub_dialects': sub_dialects,
+        'breadcrumbs': breadcrumbs,
+    }
+    return render(request, 'language/dialect_detail.html', context)
+
+def dialect_histories(request, dialect_pk):
+    dialect = Dialect.objects.get(pk=dialect_pk)
+    histories = DialectHistory.objects.filter(dialect=dialect).order_by('-timestamp')
+    rendered_histories_html = render_to_string('language/dialect_histories.html', {'histories': histories})
+    return_json_data = {
+        'histories_html': rendered_histories_html,
+    }
+    return JsonResponse(return_json_data)
+
+@login_required
+def dialect_update_view(request, language_pk, dialect_pk):
+    language = Language.objects.get(pk=language_pk)
+    dialect = Dialect.objects.get(pk=dialect_pk)
+
+    # post request , it means filled data , or we create new fresh one
+    if request.method == 'POST':
+        form = DialectCreateForm(language, request.POST, instance=dialect, excluded=dialect)
+        if form.is_valid():
+            form.instance.creator = request.user
+            form.instance.language = language
+            form.save()
+            messages.success(request, _(f'Dialect has updated successfully.'))
+            return redirect('dialect-detail', language_pk=language.id, dialect_pk=form.instance.id)
+    else:
+        form = DialectCreateForm(language, instance=dialect, excluded=dialect)
+    context = {
+        'form': form,
+        'language': language,
+        'dialect': dialect,
+        'update': True
+    }
+    return render(request, 'language/dialect_form.html', context)

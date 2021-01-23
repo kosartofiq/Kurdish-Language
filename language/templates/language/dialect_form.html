@@ -41,7 +41,7 @@
             <fieldset class="form-group">
                 {# Translators: Start title. #}
                 {# Translators: تایتڵی سەرەتا. #}
-                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update dialect' %}{% else %}{% trans 'Add new dialect for' %}{{ language.name }}{% endif %}:</legend>
+                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update dialect' %}{% else %}{% trans 'Add new dialect for' %} {{ language.name }}{% endif %}:</legend>
                 {{ form|crispy }}
                 <a class="btn btn-outline-secondary" href="{% if dialect %}{% url 'dialect-detail' language.id dialect.id %}{% else %} {% url 'dialect-list' language.id %}{% endif %}">{% trans 'Cancel' %}</a>
                 <button class="btn btn-outline-success" type="submit">{% if update %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>

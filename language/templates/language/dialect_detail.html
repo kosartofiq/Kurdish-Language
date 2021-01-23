@@ -4,12 +4,12 @@
 {% block title %}
     {# Translators: Page title. #}
     {# Translators: تایتڵی پەڕە. #}
-    {{ language.name }}
+    {{ dialect.name }}
 {% endblock title %}
 
 
 {% block content %}
-    <!-- breadcrumb -->
+<!-- breadcrumb -->
     <ul class="breadcrumb">
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
@@ -17,9 +17,14 @@
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
         <li class="breadcrumb-item"><a href="{% url 'language-list' %}">{% trans 'Languages' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'language-detail' language.id %}">{{ language.name }}</a></li>
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item active">{{ language.name }}</li>
+        <li class="breadcrumb-item"><a href="{% url 'dialect-list' language.id %}">{% trans 'Dialects' %}</a></li>
+        {% for breadcrumb in breadcrumbs %}
+            <li class="breadcrumb-item"><a href="{% url 'dialect-detail' language.id breadcrumb.id %}">{{breadcrumb.name}}</a></li>
+        {% endfor %}
+        <li class="breadcrumb-item active">{{ dialect.name }}</li>
     </ul>
 
     <!-- Nav tabs -->
@@ -39,25 +44,29 @@
                 <div class="media-body">
                     <div class="article-metadata">
                         {% trans "Created by:" %} 
-                        <a class="mr-2" href="#">{{ language.creator.first_name }} {{language.creator.last_name}}</a>
+                        <a class="mr-2" href="#">{{ dialect.creator.first_name }} {{dialect.creator.last_name}}</a>
                         {# Translators: For determine date. #}
                         {# Translators: بۆ دیاریکردنی بەروار (لە). #}
-                        <small class="text-muted">{% trans 'in' %} {{ language.timestamp|date:"d/m/Y - H:i:s" }}</small>
-                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'language-update' language.id %}">{% trans "Update" %}</a>
+                        <small class="text-muted">{% trans 'in' %} {{ dialect.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'dialect-update' language.id dialect.id %}">{% trans "Update" %}</a>
                         <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %}</a>
                     </div>
-                    <h2 class="article-title">{{ language.name }}</h2>
-                    <small class="text-muted">{% trans "Native Name" %}: {{ language.native_name}}</small>
+                    <h2 class="article-title">{{ dialect.name }}</h2>
+                    <small class="text-muted">{% trans "Super Dialect" %}: <a href="{% if dialect.super_dialect %}{% url 'dialect-detail' language.id dialect.super_dialect.id %}{% endif %}">{{ dialect.super_dialect.name }}</a></small>
                     <br>
-                    <small class="text-muted">ISO 639-1: {{ language.iso_639_1 }}</small>
-                    <br>
-                    <small class="text-muted">ISO 639-2: {{ language.iso_639_2}}</small>
+                    <small class="text-muted">{% trans "Native Name" %}: {{ dialect.native_name}}</small>
                     <p class="article-content">{% trans "Description" %}:
-                        <small class="text-muted">{{ language.description }}</small>
+                        <small class="text-muted">{{ dialect.description }}</small>
                     </p>
-                    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'dialect-list' object.id %}">{% trans "Dialects" %}</a>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'dialect-create' language.id dialect.id %}">{% trans "Add Sub Dialect" %}</a>
                 </div>
             </article>
+            <!-- sub content -->
+            <div class="treeview-animated content-section">
+                <ul class="treeview-animated-list">
+                    {% include "language/dialect_recursive.html" %}
+                </ul>
+            </div>
         </div>
 
         <div id="history" class="tab-pane fade"><br>
@@ -73,7 +82,7 @@
         </div>
     </div>
 
-{% endblock content%}
+{% endblock %}
 
 
 {% block javascript %}
@@ -81,7 +90,7 @@
         $(document).ready(function(){
             $("#history_tab").click(function(){
                 $.ajax({
-                    url: "{% url 'language-histories' language.pk %}",
+                    url: "{% url 'dialect-histories' dialect.pk %}",
                     dataType: 'json',
                     success: function(returned_data){
                         $('#history').html(returned_data.histories_html)
