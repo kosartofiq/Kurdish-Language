@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'home.apps.HomeConfig',
     'language.apps.LanguageConfig',
+    'library.apps.LibraryConfig',
 ]
 
 MIDDLEWARE = [

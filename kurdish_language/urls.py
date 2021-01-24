@@ -26,4 +26,5 @@ urlpatterns = [
     # Local apps
     path('', include('home.urls')),
     path('languages/', include('language.urls')),
+    path('library/', include('library.urls')),
 ]
