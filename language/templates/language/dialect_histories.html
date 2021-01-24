@@ -1,0 +1,48 @@
+{% load i18n %}
+<table class="table table-hover">
+    <thead class="thead-dark">
+        <tr>
+            <th>{% trans 'Name' %}</th>
+            <th>{% trans 'Native Name' %}</th>
+            <th>{% trans 'Super Dialect' %}</th>
+            <th>{% trans 'Description' %}</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for history in histories %}
+            <tr role="button" data-toggle="collapse" data-target="#show{{ history.id }}">
+                <td {% ifchanged history.name %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.name }}</td>
+                <td {% ifchanged history.native_name %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.native_name }}</td>
+                <td {% ifchanged history.super_dialect.id %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.super_dialect.name }}</td>
+                <td {% ifchanged history.description %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.description|truncatechars:20 }}</td>
+            </tr>
+            <tr id="show{{ history.id }}"  class="collapse">
+                <td colspan="5">
+                    <article class="media content-section">
+                        <div class="media-body">
+                            <div class="article-metadata">
+                                {% trans 'Created by' %}:
+                                <a class="mr-2" href="#">{{ history.editor.first_name }} {{history.editor.last_name}}</a>
+                                {# Translators: For determine date. #}
+                                {# Translators: بۆ دیاریکردنی بەروار (لە). #}
+                                <small class="text-muted">{% trans 'in' %} {{ history.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                            </div>
+                            <h2 class="article-title{% ifchanged history.name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{{ history.name }}</h2>
+                            <small class="text-muted{% ifchanged history.super_dialect %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">
+                                {% trans "Super Dialect" %}:
+                                <a href="{% if history.super_dialect %}{% url 'dialect-detail' history.language.id history.super_dialect.id %}{% endif %}">
+                                    {{ history.super_dialect.name }}
+                                </a>
+                            </small>
+                            <br>
+                            <small class="text-muted{% ifchanged history.native_name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{% trans 'Native Name' %}: {{ history.native_name}}</small>
+                            <p class="article-content{% ifchanged history.description %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{% trans 'Description' %}:
+                                <small class="text-muted">{{ history.description }}</small>
+                            </p>
+                        </div>
+                    </article>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

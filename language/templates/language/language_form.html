@@ -1,0 +1,52 @@
+{% extends "_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% if update %}
+        {% trans 'Update Language' %}
+    {% else %}
+        {% trans 'New Language' %}
+    {% endif %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'language-list' %}">{% trans 'Languages' %}</a></li>
+        {% if update %}
+            <li class="breadcrumb-item"><a href="{% url 'language-detail' language.id %}">{{ language.name }}</a></li>
+        {% endif %}
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% if update %}{% trans 'Update Language' %}{% else %}{% trans 'New Language' %}{% endif %}</li>
+    </ul>
+
+    <div class="content-section">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {# Translators: Start title. #}
+                {# Translators: تایتڵی سەرەتا. #}
+                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update language:' %}{% else %}{% trans 'Add new language:' %}{% endif %}</legend>
+                {{ form|crispy }}
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <a class="btn btn-outline-secondary" href="{% if update %}{% url 'language-detail' language.id %}{% else %}{% url 'language-list' %}{% endif %}">{% trans 'Cancel' %}</a>
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <button class="btn btn-outline-success" type="submit">{% if update %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>
+            </fieldset>
+        </form>
+    </div>
+
+{% endblock content %}
+

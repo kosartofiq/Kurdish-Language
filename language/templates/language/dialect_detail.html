@@ -1,0 +1,102 @@
+{% extends "_base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {{ dialect.name }}
+{% endblock title %}
+
+
+{% block content %}
+<!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'language-list' %}">{% trans 'Languages' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'language-detail' language.id %}">{{ language.name }}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'dialect-list' language.id %}">{% trans 'Dialects' %}</a></li>
+        {% for breadcrumb in breadcrumbs %}
+            <li class="breadcrumb-item"><a href="{% url 'dialect-detail' language.id breadcrumb.id %}">{{breadcrumb.name}}</a></li>
+        {% endfor %}
+        <li class="breadcrumb-item active">{{ dialect.name }}</li>
+    </ul>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#detail">{% trans 'Detail' %}</a>
+        </li>
+        <li id="history_tab" class="nav-item">
+            <a  class="nav-link" data-toggle="tab" href="#history">{% trans "History" %}</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="detail" class="tab-pane active">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        {% trans "Created by:" %} 
+                        <a class="mr-2" href="#">{{ dialect.creator.first_name }} {{dialect.creator.last_name}}</a>
+                        {# Translators: For determine date. #}
+                        {# Translators: بۆ دیاریکردنی بەروار (لە). #}
+                        <small class="text-muted">{% trans 'in' %} {{ dialect.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'dialect-update' language.id dialect.id %}">{% trans "Update" %}</a>
+                        <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %}</a>
+                    </div>
+                    <h2 class="article-title">{{ dialect.name }}</h2>
+                    <small class="text-muted">{% trans "Super Dialect" %}: <a href="{% if dialect.super_dialect %}{% url 'dialect-detail' language.id dialect.super_dialect.id %}{% endif %}">{{ dialect.super_dialect.name }}</a></small>
+                    <br>
+                    <small class="text-muted">{% trans "Native Name" %}: {{ dialect.native_name}}</small>
+                    <p class="article-content">{% trans "Description" %}:
+                        <small class="text-muted">{{ dialect.description }}</small>
+                    </p>
+                    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'dialect-create' language.id dialect.id %}">{% trans "Add Sub Dialect" %}</a>
+                </div>
+            </article>
+            <!-- sub content -->
+            <div class="treeview-animated content-section">
+                <ul class="treeview-animated-list">
+                    {% include "language/dialect_recursive.html" %}
+                </ul>
+            </div>
+        </div>
+
+        <div id="history" class="tab-pane fade"><br>
+            <div class="spinner-grow text-muted"></div>
+            <div class="spinner-grow text-primary"></div>
+            <div class="spinner-grow text-success"></div>
+            <div class="spinner-grow text-info"></div>
+            <div class="spinner-grow text-warning"></div>
+            <div class="spinner-grow text-danger"></div>
+            <div class="spinner-grow text-secondary"></div>
+            <div class="spinner-grow text-dark"></div>
+            <div class="spinner-grow text-light"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+    <script>
+        $(document).ready(function(){
+            $("#history_tab").click(function(){
+                $.ajax({
+                    url: "{% url 'dialect-histories' dialect.pk %}",
+                    dataType: 'json',
+                    success: function(returned_data){
+                        $('#history').html(returned_data.histories_html)
+                    }
+                });
+            });
+        });
+    </script>
+{% endblock javascript %}
