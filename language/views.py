@@ -12,6 +12,9 @@ from .models import Language, LanguageHistory, Dialect, DialectHistory
 from .forms import DialectCreateForm
 
 
+# #########################
+# Language
+# #########################
 class LanguageListView(ListView):
     model = Language
     context_object_name = 'languages'
@@ -59,6 +62,11 @@ class LanguageUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
+# #########################
+# Dialect
+# #########################
+
+
 def dialect_list_view(request, language_pk, dialect_pk=None):
     language = Language.objects.get(pk=language_pk)
     sub_dialects = Dialect.objects.filter(language=language, super_dialect=dialect_pk).order_by('name')
@@ -92,6 +100,27 @@ def dialect_list_view(request, language_pk, dialect_pk=None):
 @login_required
 def dialect_create_view(request, language_pk, dialect_pk=None, instance=None):
     language = Language.objects.get(pk=language_pk)
+    
+    # create breadcrumbs to dig in dialects
+    breadcrumbs = []
+    # if we get pk2, it means it ask for detail a dialect not dialect
+    if dialect_pk:
+        # get current dialect
+        loop = Dialect.objects.get(pk=dialect_pk)
+        # if found
+        if loop:
+            # add to breadcrumbs
+            breadcrumbs.append(loop)
+            # while current dialect has super dialect
+            while loop.super_dialect:
+                # add to breadcrumbs
+                breadcrumbs.append(loop.super_dialect)
+                # make super dialect to current dialect
+                loop = loop.super_dialect
+            # reverse arrangement
+            breadcrumbs.reverse()
+    
+    
     # if dialect created under another dialect
     dialect = None
     if dialect_pk:
@@ -107,11 +136,13 @@ def dialect_create_view(request, language_pk, dialect_pk=None, instance=None):
             messages.success(request, _(f'New dialect has added successfully.'))
             return redirect('dialect-detail', language_pk=language.id, dialect_pk=form.instance.id)
     else:
+        # super dialect will be present in choose field
         form = DialectCreateForm(language, initial={'super_dialect': dialect})
     context = {
         'form': form,
         'language': language,
         'dialect': dialect,
+        'breadcrumbs': breadcrumbs,
         'update': False
     }
     return render(request, 'language/dialect_form.html', context)
@@ -157,6 +188,22 @@ def dialect_update_view(request, language_pk, dialect_pk):
     language = Language.objects.get(pk=language_pk)
     dialect = Dialect.objects.get(pk=dialect_pk)
 
+    # create breadcrumbs to dig in dialects
+    breadcrumbs = []
+
+    # get current dialect
+    loop = Dialect.objects.get(pk=dialect_pk)
+
+    # while current dialect has super dialect
+    while loop.super_dialect:
+        # add to breadcrumbs
+        breadcrumbs.append(loop.super_dialect)
+        # make super dialect to current dialect
+        loop = loop.super_dialect
+    # reverse arrangement
+    breadcrumbs.reverse()
+
+
     # post request , it means filled data , or we create new fresh one
     if request.method == 'POST':
         form = DialectCreateForm(language, request.POST, instance=dialect, excluded=dialect)
@@ -172,6 +219,7 @@ def dialect_update_view(request, language_pk, dialect_pk):
         'form': form,
         'language': language,
         'dialect': dialect,
+        'breadcrumbs': breadcrumbs,
         'update': True
     }
     return render(request, 'language/dialect_form.html', context)

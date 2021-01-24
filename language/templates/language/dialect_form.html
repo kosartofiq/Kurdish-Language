@@ -26,6 +26,9 @@
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
         <li class="breadcrumb-item"><a href="{% url 'dialect-list' language.id %}">{% trans 'Dialects' %}</a></li>
+        {% for breadcrumb in breadcrumbs %}
+            <li class="breadcrumb-item"><a href="{% url 'dialect-detail' language.id breadcrumb.id %}">{{breadcrumb.name}}</a></li>
+        {% endfor %}
         {% if update %}
             <li class="breadcrumb-item"><a href="{% url 'dialect-detail' language.id dialect.id %}">{{ dialect.name }}</a></li>
         {% endif %}
