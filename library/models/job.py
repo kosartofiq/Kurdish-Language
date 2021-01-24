@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import ugettext_lazy as _
 
 
-class Genre(models.Model):
+class Job(models.Model):
     # CHOICES
 
     # DATABASE FIELDS
@@ -12,20 +12,20 @@ class Genre(models.Model):
     creator = models.ForeignKey(
         get_user_model(),
         on_delete=models.PROTECT,
-        related_name='genres',
-        related_query_name='genre',
+        related_name='jobs',
+        related_query_name='job',
         verbose_name=_('Creator Id')
     )
     # Fields
     name = models.CharField(
-        _('Genre Name'),
+        _('Job Name'),
         max_length=100,
-        help_text=_("Name of the genre.")
+        help_text=_("Name of the job.")
     )
     description = models.TextField(
         _('Description'),
         blank=True,
-        help_text=_("Description about the genre.")
+        help_text=_("Description about the job.")
     )
     timestamp = models.DateTimeField(
         _('Created Timestamp'),
@@ -37,8 +37,8 @@ class Genre(models.Model):
 
     # META CLASS
     class Meta:
-        verbose_name = _('genre')
-        verbose_name_plural = _('genres')
+        verbose_name = _('job')
+        verbose_name_plural = _('jobs')
 
     # TO STRING METHOD
     def __str__(self):
@@ -52,12 +52,12 @@ class Genre(models.Model):
 
     # ABSOLUTE URL METHOD
     def get_absolute_url(self):
-        return reverse('genre-detail', kwargs={'pk': self.pk})
+        return reverse('job-detail', kwargs={'pk': self.pk})
 
     # OTHER METHODS
 
 
-class GenreHistory(models.Model):
+class JobHistory(models.Model):
     # CHOICES
 
     # DATABASE FIELDS
@@ -65,27 +65,27 @@ class GenreHistory(models.Model):
     editor = models.ForeignKey(
         get_user_model(),
         on_delete=models.PROTECT,
-        related_name='genre_histories',
-        related_query_name='genre_history',
+        related_name='job_histories',
+        related_query_name='job_history',
         verbose_name=_('Editor Id')
     )
-    genre = models.ForeignKey(
-        Genre,
+    job = models.ForeignKey(
+        Job,
         on_delete=models.CASCADE,
-        related_name='genre_histories',
-        related_query_name='genre_history',
-        verbose_name=_('Genre Id')
+        related_name='job_histories',
+        related_query_name='job_history',
+        verbose_name=_('Job Id')
     )
     # Fields
     name = models.CharField(
-        _('Genre Name'),
+        _('Job Name'),
         max_length=100,
-        help_text=_("Name of the genre.")
+        help_text=_("Name of the job.")
     )
     description = models.TextField(
         _('Description'),
         blank=True,
-        help_text=_("Description about the genre.")
+        help_text=_("Description about the job.")
     )
     timestamp = models.DateTimeField(
         _('Edited Timestamp'),
@@ -97,8 +97,8 @@ class GenreHistory(models.Model):
 
     # META CLASS
     class Meta:
-        verbose_name = _('genre history')
-        verbose_name_plural = _('genre histories')
+        verbose_name = _('job history')
+        verbose_name_plural = _('job histories')
 
     # TO STRING METHOD
     def __str__(self):
@@ -112,6 +112,6 @@ class GenreHistory(models.Model):
 
     # ABSOLUTE URL METHOD
     # def get_absolute_url(self):
-        # return reverse('genre-detail', kwargs={'pk': self.pk})
+        # return reverse('job-detail', kwargs={'pk': self.pk})
 
     # OTHER METHODS
