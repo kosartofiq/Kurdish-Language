@@ -30,8 +30,8 @@
                             <h2 class="article-title{% ifchanged history.name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{{ history.name }}</h2>
                             <small class="text-muted{% ifchanged history.super_dialect %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">
                                 {% trans "Super Dialect" %}:
-                                <a href="{% if history.super_dialect %}{% url 'dialect-detail' language.id history.super_dialect.id %}{% endif %}">
-                                {{ history.super_dialect.name }}
+                                <a href="{% if history.super_dialect %}{% url 'dialect-detail' history.language.id history.super_dialect.id %}{% endif %}">
+                                    {{ history.super_dialect.name }}
                                 </a>
                             </small>
                             <br>
