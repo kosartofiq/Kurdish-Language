@@ -13,7 +13,7 @@ class DialectCreateForm(forms.ModelForm):
         super(DialectCreateForm, self).__init__(*args, **kwargs)
         # if there exclude will exclude itself to not present in list
         if excluded:
-            self.fields['super_dialect'].queryset = Dialect.objects.filter(language=language).exclude(pk=excluded.pk).order_by('name')
+            self.fields['super_dialect'].queryset = Dialect.objects.filter(language=language).exclude(id__in=excluded).order_by('name')
         else:
             self.fields['super_dialect'].queryset = Dialect.objects.filter(language=language).order_by('name')
 

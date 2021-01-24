@@ -203,10 +203,32 @@ def dialect_update_view(request, language_pk, dialect_pk):
     # reverse arrangement
     breadcrumbs.reverse()
 
-
+    # create a list for exclude sub dialects , for not be looped in update
+    # it means when update , should be sub dialects for current dialect not be in that list user can change super dialect.
+    # if sub dialects in the list when user select one of subdialect, will make loop in sub dialects or super dialects.
+    # normally in life is not possible , also in this project make infinite loop specially in dialect_recrusive.html rendering
+    
+    # create list for exclude id
+    excluded_dialect_id = []
+    # create list for exclude dialect for while loop , and add current dialect to not be own sub dialect
+    excluded_dialects = [dialect]
+    while len(excluded_dialects) > 0:
+        # get first
+        e_dialect = excluded_dialects[0]
+        # get subdialects for current
+        sub_dialects = e_dialect.sub_dialects.all()
+        # add one by one to list
+        for sub_dialect in sub_dialects:
+            excluded_dialects.append(sub_dialect)
+        # add id to list
+        excluded_dialect_id.append(e_dialect.id)
+        # remove current
+        excluded_dialects.remove(e_dialect)
+        
+        
     # post request , it means filled data , or we create new fresh one
     if request.method == 'POST':
-        form = DialectCreateForm(language, request.POST, instance=dialect, excluded=dialect)
+        form = DialectCreateForm(language, request.POST, instance=dialect, excluded=excluded_dialect_id)
         if form.is_valid():
             form.instance.creator = request.user
             form.instance.language = language
@@ -214,7 +236,7 @@ def dialect_update_view(request, language_pk, dialect_pk):
             messages.success(request, _(f'Dialect has updated successfully.'))
             return redirect('dialect-detail', language_pk=language.id, dialect_pk=form.instance.id)
     else:
-        form = DialectCreateForm(language, instance=dialect, excluded=dialect)
+        form = DialectCreateForm(language, instance=dialect, excluded=excluded_dialect_id)
     context = {
         'form': form,
         'language': language,
