@@ -4,7 +4,7 @@
 {% block title %}
     {# Translators: Page title. #}
     {# Translators: تایتڵی پەڕە. #}
-    {% trans 'Languages' %}
+    {% trans 'Library' %}
 {% endblock title %}
 
 
@@ -16,23 +16,33 @@
         <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item active">{% trans 'Languages' %}</li>
+        <li class="breadcrumb-item active">{% trans 'Library' %}</li>
     </ul>
+
+    <!-- Part buttos -->
+    <div>
+        <a class="btn btn-info btn-sm mt-1 mb-1" href="{#% url 'writer' %#}">{% trans 'Writers' %}</a>
+        <a class="btn btn-info btn-sm mt-1 mb-1" href="{#% url 'job' %#}">{% trans 'Jobs' %}</a>
+        <a class="btn btn-info btn-sm mt-1 mb-1" href="{#% url 'genre' %#}">{% trans 'Genres' %}</a>
+        <a class="btn btn-info btn-sm mt-1 mb-1" href="{#% url 'publisher' %#}">{% trans 'Publishers' %}</a>
+        <a class="btn btn-info btn-sm mt-1 mb-1" href="{#% url 'location' %#}">{% trans 'Locations' %}</a>
+    </div>
 
     <!-- title -->
     {# Translators: Start title. #}
     {# Translators: تایتڵی سەرەتا. #}
-    <h1>{% trans 'Languages' %}:</h1>
+    <h1>{% trans 'Library' %}:</h1>
 
     <!-- Button to add new item-->
     <div>
         {# Translators: Button title. #}
         {# Translators: تایتڵی دوگمە. #}
-        <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'language-create' %}">{% trans 'Add Language' %}</a>
+        <a class="btn btn-outline-info btn-sm mb-1" href="{#% url 'book-create' %#}">{% trans 'Add Book' %}</a>
     </div>
 
 
     <!-- content -->
+    <!-- 
     {% for language in languages %}
         <article class="media content-section">
             <div class="media-body">
@@ -45,6 +55,7 @@
             </div>
         </article>
     {% endfor %}
+    -->
 
 {% endblock content %}
 

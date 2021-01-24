@@ -29,6 +29,7 @@
     {# Translators: تایتڵی پەڕە. #}
     <title>{% trans 'Kurdish Language' %} - {% block title %}{% trans 'Home' %}{% endblock title %}</title>
 </head>
+
 <body>
     <!-- navigation bar -->
     <header class="site-header">
@@ -45,35 +46,73 @@
 
                 <!-- Navbar Links Left Side -->
                 <div class="collapse navbar-collapse" id="navbarToggle">
-                    <div class="navbar-nav mr-auto">
-                        {# Translators: Navbar Button title. #}
-                        {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                        <a class="nav-item nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
-                        {# Translators: Navbar Button title. #}
-                        {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                        <a class="nav-item nav-link" href="{% url 'language-list' %}">{% trans 'Languges' %}</a>
-                        {# Translators: Navbar Button title. #}
-                        {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                        <a class="nav-item nav-link" href="{% url 'about' %}">{% trans 'About' %}</a>
-                    </div>
+                    <ul class="navbar-nav mr-auto">
+                        {% url 'home' as home_url %}
+                        {% url 'library' as library_url %}
+                        {% url 'language-list' as language_url %}
+                        {% url 'about' as about_url %}
+
+                        <li class="nav-item {% if request.get_full_path == home_url %}active{% endif %}">
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                            <a class="nav-link" href="{% url 'home' %}">{% trans 'Home' %}</a>
+                        </li>
+                        <li class="nav-item {% if request.get_full_path == library_url %}active{% endif %}">
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                            <a class="nav-link" href="{% url 'library' %}">{% trans 'Library' %}</a>
+                        </li>
+                        <li class="nav-item">
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                            <a class="nav-link" href="#">{% trans 'Grammer' %}</a>
+                        </li>
+                        <li class="nav-item">
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                            <a class="nav-link" href="#">{% trans 'Dictionary' %}</a>
+                        </li>
+                        <li class="nav-item {% if request.get_full_path == language_url %}active{% endif %}">
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                            <a class="nav-link" href="{% url 'language-list' %}">{% trans 'Languges' %}</a>
+                        </li>
+                        <li class="nav-item {% if request.get_full_path == about_url %}active{% endif %}">
+                            {# Translators: Navbar Button title. #}
+                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                            <a class="nav-link" href="{% url 'about' %}">{% trans 'About' %}</a>
+                        </li>
+                    </ul>
                     <!-- Navbar Right Side -->
-                    <div class="navbar-nav">
+                    <ul class="navbar-nav">
                         {% if user.is_authenticated %}
-                            {# Translators: Navbar Button title. #}
-                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                            <a class="nav-item nav-link" href="#">{% trans 'Profile' %}</a>
-                            {# Translators: Navbar Button title. #}
-                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                            <a class="nav-item nav-link" href="{% url 'account_logout' %}">{% trans 'Logout' %}</a>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#">
+                                    <img class="rounded-circle nav-profile-img" src="{#{ user.profile.image.url }#}">
+                                    {{user.username}}
+                                </a>
+                                <div class="dropdown-menu  bg-steel">
+                                    {# Translators: Navbar Button title. #}
+                                    {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                                    <a class="dropdown-item" href="{#% url 'profile' %#}">{% trans 'Profile' %}</a>
+                                    {# Translators: Navbar Button title. #}
+                                    {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                                    <a class="dropdown-item" href="{% url 'account_logout' %}">{% trans 'Logout' %}</a>
+                                </div>
+                            </li>
                         {% else %}
-                            {# Translators: Navbar Button title. #}
-                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                            <a class="nav-item nav-link" href="{% url 'account_login' %}">{% trans 'Login' %}</a>
-                            {# Translators: Navbar Button title. #}
-                            {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
-                            <a class="nav-item nav-link" href="{% url 'account_signup' %}">{% trans 'Sign Up' %}</a>
+                            <li class="nav-item">
+                                {# Translators: Navbar Button title. #}
+                                {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                                <a class="nav-link" href="{% url 'account_login' %}">{% trans 'Login' %}</a>
+                            </li>
+                            <li class="nav-item">
+                                {# Translators: Navbar Button title. #}
+                                {# Translators: تایتڵی دوگمەی ناڤباڕ. #}
+                                <a class="nav-link" href="{% url 'account_signup' %}">{% trans 'Sign Up' %}</a>
+                            </li>
                         {% endif %}
-                    </div>
+                    </ul>
                 </div>
             </div>
         </nav>
