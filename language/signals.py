@@ -6,6 +6,9 @@ from global_functions import is_same
 from .models import Language, LanguageHistory, Dialect, DialectHistory
 
 
+# #########################
+# Language
+# #########################
 @receiver(post_save, sender=Language)
 def create_language_history(sender, instance, created, **kwargs):
     # if new object created then make history
@@ -57,6 +60,9 @@ def update_language_history(sender, instance, **kwargs):
             )
 
 
+# #########################
+# Dialect
+# #########################
 @receiver(post_save, sender=Dialect)
 def create_dialect_history(sender, instance, created, **kwargs):
     # if new object created then make history

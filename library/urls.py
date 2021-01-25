@@ -7,10 +7,12 @@ urlpatterns = [
 
 
 
-    #path('genre/', views.GenreListView.as_view(), name='genre'),
-    #path('genre/<int:pk>/', views.GenreDetailView.as_view(), name='genre-detail'),
-    #path('genre/<int:pk>/update', views.GenreUpdateView.as_view(), name='genre-update'),
-    #path('genre/new/', views.GenreCreateView.as_view(), name='genre-create'),
+    path('genre/', views.GenreListView.as_view(), name='genre-list'),
+    path('genre/<int:pk>/', views.GenreDetailView.as_view(), name='genre-detail'),
+    path('genre/<int:pk>/histories/', views.genre_histories, name='genre-histories'),
+    path('genre/new/', views.GenreCreateView.as_view(), name='genre-create'),
+    path('genre/<int:pk>/update', views.GenreUpdateView.as_view(), name='genre-update'),
+
 
     #path('job/', views.JobListView.as_view(), name='job'),
     #path('job/<int:pk>/', views.JobDetailView.as_view(), name='job-detail'),
