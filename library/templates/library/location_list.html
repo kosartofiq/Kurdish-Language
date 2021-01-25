@@ -1,0 +1,52 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Locations' %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% trans 'Locations' %}</li>
+    </ul>
+
+    <!-- title -->
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h1>{% trans 'Locations' %}:</h1>
+
+    <!-- Button to add new item-->
+    <div>
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'location-create' %}">{% trans 'Add Location' %}</a>
+    </div>
+
+
+    <!-- content -->
+    {% for location in locations %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <h2>
+                        <a class="mr-2" href="{% url 'location-detail' location.id %}">{{ location.name }}</a>
+                    </h2>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+
+{% endblock content %}
+

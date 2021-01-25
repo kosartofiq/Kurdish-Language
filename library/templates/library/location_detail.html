@@ -1,0 +1,91 @@
+{% extends "_base.html" %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {{ location.name }}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'location-list' %}">{% trans 'Locations' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{{ location.name }}</li>
+    </ul>
+
+    <!-- Nav tabs -->
+    <ul class="nav nav-tabs nav-justified" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#detail">{% trans 'Detail' %}</a>
+        </li>
+        <li id="history_tab" class="nav-item">
+            <a  class="nav-link" data-toggle="tab" href="#history">{% trans "History" %}</a>
+        </li>
+    </ul>
+
+    <!-- Tab panes -->
+    <div class="tab-content">
+        <div id="detail" class="tab-pane active">
+            <article class="media content-section">
+                <div class="media-body">
+                    <div class="article-metadata">
+                        {% trans "Created by" %}: 
+                        <a class="mr-2" href="#">{{ location.creator.first_name }} {{location.creator.last_name}}</a>
+                        {# Translators: For determine date. #}
+                        {# Translators: بۆ دیاریکردنی بەروار (لە). #}
+                        <small class="text-muted">{% trans 'in' %} {{ location.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'location-update' location.id %}">{% trans "Update" %}</a>
+                        <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %}</a>
+                    </div>
+                    <h2 class="article-title">{{ location.name }}</h2>
+                    <p class="article-content">{% trans "Description" %}:
+                        <small class="text-muted">{{ location.description }}</small>
+                    </p>
+                </div>
+            </article>
+        </div>
+
+        <div id="history" class="tab-pane fade"><br>
+            <div class="spinner-grow text-muted"></div>
+            <div class="spinner-grow text-primary"></div>
+            <div class="spinner-grow text-success"></div>
+            <div class="spinner-grow text-info"></div>
+            <div class="spinner-grow text-warning"></div>
+            <div class="spinner-grow text-danger"></div>
+            <div class="spinner-grow text-secondary"></div>
+            <div class="spinner-grow text-dark"></div>
+            <div class="spinner-grow text-light"></div>
+        </div>
+    </div>
+
+{% endblock content%}
+
+
+{% block javascript %}
+    <script>
+        $(document).ready(function(){
+            $("#history_tab").click(function(){
+                $.ajax({
+                    url: "{% url 'location-histories' location.pk %}",
+                    dataType: 'json',
+                    success: function(returned_data){
+                        $('#history').html(returned_data.histories_html)
+                    }
+                });
+
+            });
+        });
+    </script>
+{% endblock javascript %}

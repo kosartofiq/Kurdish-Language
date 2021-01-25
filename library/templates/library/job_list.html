@@ -1,0 +1,52 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Jobs' %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% trans 'Jobs' %}</li>
+    </ul>
+
+    <!-- title -->
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h1>{% trans 'Jobs' %}:</h1>
+
+    <!-- Button to add new item-->
+    <div>
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'job-create' %}">{% trans 'Add Job' %}</a>
+    </div>
+
+
+    <!-- content -->
+    {% for job in jobs %}
+        <article class="media content-section">
+            <div class="media-body">
+                <div class="article-metadata">
+                    <h2>
+                        <a class="mr-2" href="{% url 'job-detail' job.id %}">{{ job.name }}</a>
+                    </h2>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+
+{% endblock content %}
+
