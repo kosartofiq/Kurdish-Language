@@ -174,6 +174,12 @@ USE_TZ = True
 # Note that it is important to include a trailing slash / at the end of the directory name.
 STATIC_URL = '/static/'
 
+# media part for photo
+# for media file location in project
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# for link part in html
+MEDIA_URL = '/media/'
+
 # defines the location of static files in local development.
 # In our project these will all live within a top-level static directory.
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static'), ]  #
