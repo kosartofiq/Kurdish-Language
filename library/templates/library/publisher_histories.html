@@ -1,0 +1,49 @@
+{% load i18n %}
+<table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th>Logo</th>
+        <th>Publisher</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for history in historys %}
+    <tr role="button" data-toggle="collapse" data-target="#show{{ history.id }}">
+        <td {% ifchanged history.logo %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>
+            {% load thumbnail %}
+            {% thumbnail history.logo "125x125" crop="center" as im %}
+            <img class="rounded-circle article-img" src="{{im.url}}">
+            {% endthumbnail %}
+        </td>
+        <td {% ifchanged history.name %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.name }}</td>
+        <td {% ifchanged history.description %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.description|truncatechars:20 }}</td>
+    </tr>
+    <tr>
+        <td colspan="3" id="show{{ history.id }}" class="collapse">
+            <article class="media content-section">
+                <div {% ifchanged history.logo %} {% if not forloop.first %} class="bg-warning"{% endif %} {% endifchanged %}>
+                    {% load thumbnail %}
+                    {% thumbnail history.logo "125x125" crop="center" as im %}
+                    <a role="button" data-toggle="modal" data-target="#history{{ history.id }}">
+                        <img class="rounded-circle article-img" src="{{ im.url }}">
+                    </a>
+                    {% endthumbnail %}
+                </div>
+                <div class="media-body">
+                    <div class="article-metadata">
+                        Created by:
+                        <a class="mr-2" href="#">{{ history.modifier.first_name }} {{history.modifier.last_name}}</a>
+                        <small class="text-muted">in {{ history.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                    </div>
+                    <h2 class="article-title{% ifchanged history.name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{{ history.name }}</h2>
+                    <p class="article-content{% ifchanged history.description %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Description:
+                        <small class="text-muted">{{ history.description }}</small>
+                    </p>
+                </div>
+            </article>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>

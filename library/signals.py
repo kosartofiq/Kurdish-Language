@@ -13,10 +13,10 @@ from .models import (
     JobHistory,
     Location,
     LocationHistory,
-    #Publisher,
-    #PublisherHistroy,
-    #Writer,
-    #WriterHistroy
+    Publisher,
+    PublisherHistory,
+    Writer,
+    WriterHistory
 )
 
 """
@@ -194,12 +194,25 @@ def update_location_history(sender, instance, **kwargs):
             )
 
 
+# #########################
+# Publisher
+# #########################
+@receiver(post_save, sender=Publisher)
+def create_publisher_history(sender, instance, created, **kwargs):
+    # if new object created then make history
+    if created:
+        # create history
+        PublisherHistory.objects.create(
+            publisher=instance,
+            editor=instance.creator,
+            name=instance.name,
+            description=instance.description,
+            logo=instance.logo
+        )
 
-"""
 
 @receiver(pre_save, sender=Publisher)
 def update_publisher_history(sender, instance, **kwargs):
-    # print('pre save called')
     # check if any change happen or only clicked save without change, to not make history
     # get object if is not first time creation
     old_record = Publisher.objects.filter(id=instance.id).first()
@@ -208,34 +221,40 @@ def update_publisher_history(sender, instance, **kwargs):
     # we will create history only in update
     if old_record:
         # check for similarity
-        if old_record.is_same(instance):
-            # print('same')
+        if is_same(old_record, instance):
+            # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
             # print('different')
-            PublisherHistroy.objects.create(publisher=instance,
-                                            editor=instance.creator,
-                                            name=instance.name,
-                                            description=instance.description,
-                                            logo=instance.logo)
+            PublisherHistory.objects.create(
+                publisher=instance,
+                editor=instance.creator,
+                name=instance.name,
+                description=instance.description,
+                logo=instance.logo
+            )
 
 
-@receiver(post_save, sender=Publisher)
-def create_publisher_history(sender, instance, created, **kwargs):
-    # print('post save called')
+# #########################
+# Writer
+# #########################
+@receiver(post_save, sender=Writer)
+def create_writer_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        PublisherHistroy.objects.create(publisher=instance,
-                                        editor=instance.creator,
-                                        name=instance.name,
-                                        description=instance.description,
-                                        logo=instance.logo)
+        WriterHistory.objects.create(
+            writer=instance,
+            editor=instance.creator,
+            name=instance.name,
+            born_date=instance.born_date,
+            died_date=instance.died_date,
+            image=instance.image
+        )
 
 
 @receiver(pre_save, sender=Writer)
 def update_writer_history(sender, instance, **kwargs):
-    # print('pre save called')
     # check if any change happen or only clicked save without change, to not make history
     # get object if is not first time creation
     old_record = Writer.objects.filter(id=instance.id).first()
@@ -244,30 +263,18 @@ def update_writer_history(sender, instance, **kwargs):
     # we will create history only in update
     if old_record:
         # check for similarity
-        if old_record.is_same(instance):
-            # print('same')
+        if is_same(old_record, instance):
+            # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
             # print('different')
-            WriterHistroy.objects.create(writer=instance,
-                                         editor=instance.creator,
-                                         name=instance.name,
-                                         birth_date=instance.birth_date,
-                                         died_date=instance.died_date,
-                                         profile=instance.profile,
-                                         image=instance.image)
+            WriterHistory.objects.create(
+                writer=instance,
+                editor=instance.creator,
+                name=instance.name,
+                born_date=instance.born_date,
+                died_date=instance.died_date,
+                profile=instance.profile,
+                image=instance.image)
 
 
-@receiver(post_save, sender=Writer)
-def create_writer_history(sender, instance, created, **kwargs):
-    # print('post save called')
-    # if new object created then make history
-    if created:
-        # create history
-        WriterHistroy.objects.create(writer=instance,
-                                     editor=instance.creator,
-                                     name=instance.name,
-                                     birth_date=instance.birth_date,
-                                     died_date=instance.died_date,
-                                     image=instance.image)
-"""
