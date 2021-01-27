@@ -2,29 +2,33 @@
 <table class="table table-hover">
     <thead class="thead-dark">
         <tr>
-            <th>{% trans 'Logo' %}</th>
-            <th>{% trans 'Publisher' %}</th>
-            <th>{% trans 'Description' %}</th>
+            <th>{% trans 'Image' %}</th>
+            <th>{% trans 'Writer' %}</th>
+            <th>{% trans 'Born Date' %}</th>
+            <th>{% trans 'Died Date' %}</th>
+            <th>{% trans 'Profile' %}</th>
         </tr>
     </thead>
     <tbody>
-        {% for history in historys %}
+        {% for history in histories %}
             <tr role="button" data-toggle="collapse" data-target="#show{{ history.id }}">
-                <td {% ifchanged history.logo %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>
+                <td {% ifchanged history.image %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>
                     {% load thumbnail %}
-                    {% thumbnail history.logo "125x125" crop="center" as im %}
+                    {% thumbnail history.image "125x125" crop="center" as im %}
                         <img class="rounded-circle article-img" src="{{im.url}}">
                     {% endthumbnail %}
                 </td>
                 <td {% ifchanged history.name %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.name }}</td>
-                <td {% ifchanged history.description %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.description|truncatechars:20 }}</td>
+                <td {% ifchanged history.birth_date %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.born_date|date:"d-m-Y" }}</td>
+                <td {% ifchanged history.died_date %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.died_date|date:"d-m-Y" }}</td>
+                <td {% ifchanged history.profile %} {% if not forloop.first %} class="bg-warning" {% endif %} {% endifchanged %}>{{ history.profile|truncatechars:20 }}</td>
             </tr>
             <tr id="show{{ history.id }}" class="collapse">
-                <td colspan="3">
+                <td colspan="5" >
                     <article class="media content-section">
-                        <div {% ifchanged history.logo %} {% if not forloop.first %} class="bg-warning"{% endif %} {% endifchanged %}>
+                        <div {% ifchanged history.image %} {% if not forloop.first %} class="bg-warning"{% endif %} {% endifchanged %}>
                             {% load thumbnail %}
-                            {% thumbnail history.logo "125x125" crop="center" as im %}
+                            {% thumbnail history.image "125x125" crop="center" as im %}
                                 <a role="button" data-toggle="modal" data-target="#history{{ history.id }}">
                                     <img class="rounded-circle article-img" src="{{ im.url }}">
                                 </a>
@@ -33,14 +37,17 @@
                         <div class="media-body">
                             <div class="article-metadata">
                                 {% trans 'Created by' %}:
-                                <a class="mr-2" href="#">{{ history.modifier.first_name }} {{history.modifier.last_name}}</a>
+                                <a class="mr-2" href="#">{{ history.editor.first_name }} {{history.editor.last_name}}</a>
                                 {# Translators: For determine date. #}
                                 {# Translators: بۆ دیاریکردنی بەروار (لە). #}
                                 <small class="text-muted">{% trans 'in' %} {{ history.timestamp|date:"d/m/Y - H:i:s" }}</small>
                             </div>
                             <h2 class="article-title{% ifchanged history.name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{{ history.name }}</h2>
-                            <p class="article-content{% ifchanged history.description %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Description:
-                                <small class="text-muted">{{ history.description }}</small>
+                            <small class="text-muted{% ifchanged history.born_date %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Born: {{ history.born_date|date:"d/m/Y" }}</small>
+                            <br>
+                            <small class="text-muted{% ifchanged history.died_date %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Died: {{ history.died_date|date:"d/m/Y" }}</small>
+                            <p class="article-content{% ifchanged history.profile %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Profile:
+                                <small class="text-muted">{{ history.profile }}</small>
                             </p>
                         </div>
                     </article>
@@ -64,7 +71,7 @@
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <img src="{{ history.logo.url }}" class="rounded img-fluid" loading="lazy">
+                    <img src="{{ history.image.url }}" class="rounded img-fluid" loading="lazy">
                 </div>
 
                 <!-- Modal footer -->

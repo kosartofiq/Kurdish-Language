@@ -4,7 +4,7 @@
 {% block title %}
     {# Translators: Page title. #}
     {# Translators: تایتڵی پەڕە. #}
-    {{ publisher.name }}
+    {{ writer.name }}
 {% endblock title %}
 
 
@@ -19,10 +19,10 @@
         <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item"><a href="{% url 'publisher-list' %}">{% trans 'Publishers' %}</a></li>
+        <li class="breadcrumb-item"><a href="{% url 'writer-list' %}">{% trans 'Writers' %}</a></li>
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item active">{{ publisher.name }}</li>
+        <li class="breadcrumb-item active">{{ writer.name }}</li>
     </ul>
 
     <!-- Nav tabs -->
@@ -40,25 +40,28 @@
         <div id="detail" class="tab-pane active">
             <article class="media content-section">
                 {% load thumbnail %}
-                {% thumbnail publisher.logo "125x125" crop="center" as im %}
+                {% thumbnail writer.logo "125x125" crop="center" as im %}
                     <!-- link to Open the Modal -->
-                    <a role="button" data-toggle="modal" data-target="#publisher{{ publisher.id }}">
+                    <a role="button" data-toggle="modal" data-target="#writer{{ writer.id }}">
                         <img class="rounded-circle article-img" src="{{im.url}}">
                     </a>
                 {% endthumbnail %}
                 <div class="media-body">
                     <div class="article-metadata">
                         {% trans "Created by" %}: 
-                        <a class="mr-2" href="#">{{ publisher.creator.first_name }} {{publisher.creator.last_name}}</a>
+                        <a class="mr-2" href="#">{{ writer.creator.first_name }} {{writer.creator.last_name}}</a>
                         {# Translators: For determine date. #}
                         {# Translators: بۆ دیاریکردنی بەروار (لە). #}
-                        <small class="text-muted">{% trans 'in' %} {{ publisher.timestamp|date:"d/m/Y - H:i:s" }}</small>
-                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'publisher-update' publisher.id %}">{% trans "Update" %}</a>
+                        <small class="text-muted">{% trans 'in' %} {{ writer.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'writer-update' writer.id %}">{% trans "Update" %}</a>
                         <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %}</a>
                     </div>
-                    <h2 class="article-title">{{ publisher.name }}</h2>
-                    <p class="article-content">{% trans "Description" %}:
-                        <small class="text-muted">{{ publisher.description }}</small>
+                    <h2 class="article-title">{{ writer.name }}</h2>
+                    <small class="text-muted">{% trans "Born" %}: {{ writer.born_date|date:"d/m/Y" }}</small>
+                    <br>
+                    <small class="text-muted">{% trans "Died" %}: {{ writer.died_date|date:"d/m/Y" }}</small>
+                    <p class="article-content">{% trans "Profile" %}:
+                        <small class="text-muted">{{ writer.profile }}</small>
                     </p>
                 </div>
             </article>
@@ -78,19 +81,19 @@
     </div>
 
     <!-- The Modal -->
-    <div class="modal fade" id="publisher{{ publisher.id }}">
+    <div class="modal fade" id="writer{{ writer.id }}">
         <div class="modal-dialog modal-l">
             <div class="modal-content">
 
                 <!-- Modal Header -->
                 <div class="modal-header">
-                    <h4 class="modal-title">{{ publisher.name }}</h4>
+                    <h4 class="modal-title">{{ writer.name }}</h4>
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
 
                 <!-- Modal body -->
                 <div class="modal-body">
-                    <img src="{{ publisher.logo.url }}" class="rounded img-fluid">
+                    <img src="{{ writer.image.url }}" class="rounded img-fluid">
                 </div>
 
                 <!-- Modal footer -->
@@ -109,7 +112,7 @@
         $(document).ready(function(){
             $("#history_tab").click(function(){
                 $.ajax({
-                    url: "{% url 'publisher-histories' publisher.pk %}",
+                    url: "{% url 'writer-histories' writer.pk %}",
                     dataType: 'json',
                     success: function(returned_data){
                         $('#history').html(returned_data.histories_html)

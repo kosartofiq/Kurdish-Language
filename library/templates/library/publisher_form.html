@@ -1,0 +1,54 @@
+{% extends "_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% if update %}
+        {% trans 'Update Publisher' %}
+    {% else %}
+        {% trans 'New Publisher' %}
+    {% endif %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'publisher-list' %}">{% trans 'Publisher' %}</a></li>
+        {% if update %}
+            <li class="breadcrumb-item"><a href="{% url 'publisher-detail' publisher.id %}">{{ publisher.name }}</a></li>
+        {% endif %}
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% if update %}{% trans 'Update Publisher' %}{% else %}{% trans 'New Publisher' %}{% endif %}</li>
+    </ul>
+
+    <div class="content-section">
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {# Translators: Start title. #}
+                {# Translators: تایتڵی سەرەتا. #}
+                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update publisher:' %}{% else %}{% trans 'Add new publisher:' %}{% endif %}</legend>
+                {{ form|crispy }}
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <a class="btn btn-outline-secondary" href="{% if update %}{% url 'publisher-detail' publisher.id %}{% else %}{% url 'publisher-list' %}{% endif %}">{% trans 'Cancel' %}</a>
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <button class="btn btn-outline-success" type="submit">{% if update %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>
+            </fieldset>
+        </form>
+    </div>
+{% endblock %}
+

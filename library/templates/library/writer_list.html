@@ -1,0 +1,63 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Writers' %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% trans 'Writers' %}</li>
+    </ul>
+
+    <!-- title -->
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h1>{% trans 'Writers' %}:</h1>
+
+    <!-- Button to add new item-->
+    <div>
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'writer-create' %}">{% trans 'Add Writer' %}</a>
+    </div>
+
+
+    <!-- content -->
+    {% for writer in writers %}
+        <article class="media content-section">
+            {% load thumbnail %}
+            {% thumbnail writer.logo "125x125" crop="center" as im %}
+                <img class="rounded-circle article-img" src="{{im.url}}">
+            {% endthumbnail %}
+            <div class="media-body">
+                <div class="article-metadata">
+                    <h2>
+                        <a class="mr-2" href="{% url 'writer-detail' writer.id %}">{{ writer.name }}</a>
+                    </h2>
+                    <small class="text-muted">
+                        {% if writer.born_date %}
+                            {{ writer.born_date|date:"d/m/Y" }} - {{ writer.died_date|date:"d/m/Y" }}
+                        {% else %}
+                            {% trans "Unknown" %} - {{ writer.died_date|date:"d/m/Y"}}
+                        {% endif %}
+                    </small>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+
+{% endblock content %}
+

@@ -1,0 +1,56 @@
+{% extends '_base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% trans 'Publishers' %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% trans 'Publishers' %}</li>
+    </ul>
+
+    <!-- title -->
+    {# Translators: Start title. #}
+    {# Translators: تایتڵی سەرەتا. #}
+    <h1>{% trans 'Publishers' %}:</h1>
+
+    <!-- Button to add new item-->
+    <div>
+        {# Translators: Button title. #}
+        {# Translators: تایتڵی دوگمە. #}
+        <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'publisher-create' %}">{% trans 'Add Publisher' %}</a>
+    </div>
+
+
+    <!-- content -->
+    {% for publisher in publishers %}
+        <article class="media content-section">
+            {% load thumbnail %}
+            {% thumbnail publisher.logo "125x125" crop="center" as im %}
+                <img class="rounded-circle article-img" src="{{im.url}}">
+            {% endthumbnail %}
+            <div class="media-body">
+                <div class="article-metadata">
+                    <h2>
+                        <a class="mr-2" href="{% url 'publisher-detail' publisher.id %}">{{ publisher.name }}</a>
+                    </h2>
+                </div>
+            </div>
+        </article>
+    {% endfor %}
+
+{% endblock content %}
+
