@@ -27,15 +27,18 @@ urlpatterns = [
     path('location/new/', views.LocationCreateView.as_view(), name='location-create'),
     path('location/<int:pk>/update', views.LocationUpdateView.as_view(), name='location-update'),
 
+    # publisher
+    path('publisher/', views.PublisherListView.as_view(), name='publisher-list'),
+    path('publisher/<int:pk>/', views.PublisherDetailView.as_view(), name='publisher-detail'),
+    path('publisher/<int:pk>/histories/', views.publisher_histories, name='publisher-histories'),
+    path('publisher/new/', views.PublisherCreateView.as_view(), name='publisher-create'),
+    path('publisher/<int:pk>/update', views.PublisherUpdateView.as_view(), name='publisher-update'),
 
-    #path('publisher/', views.PublisherListView.as_view(), name='publisher'),
-    #path('publisher/<int:pk>/', views.PublisherDetailView.as_view(), name='publisher-detail'),
-    #path('publisher/<int:pk>/update', views.PublisherUpdateView.as_view(), name='publisher-update'),
-    #path('publisher/new/', views.PublisherCreateView.as_view(), name='publisher-create'),
-
-    #path('writer/', views.WriterListView.as_view(), name='writer'),
-    #path('writer/<int:pk>/', views.WriterDetailView.as_view(), name='writer-detail'),
-    #path('writer/<int:pk>/update', views.WriterUpdateView.as_view(), name='writer-update'),
-    #path('writer/new/', views.WriterCreateView.as_view(), name='writer-create'),
+    # writer
+    path('writer/', views.WriterListView.as_view(), name='writer-list'),
+    path('writer/<int:pk>/', views.WriterDetailView.as_view(), name='writer-detail'),
+    path('writer/<int:pk>/histories/', views.writer_histories, name='writer-histories'),
+    path('writer/new/', views.WriterCreateView.as_view(), name='writer-create'),
+    path('writer/<int:pk>/update', views.WriterUpdateView.as_view(), name='writer-update'),
 
 ]

@@ -43,10 +43,10 @@
                                 <small class="text-muted">{% trans 'in' %} {{ history.timestamp|date:"d/m/Y - H:i:s" }}</small>
                             </div>
                             <h2 class="article-title{% ifchanged history.name %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{{ history.name }}</h2>
-                            <small class="text-muted{% ifchanged history.born_date %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Born: {{ history.born_date|date:"d/m/Y" }}</small>
+                            <small class="text-muted{% ifchanged history.born_date %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{% trans "Born" %}: {{ history.born_date|date:"d/m/Y" }}</small>
                             <br>
-                            <small class="text-muted{% ifchanged history.died_date %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Died: {{ history.died_date|date:"d/m/Y" }}</small>
-                            <p class="article-content{% ifchanged history.profile %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">Profile:
+                            <small class="text-muted{% ifchanged history.died_date %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{% trans "Died" %}: {{ history.died_date|date:"d/m/Y" }}</small>
+                            <p class="article-content{% ifchanged history.profile %} {% if not forloop.first %} bg-warning{% endif %} {% endifchanged %}">{% trans "Profile" %}:
                                 <small class="text-muted">{{ history.profile }}</small>
                             </p>
                         </div>

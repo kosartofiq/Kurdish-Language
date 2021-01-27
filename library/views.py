@@ -7,7 +7,7 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 
-from .models import Genre, GenreHistory, Job, JobHistory, Location, LocationHistory
+from .models import Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
 
 
 def library(request):
@@ -164,5 +164,101 @@ class LocationUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
         return super().form_valid(form)
 
 
+# #########################
+# Publisher
+# #########################
+class PublisherListView(ListView):
+    model = Publisher
+    context_object_name = 'publishers'
+    ordering = ['name']
 
 
+class PublisherDetailView(DetailView):
+    model = Publisher
+
+
+def publisher_histories(request, pk):
+    publisher = Publisher.objects.get(pk=pk)
+    histories = PublisherHistory.objects.filter(publisher=publisher).order_by('-timestamp')
+    rendered_histories_html = render_to_string('library/publisher_histories.html', {'histories': histories})
+    return_json_data = {
+        'histories_html': rendered_histories_html,
+    }
+    return JsonResponse(return_json_data)
+
+
+class PublisherCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    model = Publisher
+    fields = ['name', 'description', 'logo']
+    success_message = _(f'New publisher was created successfully.')
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+
+class PublisherUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    model = Publisher
+    fields = ['name', 'description', 'logo']
+    success_message = _(f"Information was updated successfully.")
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['update'] = True
+        return context
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+
+# #########################
+# Writer
+# #########################
+class WriterListView(ListView):
+    model = Writer
+    context_object_name = 'writers'
+    ordering = ['name']
+
+
+class WriterDetailView(DetailView):
+    model = Writer
+
+
+def writer_histories(request, pk):
+    writer = Writer.objects.get(pk=pk)
+    histories = WriterHistory.objects.filter(writer=writer).order_by('-timestamp')
+    rendered_histories_html = render_to_string('library/writer_histories.html', {'histories': histories})
+    return_json_data = {
+        'histories_html': rendered_histories_html,
+    }
+    return JsonResponse(return_json_data)
+
+
+class WriterCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    model = Writer
+    fields = ['name', 'born_date', 'died_date', 'profile', 'image']
+    success_message = _(f'New writer was created successfully.')
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+
+class WriterUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    model = Writer
+    fields = ['name', 'born_date', 'died_date', 'profile', 'image']
+    success_message = _(f"Information was updated successfully.")
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['update'] = True
+        return context
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
