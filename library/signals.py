@@ -249,6 +249,7 @@ def create_writer_history(sender, instance, created, **kwargs):
             name=instance.name,
             born_date=instance.born_date,
             died_date=instance.died_date,
+            profile=instance.profile,
             image=instance.image
         )
 
