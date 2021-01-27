@@ -11,6 +11,7 @@ psycopg2-binary = "==2.8.6"
 django-crispy-forms = "==1.10.0"
 django-allauth = "==0.44.0"
 pillow = "==8.0.0"
+sorl-thumbnail = "==12.7.0"
 
 [dev-packages]
 

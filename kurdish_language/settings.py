@@ -33,6 +33,11 @@ INSTALLED_APPS = [
     'crispy_forms',
     'allauth',  #
     'allauth.account',  #
+    # https://github.com/jazzband/sorl-thumbnail
+    # https://sorl-thumbnail.readthedocs.io/en/latest/examples.html
+    # https://medium.com/@MicroPyramid/sorl-thumbnail-to-generate-thumbnails-in-django-b4689a3ff54
+    'sorl.thumbnail',
+
 
     # local app
     'users.apps.UsersConfig',
