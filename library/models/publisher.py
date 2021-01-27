@@ -28,7 +28,7 @@ class Publisher(models.Model):
         help_text=_("Description about the publisher.")
     )
     logo = models.ImageField(
-        _('logo'),
+        _('Logo'),
         default='default_publisher.jpg',
         upload_to='publisher_logos',
         help_text=_('Logo of the publisher.')

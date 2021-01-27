@@ -40,7 +40,7 @@ class Writer(models.Model):
         help_text=_("Profile about the writer.")
     )
     image = models.ImageField(
-        _('image'),
+        _('Image'),
         default='default_writer.jpg',
         upload_to='writer_pics',
         help_text=_('Picture of the writer.')

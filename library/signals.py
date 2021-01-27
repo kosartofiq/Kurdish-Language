@@ -2,27 +2,41 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 from global_functions import is_same
-from .models import (
-    #Book,
-    #BookHistory,
-    #BookWriter,
-    #BookWriterHistory,
-    Genre,
-    GenreHistory,
-    Job,
-    JobHistory,
-    Location,
-    LocationHistory,
-    Publisher,
-    PublisherHistory,
-    Writer,
-    WriterHistory
-)
+from .models import Book, BookHistory, BookWriter, BookWriterHistory, Genre, GenreHistory, Job, JobHistory, Location, \
+    LocationHistory,  Publisher, PublisherHistory, Writer,  WriterHistory
 
-"""
+
+# #########################
+# Book
+# #########################
+@receiver(post_save, sender=Book)
+def create_book_history(sender, instance, created, **kwargs):
+    # if new object created then make history
+    if created:
+        # create history
+        BookHistory.objects.create(
+            editor=instance.creator,
+            book=instance,
+            location=instance.location,
+            publisher=instance.publisher,
+            #genres=instance,
+            #languages=instance,
+            #writers=instance,
+            name=instance.name,
+            description=instance.description,
+            year=instance.year,
+            edition_number=instance.edition_number,
+            volume=instance.volume,
+            part=instance.part,
+            page_quantity=instance.page_quantity,
+            is_copyright=instance.is_copyright,
+            image=instance.image,
+        )
+        # Dialect.objects.create(language=instance,
+
+
 @receiver(pre_save, sender=Book)
 def update_book_history(sender, instance, **kwargs):
-    # print('pre save called')
     # check if any change happen or only clicked save without change, to not make history
     # get object if is not first time creation
     old_record = Book.objects.filter(id=instance.id).first()
@@ -32,49 +46,31 @@ def update_book_history(sender, instance, **kwargs):
     if old_record:
         # check for similarity
         if old_record.is_same(instance):
-            # print('same')
+            # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
-            # print('different')
-            BookHistory.objects.create(book=instance,
-                                       editor=instance.creator,
-                                       location=instance.location,
-                                       publisher=instance.publisher,
+            # create history
+            BookHistory.objects.create(
+            editor=instance.creator,
+            book=instance,
+            location=instance.location,
+            publisher=instance.publisher,
+            #genres=instance,
+            #languages=instance,
+            #writers=instance,
+            name=instance.name,
+            description=instance.description,
+            year=instance.year,
+            edition_number=instance.edition_number,
+            volume=instance.volume,
+            part=instance.part,
+            page_quantity=instance.page_quantity,
+            is_copyright=instance.is_copyright,
+            image=instance.image,
+        )
 
-                                       name=instance.name,
-                                       description=instance.description,
-                                       year=instance.year,
-                                       publish_number=instance.publish_number,
-                                       volume=instance.volume,
-                                       part=instance.part,
-                                       number_of_pages=instance.number_of_pages,
-                                       is_copyright=instance.is_copyright
-                                       )
 
 
-@receiver(post_save, sender=Book)
-def create_book_history(sender, instance, created, **kwargs):
-    # print('post save called')
-    # if new object created then make history
-    if created:
-        # create history
-        BookHistory.objects.create(book=instance,
-                                   editor=instance.creator,
-                                   location=instance.location,
-                                   publisher=instance.publisher,
-
-                                   name=instance.name,
-                                   description=instance.description,
-                                   year=instance.year,
-                                   publish_number=instance.publish_number,
-                                   volume=instance.volume,
-                                   part=instance.part,
-                                   number_of_pages=instance.number_of_pages,
-                                   is_copyright=instance.is_copyright
-                                   )
-        # Dialect.objects.create(language=instance,
-
-"""
 
 
 # #########################
@@ -107,7 +103,7 @@ def update_genre_history(sender, instance, **kwargs):
             # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
-            # print('different')
+            # create history
             GenreHistory.objects.create(
                 genre=instance,
                 editor=instance.creator,
@@ -146,7 +142,7 @@ def update_job_history(sender, instance, **kwargs):
             # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
-            # print('different')
+            # create history
             JobHistory.objects.create(
                 job=instance,
                 editor=instance.creator,
@@ -185,7 +181,7 @@ def update_location_history(sender, instance, **kwargs):
             # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
-            # print('different')
+            # create history
             LocationHistory.objects.create(
                 location=instance,
                 editor=instance.creator,
@@ -225,7 +221,7 @@ def update_publisher_history(sender, instance, **kwargs):
             # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
-            # print('different')
+            # create history
             PublisherHistory.objects.create(
                 publisher=instance,
                 editor=instance.creator,
@@ -268,7 +264,7 @@ def update_writer_history(sender, instance, **kwargs):
             # it means just clicked save without modification, so pass signal and do nothing
             pass
         else:
-            # print('different')
+            # create history
             WriterHistory.objects.create(
                 writer=instance,
                 editor=instance.creator,
@@ -276,6 +272,7 @@ def update_writer_history(sender, instance, **kwargs):
                 born_date=instance.born_date,
                 died_date=instance.died_date,
                 profile=instance.profile,
-                image=instance.image)
+                image=instance.image
+            )
 
 
