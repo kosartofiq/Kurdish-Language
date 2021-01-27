@@ -40,7 +40,7 @@
         <div id="detail" class="tab-pane active">
             <article class="media content-section">
                 {% load thumbnail %}
-                {% thumbnail writer.logo "125x125" crop="center" as im %}
+                {% thumbnail writer.image "125x125" crop="center" as im %}
                     <!-- link to Open the Modal -->
                     <a role="button" data-toggle="modal" data-target="#writer{{ writer.id }}">
                         <img class="rounded-circle article-img" src="{{im.url}}">
