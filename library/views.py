@@ -36,7 +36,8 @@ def book_histories(request, pk):
 
 class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Book
-    fields = ['name', 'description']
+    fields = ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image' ]
+
     success_message = _(f'New book was created successfully.')
 
     def form_valid(self, form):
@@ -97,7 +98,8 @@ class GenreCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 class GenreUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = Genre
-    fields = ['name', 'description']
+    ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image' ]
+
     success_message = _(f"Information was updated successfully.")
 
     def get_context_data(self, **kwargs):
