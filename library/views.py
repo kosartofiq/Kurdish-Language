@@ -9,7 +9,7 @@ from django.utils.translation import ugettext as _
 
 from .models import Book, BookHistory, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
 
-
+from .forms import BookCreateForm
 # #########################
 # Library
 # #########################
@@ -36,8 +36,8 @@ def book_histories(request, pk):
 
 class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Book
-    fields = ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image' ]
-
+    # fields = ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image' ]
+    form_class=BookCreateForm
     success_message = _(f'New book was created successfully.')
 
     def form_valid(self, form):
