@@ -3,8 +3,11 @@ from . import views
 
 urlpatterns = [
     # library
-    path('', views.library, name='library'),
-    #path('book/new/', views.BookCreateView.as_view(), name='book-create'),
+    path('', views.LibraryListView.as_view(), name='library'),
+    path('book/<int:pk>/', views.BookDetailView.as_view(), name='book-detail'),
+    path('book/<int:pk>/histories/', views.book_histories, name='book-histories'),
+    path('book/new/', views.BookCreateView.as_view(), name='book-create'),
+    path('book/<int:pk>/update', views.BookUpdateView.as_view(), name='book-update'),
 
     # genre
     path('genre/', views.GenreListView.as_view(), name='genre-list'),

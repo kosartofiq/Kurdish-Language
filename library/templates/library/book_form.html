@@ -6,9 +6,9 @@
     {# Translators: Page title. #}
     {# Translators: تایتڵی پەڕە. #}
     {% if update %}
-        {% trans 'Update Writer' %}
+        {% trans 'Update Book' %}
     {% else %}
-        {% trans 'New Writer' %}
+        {% trans 'New Book' %}
     {% endif %}
 {% endblock title %}
 
@@ -22,33 +22,31 @@
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
         <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
-        {# Translators: Breadcrumb link. #}
-        {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item"><a href="{% url 'writer-list' %}">{% trans 'Writer' %}</a></li>
         {% if update %}
-            <li class="breadcrumb-item"><a href="{% url 'writer-detail' writer.id %}">{{ writer.name }}</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'book-detail' book.id %}">{{ book.name }}</a></li>
         {% endif %}
         {# Translators: Breadcrumb link. #}
         {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item active">{% if update %}{% trans 'Update Writer' %}{% else %}{% trans 'New Writer' %}{% endif %}</li>
+        <li class="breadcrumb-item active">{% if update %}{% trans 'Update Book' %}{% else %}{% trans 'New Book' %}{% endif %}</li>
     </ul>
 
     <div class="content-section">
-        <form method="post" enctype="multipart/form-data">
+        <form method="post">
             {% csrf_token %}
             <fieldset class="form-group">
                 {# Translators: Start title. #}
                 {# Translators: تایتڵی سەرەتا. #}
-                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update writer' %}{% else %}{% trans 'Add new writer' %}{% endif %}:</legend>
+                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update book' %}{% else %}{% trans 'Add new book' %}{% endif %}:</legend>
                 {{ form|crispy }}
                 {# Translators: Button title. #}
                 {# Translators: تایتڵی دوگمە. #}
-                <a class="btn btn-outline-secondary" href="{% if update %}{% url 'writer-detail' writer.id %}{% else %}{% url 'writer-list' %}{% endif %}">{% trans 'Cancel' %}</a>
+                <a class="btn btn-outline-secondary" href="{% if update %}{% url 'book-detail' book.id %}{% else %}{% url 'library' %}{% endif %}">{% trans 'Cancel' %}</a>
                 {# Translators: Button title. #}
                 {# Translators: تایتڵی دوگمە. #}
                 <button class="btn btn-outline-success" type="submit">{% if update %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>
             </fieldset>
         </form>
     </div>
-{% endblock %}
+
+{% endblock content %}
 
