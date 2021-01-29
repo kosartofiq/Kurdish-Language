@@ -7,6 +7,8 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 
+from global_functions import CleanSerializer
+
 from .models import Book, BookHistory, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
 
 from .forms import BookCreateForm
@@ -43,6 +45,19 @@ class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+
+
+def writers_name(request):
+    writers = Writer.objects.all().order_by('name')
+    # data = serializers.serialize('json', writers , fields=['name'])
+    my_serializer = CleanSerializer()
+    data = my_serializer.serialize( writers ,fields=['name'])
+    print(data)
+
+    return_json_data = {
+        'writers_name': data,
+    }
+    return JsonResponse(return_json_data)
 
 
 class BookUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
