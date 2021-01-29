@@ -50,3 +50,18 @@
 
 {% endblock content %}
 
+{% block javascript %}
+    <script type="text/javascript">
+        $(document).ready(function() { 
+            $.ajax({
+                url: "{% url 'writers-name' %}",
+                dataType: 'json',
+                success: function(returned_data){
+                    $("#id_writers").tokenInput(returned_data.writers_name,{ theme: "facebook" });
+                }
+            });
+   
+        });
+    </script>
+{% endblock javascript %}
+
