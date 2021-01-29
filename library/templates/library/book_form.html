@@ -53,11 +53,26 @@
 {% block javascript %}
     <script type="text/javascript">
         $(document).ready(function() { 
+            var option = {
+                theme: "facebook",
+                hintText: "I can has tv shows?",
+                noResultsText: "O noes",
+                searchingText: "Meowing...",
+                searchDelay: 100,
+                preventDuplicates: true
+                
+
+            };
             $.ajax({
-                url: "{% url 'writers-name' %}",
+                url: "{% url 'book-form-datas' %}",
                 dataType: 'json',
                 success: function(returned_data){
-                    $("#id_writers").tokenInput(returned_data.writers_name,{ theme: "facebook" });
+                    $("#id_genres").tokenInput(returned_data.genres_name, option);
+                    $("#id_languages").tokenInput(returned_data.languages_name, option);
+                    $("#id_location").tokenInput(returned_data.locations_name, option);
+                    $("#id_publisher").tokenInput(returned_data.publishers_name, option);
+                    option.tokenLimit = 1;
+                    $("#id_writers").tokenInput(returned_data.writers_name, option);
                 }
             });
    

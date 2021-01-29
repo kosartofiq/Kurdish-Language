@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from global_functions import CleanSerializer
 
 from .models import Book, BookHistory, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
+from language.models import Language
 
 from .forms import BookCreateForm
 # #########################
@@ -47,15 +48,29 @@ class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
 
-def writers_name(request):
+def book_form_datas(request):
     writers = Writer.objects.all().order_by('name')
-    # data = serializers.serialize('json', writers , fields=['name'])
     my_serializer = CleanSerializer()
-    data = my_serializer.serialize( writers ,fields=['name'])
-    print(data)
+    writers_name = my_serializer.serialize( writers ,fields=['name'])
+    # 
+    genres = Genre.objects.all().order_by('name')
+    genres_name = my_serializer.serialize( genres ,fields=['name'])
+    #
+    languages = Language.objects.all().order_by('name')
+    languages_name = my_serializer.serialize(languages, fields=['name'])
+    #
+    locations = Location.objects.all().order_by('name')
+    locations_name = my_serializer.serialize(locations, fields=['name'])
+    #
+    publishers = Publisher.objects.all().order_by('name')
+    publishers_name = my_serializer.serialize(publishers, fields=['name'])
 
     return_json_data = {
-        'writers_name': data,
+        'writers_name': writers_name,
+        'genres_name': genres_name,
+        'languages_name': languages_name,
+        'locations_name': locations_name,
+        'publishers_name': publishers_name,
     }
     return JsonResponse(return_json_data)
 
