@@ -1,3 +1,5 @@
+from django.core.serializers.python import Serializer
+
 # check if two model object is same of different
 def is_same(obj1, obj2, excluded_keys=[]):
     # make dictionary from objects
@@ -20,3 +22,10 @@ def is_same(obj1, obj2, excluded_keys=[]):
 
     # after all keys checked and not found any different then return true
     return True
+
+
+# for cleaning model to json data and change pk to id
+class CleanSerializer(Serializer):
+    def end_object( self, obj ):
+        self._current['id'] = obj._get_pk_val()
+        self.objects.append( self._current )
