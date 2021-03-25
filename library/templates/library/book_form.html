@@ -1,0 +1,82 @@
+{% extends "_base.html" %}
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+{% block title %}
+    {# Translators: Page title. #}
+    {# Translators: تایتڵی پەڕە. #}
+    {% if update %}
+        {% trans 'Update Book' %}
+    {% else %}
+        {% trans 'New Book' %}
+    {% endif %}
+{% endblock title %}
+
+
+{% block content %}
+    <!-- breadcrumb -->
+    <ul class="breadcrumb">
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+        {% if update %}
+            <li class="breadcrumb-item"><a href="{% url 'book-detail' book.id %}">{{ book.name }}</a></li>
+        {% endif %}
+        {# Translators: Breadcrumb link. #}
+        {# Translators: لینکی برید کرەمب. #}
+        <li class="breadcrumb-item active">{% if update %}{% trans 'Update Book' %}{% else %}{% trans 'New Book' %}{% endif %}</li>
+    </ul>
+
+    <div class="content-section">
+        <form method="post">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                {# Translators: Start title. #}
+                {# Translators: تایتڵی سەرەتا. #}
+                <legend class="border-bottom mb-4">{% if update %}{% trans 'Update book' %}{% else %}{% trans 'Add new book' %}{% endif %}:</legend>
+                {{ form|crispy }}
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <a class="btn btn-outline-secondary" href="{% if update %}{% url 'book-detail' book.id %}{% else %}{% url 'library' %}{% endif %}">{% trans 'Cancel' %}</a>
+                {# Translators: Button title. #}
+                {# Translators: تایتڵی دوگمە. #}
+                <button class="btn btn-outline-success" type="submit">{% if update %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>
+            </fieldset>
+        </form>
+    </div>
+
+{% endblock content %}
+
+{% block javascript %}
+    <script type="text/javascript">
+        $(document).ready(function() { 
+            var option = {
+                theme: "facebook",
+                hintText: "I can has tv shows?",
+                noResultsText: "O noes",
+                searchingText: "Meowing...",
+                searchDelay: 100,
+                preventDuplicates: true
+                
+
+            };
+            $.ajax({
+                url: "{% url 'book-form-datas' %}",
+                dataType: 'json',
+                success: function(returned_data){
+                    $("#id_genres").tokenInput(returned_data.genres_name, option);
+                    $("#id_languages").tokenInput(returned_data.languages_name, option);
+                    $("#id_location").tokenInput(returned_data.locations_name, option);
+                    $("#id_publisher").tokenInput(returned_data.publishers_name, option);
+                    option.tokenLimit = 1;
+                    $("#id_writers").tokenInput(returned_data.writers_name, option);
+                }
+            });
+   
+        });
+    </script>
+{% endblock javascript %}
+

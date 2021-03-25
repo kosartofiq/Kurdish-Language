@@ -7,11 +7,90 @@ from django.template.loader import render_to_string
 from django.http import JsonResponse
 from django.utils.translation import ugettext as _
 
-from .models import Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
+from global_functions import CleanSerializer
+
+from .models import Book, BookHistory, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
+from language.models import Language
+
+from .forms import BookCreateForm
+# #########################
+# Library
+# #########################
+class LibraryListView(ListView):
+    model = Book
+    context_object_name = 'books'
+    template_name = 'library/library.html'
+    ordering = ['name']
 
 
-def library(request):
-    return render(request, 'library/library.html')
+class BookDetailView(DetailView):
+    model = Book
+
+
+def book_histories(request, pk):
+    book = Book.objects.get(pk=pk)
+    histories = BookHistory.objects.filter(book=book).order_by('-timestamp')
+    rendered_histories_html = render_to_string('library/book_histories.html', {'histories': histories})
+    return_json_data = {
+        'histories_html': rendered_histories_html,
+    }
+    return JsonResponse(return_json_data)
+
+
+class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
+    model = Book
+    # fields = ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image' ]
+    form_class=BookCreateForm
+    success_message = _(f'New book was created successfully.')
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+
+def book_form_datas(request):
+    writers = Writer.objects.all().order_by('name')
+    my_serializer = CleanSerializer()
+    writers_name = my_serializer.serialize( writers ,fields=['name'])
+    # 
+    genres = Genre.objects.all().order_by('name')
+    genres_name = my_serializer.serialize( genres ,fields=['name'])
+    #
+    languages = Language.objects.all().order_by('name')
+    languages_name = my_serializer.serialize(languages, fields=['name'])
+    #
+    locations = Location.objects.all().order_by('name')
+    locations_name = my_serializer.serialize(locations, fields=['name'])
+    #
+    publishers = Publisher.objects.all().order_by('name')
+    publishers_name = my_serializer.serialize(publishers, fields=['name'])
+
+    return_json_data = {
+        'writers_name': writers_name,
+        'genres_name': genres_name,
+        'languages_name': languages_name,
+        'locations_name': locations_name,
+        'publishers_name': publishers_name,
+    }
+    return JsonResponse(return_json_data)
+
+
+class BookUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
+    model = Book
+    fields = ['name', 'description']
+    success_message = _(f"Information was updated successfully.")
+
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        context['update'] = True
+        return context
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
 
 
 # #########################
@@ -49,7 +128,8 @@ class GenreCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 class GenreUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = Genre
-    fields = ['name', 'description']
+    ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image' ]
+
     success_message = _(f"Information was updated successfully.")
 
     def get_context_data(self, **kwargs):
