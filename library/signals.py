@@ -9,19 +9,18 @@ from .models import Book, BookHistory, BookWriter, BookWriterHistory, Genre, Gen
 # #########################
 # Book
 # #########################
-@receiver(post_save, sender=Book)
+# @receiver(post_save, sender=Book)
 def create_book_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        BookHistory.objects.create(
-            editor=instance.creator,
+        BookHistory.objects.create(editor=instance.creator,
             book=instance,
             location=instance.location,
             publisher=instance.publisher,
-            #genres=instance,
-            #languages=instance,
-            #writers=instance,
+            genres=instance.genres.all,
+            languages=instance.languages.set,
+            writers=instance.writers.set,
             name=instance.name,
             description=instance.description,
             year=instance.year,
@@ -30,14 +29,12 @@ def create_book_history(sender, instance, created, **kwargs):
             part=instance.part,
             page_quantity=instance.page_quantity,
             is_copyright=instance.is_copyright,
-            image=instance.image,
-        )
+            image=instance.image,)
         # Dialect.objects.create(language=instance,
-
-
-@receiver(pre_save, sender=Book)
+# @receiver(pre_save, sender=Book)
 def update_book_history(sender, instance, **kwargs):
-    # check if any change happen or only clicked save without change, to not make history
+    # check if any change happen or only clicked save without change, to not
+    # make history
     # get object if is not first time creation
     old_record = Book.objects.filter(id=instance.id).first()
 
@@ -46,18 +43,18 @@ def update_book_history(sender, instance, **kwargs):
     if old_record:
         # check for similarity
         if old_record.is_same(instance):
-            # it means just clicked save without modification, so pass signal and do nothing
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
             pass
         else:
             # create history
-            BookHistory.objects.create(
-            editor=instance.creator,
+            BookHistory.objects.create(editor=instance.creator,
             book=instance,
             location=instance.location,
             publisher=instance.publisher,
-            #genres=instance,
-            #languages=instance,
-            #writers=instance,
+            genres=instance.genres.set,
+            languages=instance.language.set,
+            writers=instance.writers.set,
             name=instance.name,
             description=instance.description,
             year=instance.year,
@@ -66,8 +63,7 @@ def update_book_history(sender, instance, **kwargs):
             part=instance.part,
             page_quantity=instance.page_quantity,
             is_copyright=instance.is_copyright,
-            image=instance.image,
-        )
+            image=instance.image,)
 
 
 
@@ -81,17 +77,16 @@ def create_genre_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        GenreHistory.objects.create(
-            genre=instance,
+        GenreHistory.objects.create(genre=instance,
             editor=instance.creator,
             name=instance.name,
-            description=instance.description
-        )
+            description=instance.description)
 
 
 @receiver(pre_save, sender=Genre)
 def update_genre_history(sender, instance, **kwargs):
-    # check if any change happen or only clicked save without change, to not make history
+    # check if any change happen or only clicked save without change, to not
+    # make history
     # get object if is not first time creation
     old_record = Genre.objects.filter(id=instance.id).first()
 
@@ -100,16 +95,15 @@ def update_genre_history(sender, instance, **kwargs):
     if old_record:
         # check for similarity
         if is_same(old_record, instance):
-            # it means just clicked save without modification, so pass signal and do nothing
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
             pass
         else:
             # create history
-            GenreHistory.objects.create(
-                genre=instance,
+            GenreHistory.objects.create(genre=instance,
                 editor=instance.creator,
                 name=instance.name,
-                description=instance.description
-            )
+                description=instance.description)
 
 
 # #########################
@@ -120,17 +114,16 @@ def create_job_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        JobHistory.objects.create(
-            job=instance,
+        JobHistory.objects.create(job=instance,
             editor=instance.creator,
             name=instance.name,
-            description=instance.description
-        )
+            description=instance.description)
 
 
 @receiver(pre_save, sender=Job)
 def update_job_history(sender, instance, **kwargs):
-    # check if any change happen or only clicked save without change, to not make history
+    # check if any change happen or only clicked save without change, to not
+    # make history
     # get object if is not first time creation
     old_record = Job.objects.filter(id=instance.id).first()
 
@@ -139,16 +132,15 @@ def update_job_history(sender, instance, **kwargs):
     if old_record:
         # check for similarity
         if is_same(old_record, instance):
-            # it means just clicked save without modification, so pass signal and do nothing
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
             pass
         else:
             # create history
-            JobHistory.objects.create(
-                job=instance,
+            JobHistory.objects.create(job=instance,
                 editor=instance.creator,
                 name=instance.name,
-                description=instance.description
-            )
+                description=instance.description)
 
 
 # #########################
@@ -159,17 +151,16 @@ def create_location_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        LocationHistory.objects.create(
-            location=instance,
+        LocationHistory.objects.create(location=instance,
             editor=instance.creator,
             name=instance.name,
-            description=instance.description
-        )
+            description=instance.description)
 
 
 @receiver(pre_save, sender=Location)
 def update_location_history(sender, instance, **kwargs):
-    # check if any change happen or only clicked save without change, to not make history
+    # check if any change happen or only clicked save without change, to not
+    # make history
     # get object if is not first time creation
     old_record = Location.objects.filter(id=instance.id).first()
 
@@ -178,16 +169,15 @@ def update_location_history(sender, instance, **kwargs):
     if old_record:
         # check for similarity
         if is_same(old_record, instance):
-            # it means just clicked save without modification, so pass signal and do nothing
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
             pass
         else:
             # create history
-            LocationHistory.objects.create(
-                location=instance,
+            LocationHistory.objects.create(location=instance,
                 editor=instance.creator,
                 name=instance.name,
-                description=instance.description
-            )
+                description=instance.description)
 
 
 # #########################
@@ -198,18 +188,17 @@ def create_publisher_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        PublisherHistory.objects.create(
-            publisher=instance,
+        PublisherHistory.objects.create(publisher=instance,
             editor=instance.creator,
             name=instance.name,
             description=instance.description,
-            logo=instance.logo
-        )
+            logo=instance.logo)
 
 
 @receiver(pre_save, sender=Publisher)
 def update_publisher_history(sender, instance, **kwargs):
-    # check if any change happen or only clicked save without change, to not make history
+    # check if any change happen or only clicked save without change, to not
+    # make history
     # get object if is not first time creation
     old_record = Publisher.objects.filter(id=instance.id).first()
 
@@ -218,17 +207,16 @@ def update_publisher_history(sender, instance, **kwargs):
     if old_record:
         # check for similarity
         if is_same(old_record, instance):
-            # it means just clicked save without modification, so pass signal and do nothing
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
             pass
         else:
             # create history
-            PublisherHistory.objects.create(
-                publisher=instance,
+            PublisherHistory.objects.create(publisher=instance,
                 editor=instance.creator,
                 name=instance.name,
                 description=instance.description,
-                logo=instance.logo
-            )
+                logo=instance.logo)
 
 
 # #########################
@@ -239,20 +227,19 @@ def create_writer_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        WriterHistory.objects.create(
-            writer=instance,
+        WriterHistory.objects.create(writer=instance,
             editor=instance.creator,
             name=instance.name,
             born_date=instance.born_date,
             died_date=instance.died_date,
             profile=instance.profile,
-            image=instance.image
-        )
+            image=instance.image)
 
 
 @receiver(pre_save, sender=Writer)
 def update_writer_history(sender, instance, **kwargs):
-    # check if any change happen or only clicked save without change, to not make history
+    # check if any change happen or only clicked save without change, to not
+    # make history
     # get object if is not first time creation
     old_record = Writer.objects.filter(id=instance.id).first()
 
@@ -261,18 +248,17 @@ def update_writer_history(sender, instance, **kwargs):
     if old_record:
         # check for similarity
         if is_same(old_record, instance):
-            # it means just clicked save without modification, so pass signal and do nothing
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
             pass
         else:
             # create history
-            WriterHistory.objects.create(
-                writer=instance,
+            WriterHistory.objects.create(writer=instance,
                 editor=instance.creator,
                 name=instance.name,
                 born_date=instance.born_date,
                 died_date=instance.died_date,
                 profile=instance.profile,
-                image=instance.image
-            )
+                image=instance.image)
 
 

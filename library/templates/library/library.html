@@ -9,53 +9,52 @@
 
 
 {% block content %}
-    <!-- breadcrumb -->
-    <ul class="breadcrumb">
-        {# Translators: Breadcrumb link. #}
-        {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
-        {# Translators: Breadcrumb link. #}
-        {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item active">{% trans 'Library' %}</li>
-    </ul>
+<!-- breadcrumb -->
+<ul class="breadcrumb">
+    {# Translators: Breadcrumb link. #}
+    {# Translators: لینکی برید کرەمب. #}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+    {# Translators: Breadcrumb link. #}
+    {# Translators: لینکی برید کرەمب. #}
+    <li class="breadcrumb-item active">{% trans 'Library' %}</li>
+</ul>
 
-    <!-- Part buttos -->
-    <div>
-        <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'writer-list' %}">{% trans 'Writers' %}</a>
-        <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'job-list' %}">{% trans 'Jobs' %}</a>
-        <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'genre-list' %}">{% trans 'Genres' %}</a>
-        <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'publisher-list' %}">{% trans 'Publishers' %}</a>
-        <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'location-list' %}">{% trans 'Locations' %}</a>
-    </div>
+<!-- Part buttos -->
+<div>
+    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'writer-list' %}">{% trans 'Writers' %}</a>
+    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'job-list' %}">{% trans 'Jobs' %}</a>
+    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'genre-list' %}">{% trans 'Genres' %}</a>
+    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'publisher-list' %}">{% trans 'Publishers' %}</a>
+    <a class="btn btn-info btn-sm mt-1 mb-1" href="{% url 'location-list' %}">{% trans 'Locations' %}</a>
+</div>
 
-    <!-- title -->
+<!-- title -->
     {# Translators: Start title. #}
     {# Translators: تایتڵی سەرەتا. #}
-    <h1>{% trans 'Library' %}:</h1>
+<h1>{% trans 'Library' %}:</h1>
 
-    <!-- Button to add new item-->
-    <div>
-        {# Translators: Button title. #}
-        {# Translators: تایتڵی دوگمە. #}
-        <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'book-create' %}">{% trans 'Add Book' %}</a>
+<!-- Button to add new item-->
+<div>
+    {# Translators: Button title. #}
+    {# Translators: تایتڵی دوگمە. #}
+    <a class="btn btn-outline-info btn-sm mb-1" href="{% url 'book-create' %}">{% trans 'Add Book' %}</a>
+</div>
+
+
+<!-- content -->
+    {% for book in books %}
+<article class="media content-section">
+    <div class="media-body">
+        <div class="article-metadata">
+            <h2>
+                <a class="mr-2" href="{% url 'book-detail' book.id %}">{{ book.name }}</a>
+            </h2>
+            <small class="text-muted">book writer</small>
+        </div>
     </div>
-
-
-    <!-- content -->
-    <!-- 
-    {% for language in languages %}
-        <article class="media content-section">
-            <div class="media-body">
-                <div class="article-metadata">
-                    <h2>
-                        <a class="mr-2" href="{% url 'language-detail' language.id %}">{{ language.name }}</a>
-                    </h2>
-                    <small class="text-muted">{{ language.native_name }}</small>
-                </div>
-            </div>
-        </article>
+</article>
     {% endfor %}
-    -->
+
 
 {% endblock content %}
 
