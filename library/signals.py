@@ -2,7 +2,8 @@ from django.db.models.signals import post_save, pre_save
 from django.dispatch import receiver
 
 from global_functions import is_same
-from .models import Book, BookHistory, BookWriter, BookWriterHistory, Genre, GenreHistory, Job, JobHistory, Location, \
+from .models import Book, BookHistory, BookWriter, BookWriterHistory, Page, PageHistory, Paragraph, ParagraphHistory, \
+    Genre, GenreHistory, Job, JobHistory, Location, \
     LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
 
 
@@ -14,22 +15,25 @@ def create_book_history(sender, instance, created, **kwargs):
     # if new object created then make history
     if created:
         # create history
-        BookHistory.objects.create(editor=instance.creator,
-                                   book=instance,
-                                   location=instance.location,
-                                   publisher=instance.publisher,
-                                   genres=instance.genres.all,
-                                   languages=instance.languages.set,
-                                   writers=instance.writers.set,
-                                   name=instance.name,
-                                   description=instance.description,
-                                   year=instance.year,
-                                   edition_number=instance.edition_number,
-                                   volume=instance.volume,
-                                   part=instance.part,
-                                   page_quantity=instance.page_quantity,
-                                   is_copyright=instance.is_copyright,
-                                   image=instance.image, )
+        BookHistory.objects.create(
+            editor=instance.creator,
+
+            book=instance,
+            location=instance.location,
+            publisher=instance.publisher,
+            genres=instance.genres.all,
+            languages=instance.languages.set,
+            writers=instance.writers.set,
+            name=instance.name,
+            description=instance.description,
+            year=instance.year,
+            edition_number=instance.edition_number,
+            volume=instance.volume,
+            part=instance.part,
+            page_quantity=instance.page_quantity,
+            is_copyright=instance.is_copyright,
+            image=instance.image,
+        )
         # Dialect.objects.create(language=instance,
 
 
@@ -66,6 +70,98 @@ def update_book_history(sender, instance, **kwargs):
                                        page_quantity=instance.page_quantity,
                                        is_copyright=instance.is_copyright,
                                        image=instance.image, )
+
+
+# #########################
+# Page
+# #########################
+@receiver(post_save, sender=Page)
+def create_page_history(sender, instance, created, **kwargs):
+    # if new object created then make history
+    if created:
+        # create history
+        PageHistory.objects.create(
+            page=instance,
+            editor=instance.creator,
+            number=instance.number,
+            page_type=instance.page_type,
+            preview_page=instance.preview_page,
+            is_blank=instance.is_blank,
+            is_finished=instance.is_finished,
+            image=instance.image,
+        )
+
+
+@receiver(pre_save, sender=Page)
+def update_page_history(sender, instance, **kwargs):
+    # check if any change happen or only clicked save without change, to not
+    # make history
+    # get object if is not first time creation
+    old_record = Page.objects.filter(id=instance.id).first()
+
+    # if exist , it means we create history for updated changes
+    # we will create history only in update
+    if old_record:
+        # check for similarity
+        if is_same(old_record, instance):
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
+            pass
+        else:
+            # create history
+            PageHistory.objects.create(
+                page=instance,
+                editor=instance.creator,
+                number=instance.number,
+                page_type=instance.page_type,
+                preview_page=instance.preview_page,
+                is_blank=instance.is_blank,
+                is_finished=instance.is_finished,
+                image=instance.image,
+            )
+
+
+# #########################
+# Paragraph
+# #########################
+@receiver(post_save, sender=Paragraph)
+def create_paragraph_history(sender, instance, created, **kwargs):
+    # if new object created then make history
+    if created:
+        # create history
+        ParagraphHistory.objects.create(
+            paragraph=instance,
+            editor=instance.creator,
+            text=instance.text,
+            preview_paragraph=instance.preview_paragraph,
+            tail_paragraph=instance.tail_paragraph,
+        )
+
+
+@receiver(pre_save, sender=Paragraph)
+def update_paragraph_history(sender, instance, **kwargs):
+    # check if any change happen or only clicked save without change, to not
+    # make history
+    # get object if is not first time creation
+    old_record = Paragraph.objects.filter(id=instance.id).first()
+
+    # if exist , it means we create history for updated changes
+    # we will create history only in update
+    if old_record:
+        # check for similarity
+        if is_same(old_record, instance):
+            # it means just clicked save without modification, so pass signal
+            # and do nothing
+            pass
+        else:
+            # create history
+            ParagraphHistory.objects.create(
+                paragraph=instance,
+                editor=instance.creator,
+                text=instance.text,
+                preview_paragraph=instance.preview_paragraph,
+                tail_paragraph=instance.tail_paragraph,
+            )
 
 
 # #########################
