@@ -9,10 +9,13 @@ from django.utils.translation import ugettext as _
 
 from global_functions import CleanSerializer
 
-from .models import Book, BookHistory, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
+from .models import Book, BookHistory, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, \
+    PublisherHistory, Writer, WriterHistory
 from language.models import Language
 
 from .forms import BookCreateForm
+
+
 # #########################
 # Library
 # #########################
@@ -39,7 +42,8 @@ def book_histories(request, pk):
 
 class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Book
-    fields = ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image']
+    fields = ['location', 'publisher', 'genres', 'languages', 'writers', 'name', 'description', 'year',
+              'edition_number', 'volume', 'part', 'page_quantity', 'is_copyright', 'image']
     # form_class=BookCreateForm
     success_message = _(f'New book was created successfully.')
 
@@ -51,10 +55,10 @@ class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 def book_form_datas(request):
     writers = Writer.objects.all().order_by('name')
     my_serializer = CleanSerializer()
-    writers_name = my_serializer.serialize(writers ,fields=['name'])
+    writers_name = my_serializer.serialize(writers, fields=['name'])
     #
     genres = Genre.objects.all().order_by('name')
-    genres_name = my_serializer.serialize(genres ,fields=['name'])
+    genres_name = my_serializer.serialize(genres, fields=['name'])
     #
     languages = Language.objects.all().order_by('name')
     languages_name = my_serializer.serialize(languages, fields=['name'])
@@ -77,7 +81,8 @@ def book_form_datas(request):
 
 class BookUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = Book
-    fields = ['name', 'description']
+    fields = ['location', 'publisher', 'genres', 'languages', 'writers', 'name', 'description', 'year',
+              'edition_number', 'volume', 'part', 'page_quantity', 'is_copyright', 'image']
     success_message = _(f"Information was updated successfully.")
 
     def get_context_data(self, **kwargs):
@@ -90,7 +95,6 @@ class BookUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
-
 
 
 # #########################
@@ -128,7 +132,8 @@ class GenreCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
 
 class GenreUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     model = Genre
-    ['location','publisher','genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number', 'volume', 'part', 'page_quantity','is_copyright','image']
+    ['location', 'publisher', 'genres', 'languages', 'writers', 'name', 'description', 'year', 'edition_number',
+     'volume', 'part', 'page_quantity', 'is_copyright', 'image']
 
     success_message = _(f"Information was updated successfully.")
 

@@ -3,7 +3,7 @@ from django.dispatch import receiver
 
 from global_functions import is_same
 from .models import Book, BookHistory, BookWriter, BookWriterHistory, Genre, GenreHistory, Job, JobHistory, Location, \
-    LocationHistory,  Publisher, PublisherHistory, Writer,  WriterHistory
+    LocationHistory, Publisher, PublisherHistory, Writer, WriterHistory
 
 
 # #########################
@@ -15,22 +15,24 @@ def create_book_history(sender, instance, created, **kwargs):
     if created:
         # create history
         BookHistory.objects.create(editor=instance.creator,
-            book=instance,
-            location=instance.location,
-            publisher=instance.publisher,
-            genres=instance.genres.all,
-            languages=instance.languages.set,
-            writers=instance.writers.set,
-            name=instance.name,
-            description=instance.description,
-            year=instance.year,
-            edition_number=instance.edition_number,
-            volume=instance.volume,
-            part=instance.part,
-            page_quantity=instance.page_quantity,
-            is_copyright=instance.is_copyright,
-            image=instance.image,)
+                                   book=instance,
+                                   location=instance.location,
+                                   publisher=instance.publisher,
+                                   genres=instance.genres.all,
+                                   languages=instance.languages.set,
+                                   writers=instance.writers.set,
+                                   name=instance.name,
+                                   description=instance.description,
+                                   year=instance.year,
+                                   edition_number=instance.edition_number,
+                                   volume=instance.volume,
+                                   part=instance.part,
+                                   page_quantity=instance.page_quantity,
+                                   is_copyright=instance.is_copyright,
+                                   image=instance.image, )
         # Dialect.objects.create(language=instance,
+
+
 # @receiver(pre_save, sender=Book)
 def update_book_history(sender, instance, **kwargs):
     # check if any change happen or only clicked save without change, to not
@@ -49,24 +51,21 @@ def update_book_history(sender, instance, **kwargs):
         else:
             # create history
             BookHistory.objects.create(editor=instance.creator,
-            book=instance,
-            location=instance.location,
-            publisher=instance.publisher,
-            genres=instance.genres.set,
-            languages=instance.language.set,
-            writers=instance.writers.set,
-            name=instance.name,
-            description=instance.description,
-            year=instance.year,
-            edition_number=instance.edition_number,
-            volume=instance.volume,
-            part=instance.part,
-            page_quantity=instance.page_quantity,
-            is_copyright=instance.is_copyright,
-            image=instance.image,)
-
-
-
+                                       book=instance,
+                                       location=instance.location,
+                                       publisher=instance.publisher,
+                                       genres=instance.genres.set,
+                                       languages=instance.language.set,
+                                       writers=instance.writers.set,
+                                       name=instance.name,
+                                       description=instance.description,
+                                       year=instance.year,
+                                       edition_number=instance.edition_number,
+                                       volume=instance.volume,
+                                       part=instance.part,
+                                       page_quantity=instance.page_quantity,
+                                       is_copyright=instance.is_copyright,
+                                       image=instance.image, )
 
 
 # #########################
@@ -78,9 +77,9 @@ def create_genre_history(sender, instance, created, **kwargs):
     if created:
         # create history
         GenreHistory.objects.create(genre=instance,
-            editor=instance.creator,
-            name=instance.name,
-            description=instance.description)
+                                    editor=instance.creator,
+                                    name=instance.name,
+                                    description=instance.description)
 
 
 @receiver(pre_save, sender=Genre)
@@ -101,9 +100,9 @@ def update_genre_history(sender, instance, **kwargs):
         else:
             # create history
             GenreHistory.objects.create(genre=instance,
-                editor=instance.creator,
-                name=instance.name,
-                description=instance.description)
+                                        editor=instance.creator,
+                                        name=instance.name,
+                                        description=instance.description)
 
 
 # #########################
@@ -115,9 +114,9 @@ def create_job_history(sender, instance, created, **kwargs):
     if created:
         # create history
         JobHistory.objects.create(job=instance,
-            editor=instance.creator,
-            name=instance.name,
-            description=instance.description)
+                                  editor=instance.creator,
+                                  name=instance.name,
+                                  description=instance.description)
 
 
 @receiver(pre_save, sender=Job)
@@ -138,9 +137,9 @@ def update_job_history(sender, instance, **kwargs):
         else:
             # create history
             JobHistory.objects.create(job=instance,
-                editor=instance.creator,
-                name=instance.name,
-                description=instance.description)
+                                      editor=instance.creator,
+                                      name=instance.name,
+                                      description=instance.description)
 
 
 # #########################
@@ -152,9 +151,9 @@ def create_location_history(sender, instance, created, **kwargs):
     if created:
         # create history
         LocationHistory.objects.create(location=instance,
-            editor=instance.creator,
-            name=instance.name,
-            description=instance.description)
+                                       editor=instance.creator,
+                                       name=instance.name,
+                                       description=instance.description)
 
 
 @receiver(pre_save, sender=Location)
@@ -175,9 +174,9 @@ def update_location_history(sender, instance, **kwargs):
         else:
             # create history
             LocationHistory.objects.create(location=instance,
-                editor=instance.creator,
-                name=instance.name,
-                description=instance.description)
+                                           editor=instance.creator,
+                                           name=instance.name,
+                                           description=instance.description)
 
 
 # #########################
@@ -189,10 +188,10 @@ def create_publisher_history(sender, instance, created, **kwargs):
     if created:
         # create history
         PublisherHistory.objects.create(publisher=instance,
-            editor=instance.creator,
-            name=instance.name,
-            description=instance.description,
-            logo=instance.logo)
+                                        editor=instance.creator,
+                                        name=instance.name,
+                                        description=instance.description,
+                                        logo=instance.logo)
 
 
 @receiver(pre_save, sender=Publisher)
@@ -213,10 +212,10 @@ def update_publisher_history(sender, instance, **kwargs):
         else:
             # create history
             PublisherHistory.objects.create(publisher=instance,
-                editor=instance.creator,
-                name=instance.name,
-                description=instance.description,
-                logo=instance.logo)
+                                            editor=instance.creator,
+                                            name=instance.name,
+                                            description=instance.description,
+                                            logo=instance.logo)
 
 
 # #########################
@@ -228,12 +227,12 @@ def create_writer_history(sender, instance, created, **kwargs):
     if created:
         # create history
         WriterHistory.objects.create(writer=instance,
-            editor=instance.creator,
-            name=instance.name,
-            born_date=instance.born_date,
-            died_date=instance.died_date,
-            profile=instance.profile,
-            image=instance.image)
+                                     editor=instance.creator,
+                                     name=instance.name,
+                                     born_date=instance.born_date,
+                                     died_date=instance.died_date,
+                                     profile=instance.profile,
+                                     image=instance.image)
 
 
 @receiver(pre_save, sender=Writer)
@@ -254,11 +253,9 @@ def update_writer_history(sender, instance, **kwargs):
         else:
             # create history
             WriterHistory.objects.create(writer=instance,
-                editor=instance.creator,
-                name=instance.name,
-                born_date=instance.born_date,
-                died_date=instance.died_date,
-                profile=instance.profile,
-                image=instance.image)
-
-
+                                         editor=instance.creator,
+                                         name=instance.name,
+                                         born_date=instance.born_date,
+                                         died_date=instance.died_date,
+                                         profile=instance.profile,
+                                         image=instance.image)
