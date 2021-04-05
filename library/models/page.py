@@ -31,7 +31,7 @@ class Page(models.Model):
         on_delete=models.PROTECT,
         related_name='pages',
         related_query_name='page',
-        verbose_name=_('Location Id')
+        verbose_name=_('Book Id')
     )
 
     # Fields
@@ -46,11 +46,10 @@ class Page(models.Model):
         default=1,
         help_text=_("Type of page.")
     )
-    preview_page = models.IntegerField(
+    preview_page = models.BigIntegerField(
         _('Preview Page'),
-        unique=True,
         default=0,
-        help_text=_("Number of page this page will come after.")
+        help_text=_("Number of page that this page will come after it.")
     )
     is_blank = models.BooleanField(
         _('Is blank?'),
@@ -116,7 +115,7 @@ class PageHistory(models.Model):
         on_delete=models.CASCADE,
         related_name='page_histories',
         related_query_name='page_history',
-        verbose_name=_('Location Id'))
+        verbose_name=_('Page Id'))
 
     # Fields
     number = models.CharField(
@@ -130,9 +129,8 @@ class PageHistory(models.Model):
         default=1,
         help_text=_("Type of page.")
     )
-    preview_page = models.IntegerField(
+    preview_page = models.BigIntegerField(
         _('Preview Page'),
-        unique=True,
         default=0,
         help_text=_("Number of page this page will come after.")
     )
