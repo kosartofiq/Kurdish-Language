@@ -10,7 +10,7 @@ from .book import Book
 
 PAGE_TYPES = (
     (1, _('Page')),
-    (2, _('Page')),
+    (2, _('Cover')),
 )
 
 
