@@ -4,128 +4,129 @@
 {% block title %}
     {# Translators: Page title. #}
     {# Translators: تایتڵی پەڕە. #}
-    {{ writer.name }}
+{{ writer.name }}
 {% endblock title %}
 
 
 {% block content %}
-    <!-- breadcrumb -->
-    <ul class="breadcrumb">
-        {# Translators: Breadcrumb link. #}
-        {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
-        {# Translators: Breadcrumb link. #}
-        {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
-        {# Translators: Breadcrumb link. #}
-        {# Translators: لینکی برید کرەمب. #}
-        <li class="breadcrumb-item active">{{ book.name }}</li>
-    </ul>
+<!-- breadcrumb -->
+<ul class="breadcrumb">
+    {# Translators: Breadcrumb link. #}
+    {# Translators: لینکی برید کرەمب. #}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">{% trans 'Home' %}</a></li>
+    {# Translators: Breadcrumb link. #}
+    {# Translators: لینکی برید کرەمب. #}
+    <li class="breadcrumb-item"><a href="{% url 'library' %}">{% trans 'Library' %}</a></li>
+    {# Translators: Breadcrumb link. #}
+    {# Translators: لینکی برید کرەمب. #}
+    <li class="breadcrumb-item active">{{ book.name }}</li>
+</ul>
 
-    <h1>{% trans 'Book' %}:</h1>
-    <!-- Nav tabs -->
-    <ul class="nav nav-tabs nav-justified" role="tablist">
-        <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#detail">{% trans 'Detail' %}</a>
-        </li>
-        <li id="history_tab" class="nav-item">
-            <a  class="nav-link" data-toggle="tab" href="#history">{% trans "History" %}</a>
-        </li>
-    </ul>
+<h1>{% trans 'Book' %}:</h1>
+<!-- Nav tabs -->
+<ul class="nav nav-tabs nav-justified" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#detail">{% trans 'Detail' %}</a>
+    </li>
+    <li id="history_tab" class="nav-item">
+        <a class="nav-link" data-toggle="tab" href="#history">{% trans "History" %}</a>
+    </li>
+</ul>
 
-    <!-- Tab panes -->
-    <div class="tab-content">
-        <div id="detail" class="tab-pane active">
-            <article class="media content-section">
-                {% load thumbnail %}
-                {% thumbnail book.image "125x125" crop="center" as im %}
-                    <!-- link to Open the Modal -->
-                    <a role="button" data-toggle="modal" data-target="#book{{ book.id }}">
-                        <img class="rounded-circle article-img" src="{{im.url}}">
-                    </a>
-                {% endthumbnail %}
-                <div class="media-body">
-                    <div class="article-metadata">
-                        {% trans "Created by" %}:
-                        <a class="mr-2" href="#">{{ book.creator.first_name }} {{book.creator.last_name}}</a>
-                        {# Translators: For determine date. #}
-                        {# Translators: بۆ دیاریکردنی بەروار (لە). #}
-                        <small class="text-muted">{% trans 'in' %} {{ book.timestamp|date:"d/m/Y - H:i:s" }}</small>
-                        <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'book-update' book.id %}">{% trans "Update" %}</a>
-                        <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %}</a>
-                    </div>
-                    <h2 class="article-title">{{ book.name }}</h2>
-                    <small class="text-muted">{% trans "Writer" %}: {{ book.writer }} (book.job)</small>
-                    <br>
-                    <small class="text-muted">{% trans "Location" %}: {{ book.location }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Publisher" %}: {{ book.publisher }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Genre" %}: {{ book.genre }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Language" %}: {{ book.language }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Year" %}: {{ book.year|date:"Y"}}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Edition Number" %}: {{ book.edition_number }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Volume" %}: {{ book.volume }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "part" %}: {{ book.part }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Page Quantity" %}: {{ book.page_quantity }}</small>
-                    <br>
-                    <small class="text-muted">{% trans "Is copyright?" %}: {{ book.is_copyright }}</small>
-                    <p class="article-content">{% trans "Description" %}:
-                        <small class="text-muted">{{ book.description }}</small>
-                    </p>
+<!-- Tab panes -->
+<div class="tab-content">
+    <div id="detail" class="tab-pane active">
+        <article class="media content-section">
+            {% load thumbnail %}
+            {% thumbnail book.image "125x125" crop="center" as im %}
+            <!-- link to Open the Modal -->
+            <a role="button" data-toggle="modal" data-target="#book{{ book.id }}">
+                <img class="rounded-circle article-img" src="{{im.url}}">
+            </a>
+            {% endthumbnail %}
+            <div class="media-body">
+                <div class="article-metadata">
+                    {% trans "Created by" %}:
+                    <a class="mr-2" href="#">{{ book.creator.first_name }} {{book.creator.last_name}}</a>
+                    {# Translators: For determine date. #}
+                    {# Translators: بۆ دیاریکردنی بەروار (لە). #}
+                    <small class="text-muted">{% trans 'in' %} {{ book.timestamp|date:"d/m/Y - H:i:s" }}</small>
+                    <a class="btn btn-outline-secondary btn-sm mt-1 mb-1" href="{% url 'book-update' book.id %}">{% trans "Update" %}</a>
+                    <a class="btn btn-outline-danger btn-sm mt-1 mb-1 float-right" href="#">{% trans "Report" %}</a>
                 </div>
-            </article>
-        </div>
-
-        <div id="history" class="tab-pane fade"><br>
-            <div class="spinner-grow text-muted"></div>
-            <div class="spinner-grow text-primary"></div>
-            <div class="spinner-grow text-success"></div>
-            <div class="spinner-grow text-info"></div>
-            <div class="spinner-grow text-warning"></div>
-            <div class="spinner-grow text-danger"></div>
-            <div class="spinner-grow text-secondary"></div>
-            <div class="spinner-grow text-dark"></div>
-            <div class="spinner-grow text-light"></div>
-        </div>
+                <h2 class="article-title">{{ book.name }}</h2>
+                <small class="text-muted">{% trans "Writer" %}: {{ book.writer }} (book.job)</small>
+                <br>
+                <small class="text-muted">{% trans "Location" %}: {{ book.location }}</small>
+                <br>
+                <small class="text-muted">{% trans "Publisher" %}: {{ book.publisher }}</small>
+                <br>
+                <small class="text-muted">{% trans "Genre" %}: {{ book.genre }}</small>
+                <br>
+                <small class="text-muted">{% trans "Language" %}: {{ book.language }}</small>
+                <br>
+                <small class="text-muted">{% trans "Year" %}: {{ book.year|date:"Y"}}</small>
+                <br>
+                <small class="text-muted">{% trans "Edition Number" %}: {{ book.edition_number }}</small>
+                <br>
+                <small class="text-muted">{% trans "Volume" %}: {{ book.volume }}</small>
+                <br>
+                <small class="text-muted">{% trans "part" %}: {{ book.part }}</small>
+                <br>
+                <small class="text-muted">{% trans "Page Quantity" %}: {{ book.page_quantity }}</small>
+                <br>
+                <small class="text-muted">{% trans "Is copyright?" %}: {{ book.is_copyright }}</small>
+                <p class="article-content">
+                    {% trans "Description" %}:
+                    <small class="text-muted">{{ book.description }}</small>
+                </p>
+            </div>
+        </article>
     </div>
 
-    <!-- The Modal -->
-    <div class="modal fade" id="book{{ book.id }}">
-        <div class="modal-dialog modal-l">
-            <div class="modal-content">
+    <div id="history" class="tab-pane fade">
+        <br>
+        <div class="spinner-grow text-muted"></div>
+        <div class="spinner-grow text-primary"></div>
+        <div class="spinner-grow text-success"></div>
+        <div class="spinner-grow text-info"></div>
+        <div class="spinner-grow text-warning"></div>
+        <div class="spinner-grow text-danger"></div>
+        <div class="spinner-grow text-secondary"></div>
+        <div class="spinner-grow text-dark"></div>
+        <div class="spinner-grow text-light"></div>
+    </div>
+</div>
 
-                <!-- Modal Header -->
-                <div class="modal-header">
-                    <h4 class="modal-title">{{ book.name }}</h4>
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                </div>
+<!-- The Modal -->
+<div class="modal fade" id="book{{ book.id }}">
+    <div class="modal-dialog modal-l">
+        <div class="modal-content">
 
-                <!-- Modal body -->
-                <div class="modal-body">
-                    <img src="{{ book.image.url }}" class="rounded img-fluid">
-                </div>
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{ book.name }}</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
 
-                <!-- Modal footer -->
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-danger" data-dismiss="modal">{% trans "Close" %}</button>
-                </div>
+            <!-- Modal body -->
+            <div class="modal-body">
+                <img src="{{ book.image.url }}" class="rounded img-fluid">
+            </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">{% trans "Close" %}</button>
             </div>
         </div>
     </div>
+</div>
 
 <!------------------------------------------------------------->
 <!------------------------------------------------------------->
 <!------------------------------------------------------------->
 <!------------------------------------------------------------->
-
-<!-- Page Nav tabs -->
+<!---------------- Page Nav tabs ------------------------------>
 <h1>{% trans 'Pages' %}:</h1>
 
 <!-- Nav tabs -->
@@ -134,7 +135,7 @@
         <a class="nav-link active" data-toggle="tab" href="#page_detail">{% trans 'Detail' %}</a>
     </li>
     <li id="page_history_tab" class="nav-item">
-        <a  class="nav-link" data-toggle="tab" href="#page_history">{% trans "History" %}</a>
+        <a class="nav-link" data-toggle="tab" href="#page_history">{% trans "History" %}</a>
     </li>
 </ul>
 
@@ -144,17 +145,43 @@
         <article class="media content-section">
             <div class="media-body">
                 <p>{% trans 'Page' %}:</p>
+                <span class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="addPage()"><i class="bi bi-file-earmark-plus"></i></button>
+                    <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-pencil-square"></i></button>
+                    <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-up"></i></button>
+                    <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-down"></i></button>
+                </span>
 
-                <select name="Cars" size="5">
-                    <option value="Merceders"> Mercederjkjkjkh<a href="#" clas</option>
-                    <option value="BMW"> BMW </option>
+                <div class="row">
+                    <div class="col-2">
+                        <div class="list-group" id="page-list-tab" role="tablist" style="overflow:auto; height: 400px;">
+                            {% for page in pages %}
+                            <a class="list-group-item list-group-item-action" id="page{{ page.number }}list" data-toggle="list" href="#page{{ page.number }}" role="tab">
+                                {{ page.number }}
+                            </a>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="col-10">
 
-                </select>
+                        <div class="tab-content" id="page-content-tab">
+                            {% for page in pages %}
+                            <div class="tab-pane fade" id="page{{ page.number }}" role="tabpanel">{{ page.number }} >>> page content.</div>
+                            {% endfor %}
+                        </div>
+
+
+                    </div>
+                </div>
+
+
+
             </div>
         </article>
     </div>
 
-    <div id="page_history" class="tab-pane fade"><br>
+    <div id="page_history" class="tab-pane fade">
+        <br>
         <div class="spinner-grow text-muted"></div>
         <div class="spinner-grow text-primary"></div>
         <div class="spinner-grow text-success"></div>
@@ -172,18 +199,65 @@
 
 
 {% block javascript %}
-    <script>
-        $(document).ready(function(){
-            $("#history_tab").click(function(){
-                $.ajax({
-                    url: "{% url 'book-histories' book.pk %}",
-                    dataType: 'json',
-                    success: function(returned_data){
-                        $('#history').html(returned_data.histories_html)
-                    }
-                });
-
+<script>
+    $(document).ready(function () {
+        $("#history_tab").click(function () {
+            $.ajax({
+                url: "{% url 'book-histories' book.pk %}",
+                dataType: 'json',
+                success: function (returned_data) {
+                    $('#history').html(returned_data.histories_html)
+                }
             });
         });
-    </script>
+
+
+
+    });
+
+    function addPage() {
+        $.ajax({
+            url: "{% url 'page-create' book.pk %}",
+            dataType: 'json',
+            success: function (returned_data) {
+                console.log("load add page form succeed");
+                $('#page-content-tab').html(returned_data.form);
+                // when load page creation form add event
+                const form = document.getElementById('page-form');
+                form.addEventListener("submit", submitHandler);
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                console.log(xhr);
+            }
+
+
+        });
+    };
+
+    function submitHandler(e){
+        e.preventDefault();
+        $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'page-create' book.id %}",
+            data: $("#page-form").serialize(),
+            dataType:'json',
+            success: function(data){
+                if (data.msg === 'Success'){
+                    alert('Form is submitted');
+                } 
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                console.log(xhr);
+            }
+        })
+    }
+
+
+    
+</script>
 {% endblock javascript %}
+
+

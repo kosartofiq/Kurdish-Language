@@ -1,0 +1,20 @@
+{% load i18n %}
+{% load crispy_forms_tags %}
+
+<div class="content-section">
+    <form method="post" id="page-form">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            {# Translators: Start title. #}
+            {# Translators: تایتڵی سەرەتا. #}
+            <legend class="border-bottom mb-4">{% if update %}{% trans 'Update page' %}{% else %}{% trans 'Add new page' %}{% endif %}:</legend>
+            {{ form|crispy }}
+            {# Translators: Button title. #}
+            {# Translators: تایتڵی دوگمە. #}
+            <a class="btn btn-outline-secondary" href="{% if update %}{% url 'job-detail' job.id %}{% else %}{% url 'job-list' %}{% endif %}">{% trans 'Cancel' %}</a>
+            {# Translators: Button title. #}
+            {# Translators: تایتڵی دوگمە. #}
+            <button class="btn btn-outline-success" type="submit">{% if update %}{% trans 'Update' %}{% else %}{% trans 'Create' %}{% endif %}</button>
+        </fieldset>
+    </form>
+</div>

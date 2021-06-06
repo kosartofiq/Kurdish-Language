@@ -1,7 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Book
+from .models import Book, Page
 
 
 class BookCreateForm(forms.ModelForm):
@@ -28,9 +28,9 @@ class BookCreateForm(forms.ModelForm):
 
     class Meta:
         model = Book
-        fields = ['name', 'writers', 'genres', 'languages', 'location', 'publisher', 'page_quantity', 'is_copyright', 'image', 'description', 'edition_number', 'volume', 'part' ]
-    
- 
+        fields = ['name', 'writers', 'genres', 'languages', 'location', 'publisher', 'page_quantity', 'is_copyright',
+                  'image', 'description', 'edition_number', 'volume', 'part']
+
     '''
     # this function will be used for the validation
     def clean(self):
@@ -44,3 +44,9 @@ class BookCreateForm(forms.ModelForm):
         # return any errors if found
         return self.cleaned_data
     '''
+
+
+class PageCreateForm(forms.ModelForm):
+    class Meta:
+        model = Page
+        fields = ['number', 'page_type', 'is_blank', 'is_finished', 'image']

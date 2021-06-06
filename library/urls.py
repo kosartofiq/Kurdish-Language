@@ -1,8 +1,7 @@
 from django.urls import path
 from . import views
 
-urlpatterns = [
-    # library
+urlpatterns = [# library
     path('', views.LibraryListView.as_view(), name='library'),
     path('book/<int:pk>/', views.BookDetailView.as_view(), name='book-detail'),
     path('book/<int:pk>/histories/', views.book_histories, name='book-histories'),
@@ -11,6 +10,9 @@ urlpatterns = [
 
     path('book_form_datas/', views.book_form_datas, name='book-form-datas'),
 
+    # page
+    path('book/<int:book_pk>/page/new', views.page_create, name='page-create'),
+    path('pagee/new', views.pageadd.as_view()),
 
     # genre
     path('genre/', views.GenreListView.as_view(), name='genre-list'),
@@ -45,6 +47,4 @@ urlpatterns = [
     path('writer/<int:pk>/', views.WriterDetailView.as_view(), name='writer-detail'),
     path('writer/<int:pk>/histories/', views.writer_histories, name='writer-histories'),
     path('writer/new/', views.WriterCreateView.as_view(), name='writer-create'),
-    path('writer/<int:pk>/update', views.WriterUpdateView.as_view(), name='writer-update'),
-
-]
+    path('writer/<int:pk>/update', views.WriterUpdateView.as_view(), name='writer-update'),]

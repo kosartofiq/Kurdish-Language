@@ -1,19 +1,24 @@
-from django.shortcuts import render
+from library.models import book
+from django import forms
+from django.core.serializers import serialize
+from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
 from django.contrib.messages.views import SuccessMessageMixin
 from django.template.loader import render_to_string
 from django.http import JsonResponse
+import json
 from django.utils.translation import ugettext as _
 
 from global_functions import CleanSerializer
+from language import models
 
-from .models import Book, BookHistory, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, \
+from .models import Book, BookHistory, Page, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, \
     PublisherHistory, Writer, WriterHistory
 from language.models import Language
 
-from .forms import BookCreateForm
+from .forms import BookCreateForm, PageCreateForm
 
 
 # #########################
@@ -29,6 +34,14 @@ class LibraryListView(ListView):
 class BookDetailView(DetailView):
     model = Book
 
+    def get_context_data(self, **kwargs):
+        # Call the base implementation first to get a context
+        context = super().get_context_data(**kwargs)
+        # Add in a QuerySet of all the books
+        book = Book.objects.get(pk=self.kwargs['pk'])
+        context['pages'] = Page.objects.filter(book=book)
+        return context
+
 
 def book_histories(request, pk):
     book = Book.objects.get(pk=pk)
@@ -39,6 +52,40 @@ def book_histories(request, pk):
     }
     return JsonResponse(return_json_data)
 
+
+
+@login_required
+def page_create(request, book_pk):
+    book = Book.objects.get(pk=book_pk)
+    if request.method == 'POST':
+        form = PageCreateForm(request.POST)
+        if form.is_valid():
+            form.instance.creator = request.user
+            form.instance.book = book
+            if form.save():
+                return JsonResponse({
+                    'msg': 'Success'
+                })
+            
+    else:
+        form= PageCreateForm()
+        rendered_page_create_from = render_to_string('library/page_form.html', {'form': form , 'book': book},request=request)
+
+    return JsonResponse({'form':rendered_page_create_from})
+    
+    return render(request, 'library/page_form.html', {'form': form}, content_type='application/json')
+
+class pageadd(CreateView):
+    model = Page
+    fields = ['book','number', 'page_type', 'preview_page','is_blank', 'is_finished', 'image']
+    # form_class=BookCreateForm
+    success_message = _(f'New page was created successfully.')
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        book = Book.get(pk=1)
+        form.isntance.book = book
+        return super().form_valid(form)
 
 class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Book
