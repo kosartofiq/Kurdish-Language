@@ -65,15 +65,13 @@ def page_create(request, book_pk):
             if form.save():
                 return JsonResponse({
                     'msg': 'Success'
-                })
-            
+                })      
     else:
         form= PageCreateForm()
-        rendered_page_create_from = render_to_string('library/page_form.html', {'form': form , 'book': book},request=request)
+        rendered_page_create_from = render_to_string('library/page_form.html', {'form': form},request=request)
 
     return JsonResponse({'form':rendered_page_create_from})
     
-    return render(request, 'library/page_form.html', {'form': form}, content_type='application/json')
 
 class pageadd(CreateView):
     model = Page

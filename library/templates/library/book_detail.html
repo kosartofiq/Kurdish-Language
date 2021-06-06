@@ -146,17 +146,17 @@
             <div class="media-body">
                 <p>{% trans 'Page' %}:</p>
                 <span class="btn-group">
-                    <button type="button" class="btn btn-primary" onclick="addPage()"><i class="bi bi-file-earmark-plus"></i></button>
-                    <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-pencil-square"></i></button>
-                    <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-up"></i></button>
-                    <button type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-down"></i></button>
+                    <button id="add-page" type="button" class="btn btn-primary" onclick="addPage()"><i class="bi bi-file-earmark-plus"></i></button>
+                    <button id="edit-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-pencil-square"></i></button>
+                    <button id="up-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-up"></i></button>
+                    <button id="down-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-down"></i></button>
                 </span>
 
                 <div class="row">
                     <div class="col-2">
                         <div class="list-group" id="page-list-tab" role="tablist" style="overflow:auto; height: 400px;">
                             {% for page in pages %}
-                            <a class="list-group-item list-group-item-action" id="page{{ page.number }}list" data-toggle="list" href="#page{{ page.number }}" role="tab">
+                            <a class="list-group-item list-group-item-action" id="page{{ page.number }}list" onclick="buttonActivator({{page.preview_page}})" data-toggle="list" href="#page{{ page.number }}" role="tab">
                                 {{ page.number }}
                             </a>
                             {% endfor %}
@@ -200,6 +200,7 @@
 
 {% block javascript %}
 <script>
+    // to load history of book
     $(document).ready(function () {
         $("#history_tab").click(function () {
             $.ajax({
@@ -210,11 +211,11 @@
                 }
             });
         });
-
-
-
     });
+    ////////////////////////
+    ////////////////////////
 
+    // to add new page
     function addPage() {
         $.ajax({
             url: "{% url 'page-create' book.pk %}",
@@ -222,7 +223,7 @@
             success: function (returned_data) {
                 console.log("load add page form succeed");
                 $('#page-content-tab').html(returned_data.form);
-                // when load page creation form add event
+                // when load page creation form add event to form
                 const form = document.getElementById('page-form');
                 form.addEventListener("submit", submitHandler);
             },
@@ -230,13 +231,14 @@
                 console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
                 console.log(xhr);
             }
-
-
         });
     };
 
+    // this will be active when form loaded
     function submitHandler(e){
+        // it is needed
         e.preventDefault();
+        // add csrf_token to from
         $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
         $.ajax({
             type: 'POST',
@@ -254,6 +256,28 @@
             }
         })
     }
+
+    // function to activate or deactivate edit page, up page and down page
+    function buttonActivator(buttonId){
+        console.log('page list clicked with id:' + buttonId)
+        // when first one clicked
+        if(buttonId == 0){
+            $('#up-page').prop('disabled', true);
+            $('#down-page').prop('disabled', false);
+        }
+        // when last one clicked
+        else if (buttonId == {{ pages|length }} - 1) {
+            $('#up-page').prop('disabled', false);
+            $('#down-page').prop('disabled', true);
+        } 
+        // when others clicked that not first or last one
+        else {
+            $('#up-page').prop('disabled', false);
+            $('#down-page').prop('disabled', false);
+        }
+        // edit page will be activate from last one
+        $('#edit-page').prop('disabled', false);
+    };
 
 
     
