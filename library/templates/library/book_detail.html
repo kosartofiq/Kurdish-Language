@@ -145,6 +145,7 @@
         <article class="media content-section">
             <div class="media-body">
                 <p>{% trans 'Page' %}:</p>
+                <button onclick="pageFormCancel()">test </button>
                 <span class="btn-group">
                     <button id="add-page" type="button" class="btn btn-primary" onclick="addPage()"><i class="bi bi-file-earmark-plus"></i></button>
                     <button id="edit-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-pencil-square"></i></button>
@@ -155,9 +156,9 @@
 
                 <div class="row">
                     <div class="col-2">
-                        <div class="list-group" id="page-list-tab" role="tablist" style="overflow:auto; height: 400px;">
+                        <div id="page-list-tab" class="list-group" role="tablist" style="overflow:auto; height: 400px;">
                             {% for page in pages %}
-                            <a class="list-group-item" id="page{{ page.number }}list" onclick="buttonActivator({{page.id}})" data-toggle="list" href="#page{{ page.number }}" role="tab">
+                            <a class="list-group-item" id="page-list-{{ page.id }}" onclick="buttonActivator({{page.id}})" data-toggle="list" href="#page-{{ page.id }}" role="tab">
                                 {{ page.number }}
                             </a>
                             {% endfor %}
@@ -166,8 +167,9 @@
                     <div class="col-10">
 
                         <div class="tab-content" id="page-content-tab">
+                            <div class="tab-pane fade" id="page-0" role="tabpanel"></div>
                             {% for page in pages %}
-                            <div class="tab-pane fade" id="page{{ page.number }}" role="tabpanel">{{ page.number }} >>> page content.</div>
+                            <div class="tab-pane fade" id="page-{{ page.id }}" role="tabpanel">{{ page.number }} >>> page content.</div>
                             {% endfor %}
                         </div>
 
@@ -215,6 +217,20 @@
     });
     ////////////////////////
     ////////////////////////
+    // find active page list
+    function findActivePage(){
+        // search for active page id
+        var activePageId = $('#page-list-tab > a.active').attr('id');
+        // if null put zero in it or clean it from first part and just stay only id
+        if (activePageId == null){
+            activePageId = '0';
+        }
+        else
+        {
+            activePageId = activePageId.replace('page-list-','');
+        }
+        return activePageId;
+    }
 
     // to add new page
     function addPage() {
@@ -222,7 +238,10 @@
             url: "{% url 'page-create' book.pk %}",
             dataType: 'json',
             success: function (returned_data) {
-                $('#page-content-tab').html(returned_data.form);
+                // load form html
+                $('#page-0').html(returned_data.form);
+                // activate and show it
+                $('#page-0').addClass('active show');
                 // when load page creation form add event to form
                 const form = document.getElementById('page-form');
                 form.addEventListener("submit", submitHandler);
@@ -232,11 +251,9 @@
                 $('#up-page').prop('disabled', true);
                 $('#down-page').prop('disabled', true);
                 $('#delete-page').prop('disabled', true);
+                // disabled page list
                 $('#page-list-tab').children().removeAttr('data-toggle');
                 $('#page-list-tab').children().prop("onclick", null);
-                
-                
-
             },
             error: function(xhr, textStatus, errorThrown){
                 console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
@@ -245,12 +262,41 @@
         });
     };
 
+
+
+    function pageFormCancel(e){
+        var activePage = findActivePage();
+        // remove class from form tab to hide 
+        $('#page-0').removeClass('active show');
+        // enable buttons
+        $('#add-page').prop('disabled', false);
+        if(activePage != 0){
+            $('#edit-page').prop('disabled', false);
+            $('#delete-page').prop('disabled', false);
+
+            if($('#page-list-tab > a:first').hasClass('active')){
+                $('#down-page').prop('disabled', false);
+            }
+            else if ($('#page-list-tab > a:last').hasClass('active')){
+                $('#up-page').prop('disabled', false);
+            }
+            else {
+                $('#up-page').prop('disabled', false);
+                $('#down-page').prop('disabled', false);
+            }
+        }
+        // enabled page list
+        $('#page-list-tab').children().attr('data-toggle','list');
+        // return list click
+        $('#page-list-tab').children().on("click", buttonActivator);
+    }
+
     // this will be active when form loaded
     function submitHandler(e){
         // it is needed
         e.preventDefault();
         // search for activate page
-        
+        var activePage = findActivePage();
         // add csrf_token to from
         $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
         $.ajax({
