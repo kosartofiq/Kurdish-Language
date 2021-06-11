@@ -12,6 +12,7 @@ urlpatterns = [# library
 
     # page
     path('book/<int:book_pk>/page/new', views.page_create, name='page-create'),
+    path('book/<int:book_pk>/page/<int:page_pk>/', views.page_detail, name='page-detail'),
     path('pagee/new', views.pageadd.as_view()),
 
     # genre

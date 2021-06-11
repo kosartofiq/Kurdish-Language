@@ -39,7 +39,7 @@ class BookDetailView(DetailView):
         context = super().get_context_data(**kwargs)
         # Add in a QuerySet of all the books
         book = Book.objects.get(pk=self.kwargs['pk'])
-        context['pages'] = Page.objects.filter(book=book)
+        context['pages'] = Page.objects.filter(book=book).order_by('preview_page')
         return context
 
 
@@ -52,6 +52,9 @@ def book_histories(request, pk):
     }
     return JsonResponse(return_json_data)
 
+
+def page_detail(request):
+    pass
 
 
 @login_required

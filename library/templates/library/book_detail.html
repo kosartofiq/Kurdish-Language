@@ -150,13 +150,14 @@
                     <button id="edit-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-pencil-square"></i></button>
                     <button id="up-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-up"></i></button>
                     <button id="down-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-arrow-90deg-down"></i></button>
+                    <button id="delete-page" disabled type="button" class="btn btn-primary" onclick="myFunction()"><i class="bi bi-trash"></i></button>
                 </span>
 
                 <div class="row">
                     <div class="col-2">
                         <div class="list-group" id="page-list-tab" role="tablist" style="overflow:auto; height: 400px;">
                             {% for page in pages %}
-                            <a class="list-group-item list-group-item-action" id="page{{ page.number }}list" onclick="buttonActivator({{page.preview_page}})" data-toggle="list" href="#page{{ page.number }}" role="tab">
+                            <a class="list-group-item" id="page{{ page.number }}list" onclick="buttonActivator({{page.id}})" data-toggle="list" href="#page{{ page.number }}" role="tab">
                                 {{ page.number }}
                             </a>
                             {% endfor %}
@@ -221,11 +222,21 @@
             url: "{% url 'page-create' book.pk %}",
             dataType: 'json',
             success: function (returned_data) {
-                console.log("load add page form succeed");
                 $('#page-content-tab').html(returned_data.form);
                 // when load page creation form add event to form
                 const form = document.getElementById('page-form');
                 form.addEventListener("submit", submitHandler);
+                // disabling buttons
+                $('#add-page').prop('disabled', true);
+                $('#edit-page').prop('disabled', true);
+                $('#up-page').prop('disabled', true);
+                $('#down-page').prop('disabled', true);
+                $('#delete-page').prop('disabled', true);
+                $('#page-list-tab').children().removeAttr('data-toggle');
+                $('#page-list-tab').children().prop("onclick", null);
+                
+                
+
             },
             error: function(xhr, textStatus, errorThrown){
                 console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
@@ -238,6 +249,8 @@
     function submitHandler(e){
         // it is needed
         e.preventDefault();
+        // search for activate page
+        
         // add csrf_token to from
         $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
         $.ajax({
@@ -259,7 +272,27 @@
 
     // function to activate or deactivate edit page, up page and down page
     function buttonActivator(buttonId){
-        console.log('page list clicked with id:' + buttonId)
+        console.log('page list clicked with id:' + buttonId);
+        var child = $('#page-list-tab').find('div.child.active');
+        console.log(child);
+        $.ajax({
+            url: "/", //"/library/{{book.pk}}/page" + buttonId,
+            dataType: 'json',
+            success: function (returned_data) {
+                console.log("load add page form succeed");
+                $('#page-content-tab').html(returned_data.form);
+                // when load page creation form add event to form
+                const form = document.getElementById('page-form');
+                form.addEventListener("submit", submitHandler);
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                console.log(xhr);
+            }
+        });
+
+
+
         // when first one clicked
         if(buttonId == 0){
             $('#up-page').prop('disabled', true);
@@ -277,6 +310,7 @@
         }
         // edit page will be activate from last one
         $('#edit-page').prop('disabled', false);
+        $('#delete-page').prop('disabled', false);
     };
 
 
