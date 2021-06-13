@@ -396,46 +396,6 @@
 
     
 
-
-
-    
-
-    
-
-    
-
-    
-
-
-    
-
-    
-
-    // function to activate or deactivate edit page, up page and down page
-    function pageSelectionChanged(pageId){
-        // get active page
-        
-        
-        
-        $('#edit-page').prop('disabled', false);
-        $('#delete-page').prop('disabled', false);
-
-        if($('#page-list-tab > a:first').hasClass('active')){
-            $('#up-page').prop('disabled', true);
-            $('#down-page').prop('disabled', false);
-        }
-        else if ($('#page-list-tab > a:last').hasClass('active')){
-            $('#up-page').prop('disabled', false);
-            $('#down-page').prop('disabled', true);
-        }
-        else {
-            $('#up-page').prop('disabled', false);
-            $('#down-page').prop('disabled', false);
-        }
-    
-    };
-
-
     
 </script>
 {% endblock javascript %}

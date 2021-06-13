@@ -16,8 +16,6 @@ urlpatterns = [# library
     path('book/<int:book_pk>/page/new', views.page_create, name='page-create'),
 
 
-    path('pagee/new', views.pageadd.as_view()),
-
     # genre
     path('genre/', views.GenreListView.as_view(), name='genre-list'),
     path('genre/<int:pk>/', views.GenreDetailView.as_view(), name='genre-detail'),
