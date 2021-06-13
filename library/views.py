@@ -165,7 +165,8 @@ def page_create(request, book_pk):
                 page_tab = render_to_string('library/page_tab.html', {'pages': pages})
                 return JsonResponse({
                     'page_list': page_list,
-                    'page_tab': page_tab
+                    'page_tab': page_tab,
+                    'new_page_id': new_page.id
                 })
     else:
         form= PageCreateForm()
