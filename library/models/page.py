@@ -79,6 +79,7 @@ class Page(models.Model):
     class Meta:
         verbose_name = _('page')
         verbose_name_plural = _('pages')
+        #ordering = ['number']
 
     # TO STRING METHOD
     def __str__(self):

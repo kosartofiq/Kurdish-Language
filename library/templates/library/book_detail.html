@@ -155,13 +155,9 @@
                 </span>
 
                 <div class="row">
-                    <div class="col-2">
+                    <div id="pageList" class="col-2">
                         <div id="page-list-tab" class="list-group" role="tablist" style="overflow:auto; height: 400px;">
-                            {% for page in pages %}
-                            <a class="list-group-item" id="page-list-{{ page.id }}" onclick="buttonActivator({{page.id}})" data-toggle="list" href="#page-{{ page.id }}" role="tab">
-                                {{ page.number }}
-                            </a>
-                            {% endfor %}
+                            <!-- content will come by javascript -->
                         </div>
                     </div>
                     <div class="col-10">
@@ -169,7 +165,9 @@
                         <div class="tab-content" id="page-content-tab">
                             <div class="tab-pane fade" id="page-0" role="tabpanel"></div>
                             {% for page in pages %}
-                            <div class="tab-pane fade" id="page-{{ page.id }}" role="tabpanel">{{ page.number }} >>> page content.</div>
+                            <div class="tab-pane fade" id="page-{{ page.id }}" role="tabpanel"></div>
+                            {% empty %}
+                            <p class="article-title">{% trans 'The Book is not have any page yet.' %}</h2>
                             {% endfor %}
                         </div>
 
@@ -214,7 +212,60 @@
                 }
             });
         });
+        // load pages
+        $.ajax({
+            url: "{% url 'page-list' book.pk %}",
+            dataType: 'json',
+            success: function(returned_data){
+                $('#pageList').html(returned_data.page_list);
+                $('#page-content-tab').html(returned_data.page_tab);
+                // add event to page list tabs
+                $('#pageList').on('shown.bs.tab', '#page-list-tab > a' ,function(e){
+                    // console.log('page selection called.');
+                    // activated page id
+                    var activePageId = $(e.target).attr("id"); 
+                    // extract page id from id of tab list
+                    activePageId = activePageId.replace('page-list-','');
+                    // console.log(activePageId);
+                    // ajax to load page content
+                    $.ajax({
+                        url: "/library/book/page/" + activePageId + "/",
+                        dataType: 'json',
+                        success: function (returned_data) {
+                            $('#page-' + activePageId).html(returned_data.paragraphs);
+                        },
+                        error: function(xhr, textStatus, errorThrown){
+                            console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                            console.log(xhr);
+                        }
+                    });
+                    // change states of buttons
+                    $('#edit-page').prop('disabled', false);
+                    $('#delete-page').prop('disabled', false);
+                    if ($('#page-list-tab > a:first').hasClass('active') && $('#page-list-tab > a:last').hasClass('active')){
+                        // it means here only one page exist
+                        $('#up-page').prop('disabled', true);
+                        $('#down-page').prop('disabled', true);
+                    } 
+                    else if($('#page-list-tab > a:first').hasClass('active')){
+                        $('#up-page').prop('disabled', true);
+                        $('#down-page').prop('disabled', false);
+                    }
+                    else if ($('#page-list-tab > a:last').hasClass('active')){
+                        $('#up-page').prop('disabled', false);
+                        $('#down-page').prop('disabled', true);
+                    }
+                    else {
+                        $('#up-page').prop('disabled', false);
+                        $('#down-page').prop('disabled', false);
+                    }
+                });
+            }
+        });
     });
+
+
+
     ////////////////////////
     ////////////////////////
     // find active page list
@@ -231,66 +282,14 @@
         }
         return activePageId;
     }
-
-    // to add new page
-    function addPage() {
-        $.ajax({
-            url: "{% url 'page-create' book.pk %}",
-            dataType: 'json',
-            success: function (returned_data) {
-                // load form html
-                $('#page-0').html(returned_data.form);
-                // activate and show it
-                $('#page-0').addClass('active show');
-                // when load page creation form add event to form
-                const form = document.getElementById('page-form');
-                form.addEventListener("submit", submitHandler);
-                // disabling buttons
-                $('#add-page').prop('disabled', true);
-                $('#edit-page').prop('disabled', true);
-                $('#up-page').prop('disabled', true);
-                $('#down-page').prop('disabled', true);
-                $('#delete-page').prop('disabled', true);
-                // disabled page list
-                $('#page-list-tab').children().removeAttr('data-toggle');
-                $('#page-list-tab').children().prop("onclick", null);
-            },
-            error: function(xhr, textStatus, errorThrown){
-                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
-                console.log(xhr);
-            }
-        });
-    };
-
-
-
+    ////////////////////////
+    ////////////////////////
+    // form
+    // cancel button on page form functions
     function pageFormCancel(e){
-        var activePage = findActivePage();
-        // remove class from form tab to hide 
-        $('#page-0').removeClass('active show');
         // enable buttons
-        $('#add-page').prop('disabled', false);
-        if(activePage != 0){
-            $('#edit-page').prop('disabled', false);
-            $('#delete-page').prop('disabled', false);
-
-            if($('#page-list-tab > a:first').hasClass('active')){
-                $('#down-page').prop('disabled', false);
-            }
-            else if ($('#page-list-tab > a:last').hasClass('active')){
-                $('#up-page').prop('disabled', false);
-            }
-            else {
-                $('#up-page').prop('disabled', false);
-                $('#down-page').prop('disabled', false);
-            }
-        }
-        // enabled page list
-        $('#page-list-tab').children().attr('data-toggle','list');
-        // return list click
-        $('#page-list-tab').children().on("click", buttonActivator);
+        buttonsState(true);
     }
-
     // this will be active when form loaded
     function submitHandler(e){
         // it is needed
@@ -299,15 +298,18 @@
         var activePage = findActivePage();
         // add csrf_token to from
         $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
+        $('#id_preview_page').val(activePage);
+        //return;
         $.ajax({
             type: 'POST',
             url: "{% url 'page-create' book.id %}",
             data: $("#page-form").serialize(),
             dataType:'json',
-            success: function(data){
-                if (data.msg === 'Success'){
-                    alert('Form is submitted');
-                } 
+            success: function(returned_data){
+                $('#pageList').html(returned_data.page_list);
+                $('#page-content-tab').html(returned_data.page_tab);
+                // restore list and buttons like cancel button
+                buttonsState(true);
             },
             error: function(xhr, textStatus, errorThrown){
                 console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
@@ -315,48 +317,122 @@
             }
         })
     }
+    ////////////////////////
+    ////////////////////////
+    // buttons
+    // change buttons states
+    function buttonsState(state){
+        var activePage = findActivePage();
+        if(state){
+            var activePage = findActivePage();
+            // remove class from form tab to hide 
+            $('#page-0').removeClass('active show');
+            // enable buttons
+            $('#add-page').prop('disabled', false);
+            if(activePage != 0){
+                // activate and show it
+                $('#page-' + activePage).addClass('active show');
+                $('#edit-page').prop('disabled', false);
+                $('#delete-page').prop('disabled', false);
 
-    // function to activate or deactivate edit page, up page and down page
-    function buttonActivator(buttonId){
-        console.log('page list clicked with id:' + buttonId);
-        var child = $('#page-list-tab').find('div.child.active');
-        console.log(child);
+                if($('#page-list-tab > a:first').hasClass('active')){
+                    $('#down-page').prop('disabled', false);
+                }
+                else if ($('#page-list-tab > a:last').hasClass('active')){
+                    $('#up-page').prop('disabled', false);
+                }
+                else {
+                    $('#up-page').prop('disabled', false);
+                    $('#down-page').prop('disabled', false);
+                }
+            }
+            // enabled page list
+            $('#page-list-tab').children().attr('data-toggle','list');
+            
+        }
+        else {
+            // activate and show it
+            $('#page-0').addClass('active show');
+            if(activePage != 0){
+                $('#page-' + activePage).removeClass('active show');
+            }
+            // disabling buttons
+            $('#add-page').prop('disabled', true);
+            $('#edit-page').prop('disabled', true);
+            $('#up-page').prop('disabled', true);
+            $('#down-page').prop('disabled', true);
+            $('#delete-page').prop('disabled', true);
+            // disabled page list
+            $('#page-list-tab').children().removeAttr('data-toggle');
+            //$('#page-list-tab').children().removeAttr('href');
+            
+            $('#page-list-tab').children().prop("onclick", null);
+
+        }
+
+    }
+
+    // add new page
+    function addPage() {
         $.ajax({
-            url: "/", //"/library/{{book.pk}}/page" + buttonId,
+            url: "{% url 'page-create' book.pk %}",
             dataType: 'json',
             success: function (returned_data) {
-                console.log("load add page form succeed");
-                $('#page-content-tab').html(returned_data.form);
+                // load form html
+                $('#page-0').html(returned_data.form);
+                
                 // when load page creation form add event to form
                 const form = document.getElementById('page-form');
                 form.addEventListener("submit", submitHandler);
+                // disable buttons and list
+                buttonsState(false);
             },
             error: function(xhr, textStatus, errorThrown){
                 console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
                 console.log(xhr);
             }
         });
+    };
+
+    
 
 
 
-        // when first one clicked
-        if(buttonId == 0){
+    
+
+    
+
+    
+
+    
+
+
+    
+
+    
+
+    // function to activate or deactivate edit page, up page and down page
+    function pageSelectionChanged(pageId){
+        // get active page
+        
+        
+        
+        $('#edit-page').prop('disabled', false);
+        $('#delete-page').prop('disabled', false);
+
+        if($('#page-list-tab > a:first').hasClass('active')){
             $('#up-page').prop('disabled', true);
             $('#down-page').prop('disabled', false);
         }
-        // when last one clicked
-        else if (buttonId == {{ pages|length }} - 1) {
+        else if ($('#page-list-tab > a:last').hasClass('active')){
             $('#up-page').prop('disabled', false);
             $('#down-page').prop('disabled', true);
-        } 
-        // when others clicked that not first or last one
+        }
         else {
             $('#up-page').prop('disabled', false);
             $('#down-page').prop('disabled', false);
         }
-        // edit page will be activate from last one
-        $('#edit-page').prop('disabled', false);
-        $('#delete-page').prop('disabled', false);
+    
     };
 
 

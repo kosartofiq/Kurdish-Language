@@ -1,0 +1,23 @@
+<div id="page-list-tab" class="list-group" role="tablist" style="overflow:auto; height: 400px;">
+
+</div>
+
+<script id='script'>
+$(document).ready(function () {
+
+        
+        var pages = JSON.parse("{{ pagesJson| escapejs }}");
+        var preview_page_id = 0;
+        var str = ""
+        for (i=0; i < pages.length;i++){
+            var page = pages.find(page => {return page.fields.preview_page === preview_page_id});
+            
+            preview_page_id = page.pk;
+            
+            str += '<a class="list-group-item" id="page-list-' + page.pk + '" data-toggle="list" href="#page-' + page.pk + '" role="tab">' + page.fields.number + '</a>'
+            
+        }
+        $('#page-list-tab').html(str);
+        $('#script').html('');        
+    });
+</script>

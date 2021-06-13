@@ -1,0 +1,7 @@
+{% load i18n %}
+<div class="tab-pane fade" id="page-0" role="tabpanel"></div>
+{% for page in pages %}
+<div class="tab-pane fade" id="page-{{ page.id }}" role="tabpanel"></div>
+{% empty %}
+<p class="article-title">{% trans 'The Book is not have any page yet.' %}</h2>
+{% endfor %}

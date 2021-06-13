@@ -1,4 +1,5 @@
-from library.models import book
+from django.urls.conf import path
+from library.models import book, page
 from django import forms
 from django.core.serializers import serialize
 from django.shortcuts import redirect, render
@@ -34,13 +35,8 @@ class LibraryListView(ListView):
 class BookDetailView(DetailView):
     model = Book
 
-    def get_context_data(self, **kwargs):
-        # Call the base implementation first to get a context
-        context = super().get_context_data(**kwargs)
-        # Add in a QuerySet of all the books
-        book = Book.objects.get(pk=self.kwargs['pk'])
-        context['pages'] = Page.objects.filter(book=book).order_by('preview_page')
-        return context
+
+
 
 
 def book_histories(request, pk):
@@ -51,42 +47,6 @@ def book_histories(request, pk):
         'histories_html': rendered_histories_html,
     }
     return JsonResponse(return_json_data)
-
-
-def page_detail(request):
-    pass
-
-
-@login_required
-def page_create(request, book_pk):
-    book = Book.objects.get(pk=book_pk)
-    if request.method == 'POST':
-        form = PageCreateForm(request.POST)
-        if form.is_valid():
-            form.instance.creator = request.user
-            form.instance.book = book
-            if form.save():
-                return JsonResponse({
-                    'msg': 'Success'
-                })      
-    else:
-        form= PageCreateForm()
-        rendered_page_create_from = render_to_string('library/page_form.html', {'form': form},request=request)
-
-    return JsonResponse({'form':rendered_page_create_from})
-    
-
-class pageadd(CreateView):
-    model = Page
-    fields = ['book','number', 'page_type', 'preview_page','is_blank', 'is_finished', 'image']
-    # form_class=BookCreateForm
-    success_message = _(f'New page was created successfully.')
-
-    def form_valid(self, form):
-        form.instance.creator = self.request.user
-        book = Book.get(pk=1)
-        form.isntance.book = book
-        return super().form_valid(form)
 
 class BookCreateView(SuccessMessageMixin, LoginRequiredMixin, CreateView):
     model = Book
@@ -143,6 +103,76 @@ class BookUpdateView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
     def form_valid(self, form):
         form.instance.creator = self.request.user
         return super().form_valid(form)
+
+
+# #########################
+# Page
+# #########################
+def page_list(request, book_pk):
+    book = Book.objects.get(pk=book_pk)
+    pages = Page.objects.filter(book=book)
+    pagesJson = serialize('json', pages)
+    page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
+    page_tab = render_to_string('library/page_tab.html', {'pages': pages})
+    return JsonResponse({
+        'page_list': page_list,
+        'page_tab': page_tab
+    })
+
+def page_detail(request, page_pk):
+    page = Page.objects.get(pk=page_pk)
+    paragraph = f"paragraphs for: {page.number} with id: {page.id}"
+    return JsonResponse({'paragraphs':paragraph})
+
+
+    
+
+@login_required
+def page_create(request, book_pk):
+    book = Book.objects.get(pk=book_pk)
+    if request.method == 'POST':
+        form = PageCreateForm(request.POST)
+        if form.is_valid():
+            form.instance.creator = request.user
+            form.instance.book = book
+            # if preview page is 0, it means it is will be last page
+            if form.instance.preview_page == 0:
+                # get the page that have preview page max number, or last page
+                last_page = Page.objects.filter(book=book).order_by('preview_page').last()
+                # if there isn't any page, it means it is first page for the book, don't need do anything
+                # if there then this new page will be after it
+                if last_page != None:
+                    form.instance.preview_page = last_page.id
+            # get page that after current selected page, before save new one, otherwise new one will be old again. 
+            # and it is problem, will save again new page with preview will be same as it's id
+            old_page = Page.objects.filter(book=book, preview_page=form.instance.preview_page).first()
+            # save new page
+            new_page = form.save()
+            # if saved and has object
+            if new_page:
+                # if there isn't any page it means last page was selected
+                # if there is , it means old page preview page should update to new page
+                if old_page != None:
+                    # update old page preview page
+                    old_page.preview_page = new_page.id
+                    # save changes
+                    old_page.save()
+                # from here will return results
+                pages = Page.objects.filter(book=book)
+                pagesJson = serialize('json', pages)
+
+                page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
+                page_tab = render_to_string('library/page_tab.html', {'pages': pages})
+                return JsonResponse({
+                    'page_list': page_list,
+                    'page_tab': page_tab
+                })
+    else:
+        form= PageCreateForm()
+        form.fields['preview_page'].widget = forms.HiddenInput()
+        rendered_page_create_from = render_to_string('library/page_form.html', {'form': form},request=request)
+    return JsonResponse({'form':rendered_page_create_from})
+    
 
 
 # #########################

@@ -49,4 +49,4 @@ class BookCreateForm(forms.ModelForm):
 class PageCreateForm(forms.ModelForm):
     class Meta:
         model = Page
-        fields = ['number', 'page_type', 'is_blank', 'is_finished', 'image']
+        fields = ['number', 'page_type', 'is_blank', 'is_finished', 'image', 'preview_page',]

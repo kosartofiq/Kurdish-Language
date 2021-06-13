@@ -2,6 +2,7 @@
 {% load crispy_forms_tags %}
 
 <div class="content-section">
+    <p>{% trans "If you want to add page after certain page not at the end of pages, first select that page, then click 'Add Page'. New page will create after that page you selected." %}</p>
     <form method="post" id="page-form">
         {% csrf_token %}
         <fieldset class="form-group">
