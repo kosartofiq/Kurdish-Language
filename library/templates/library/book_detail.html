@@ -221,7 +221,7 @@
                 $('#pageList').html(returned_data.page_list);
                 $('#page-content-tab').html(returned_data.page_tab);
                 // add event to page list tabs
-                $('#pageList').on('show.bs.tab', '#page-list-tab > a' ,function(e){
+                $('#pageList').on('shown.bs.tab', '#page-list-tab > a' ,function(e){
                     // activated page id
                     var activePageId = $(e.target).attr("id");
                     // extract page id from id of tab list
