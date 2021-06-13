@@ -77,7 +77,7 @@ def update_book_history(sender, instance, **kwargs):
 # #########################
 @receiver(post_save, sender=Page)
 def create_page_history(sender, instance, created, **kwargs):
-    print('create_history called.')
+    # print('create_history called.')
     # if new object created then make history
     if created:
         # create history
@@ -95,7 +95,7 @@ def create_page_history(sender, instance, created, **kwargs):
 
 @receiver(pre_save, sender=Page)
 def update_page_history(sender, instance, **kwargs):
-    print('update_history called.')
+    # print('update_history called.')
     # check if any change happen or only clicked save without change, to not
     # make history
     # get object if is not first time creation

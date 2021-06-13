@@ -294,8 +294,27 @@
     function submitHandler(e){
         // it is needed
         e.preventDefault();
-        // search for activate page
-        var activePage = findActivePage();
+
+        // activePage defaul it  zero
+        var activePage = '0';
+        // get id of selected page tab
+        var activePageId = $('#page-list-tab > a.active').attr('id');
+        // if null it means not any page selected
+        if (activePageId == null){
+            // get last page
+            activePageId = $('#page-list-tab > a:last').attr('id');
+            // if activePageId is null it means there no page yet for this book, and default value used and it is zero setted before
+            // otherwise extract id 
+            if (activePageId != null){
+                activePage = activePageId.replace('page-list-','');
+            }
+        }
+        else
+        {
+            activePage = activePageId.replace('page-list-','');
+        }
+
+
         // add csrf_token to from
         $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
         $('#id_preview_page').val(activePage);

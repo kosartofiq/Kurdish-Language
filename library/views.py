@@ -135,14 +135,6 @@ def page_create(request, book_pk):
         if form.is_valid():
             form.instance.creator = request.user
             form.instance.book = book
-            # if preview page is 0, it means it is will be last page
-            if form.instance.preview_page == 0:
-                # get the page that have preview page max number, or last page
-                last_page = Page.objects.filter(book=book).order_by('preview_page').last()
-                # if there isn't any page, it means it is first page for the book, don't need do anything
-                # if there then this new page will be after it
-                if last_page != None:
-                    form.instance.preview_page = last_page.id
             # get page that after current selected page, before save new one, otherwise new one will be old again. 
             # and it is problem, will save again new page with preview will be same as it's id
             old_page = Page.objects.filter(book=book, preview_page=form.instance.preview_page).first()
