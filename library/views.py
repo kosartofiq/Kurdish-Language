@@ -5,7 +5,7 @@ from django.core.serializers import serialize
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.messages.views import SuccessMessageMixin
 from django.template.loader import render_to_string
 from django.http import JsonResponse
@@ -125,8 +125,6 @@ def page_detail(request, page_pk):
     return JsonResponse({'paragraphs':paragraph})
 
 
-    
-
 @login_required
 def page_create(request, book_pk):
     book = Book.objects.get(pk=book_pk)
@@ -166,7 +164,29 @@ def page_create(request, book_pk):
         rendered_page_create_from = render_to_string('library/page_form.html', {'form': form},request=request)
     return JsonResponse({'form':rendered_page_create_from})
     
+@login_required
+def page_update(request, page_pk):
+    page = Page.objects.get(pk=page_pk)
+    if request.method == 'POST':
+        form = PageCreateForm(request.POST, instance=page)
+        if form.is_valid():
+            form.instance.creator = request.user
+            updated_page = form.save()
+            pages = Page.objects.filter(book=updated_page__book)
+            pagesJson = serialize('json', pages)
 
+            page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
+            page_tab = render_to_string('library/page_tab.html', {'pages': pages})
+            return JsonResponse({
+                'page_list': page_list,
+                'page_tab': page_tab,
+                'new_page_id': updated_page.id
+            })
+    else:
+        form = PageCreateForm(instance=page)
+        form.fields['preview_page'].widget = forms.HiddenInput()
+        rendered_page_create_from = render_to_string('library/page_form.html', {'form': form , 'update': True},request=request)
+    return JsonResponse({'form':rendered_page_create_from})
 
 # #########################
 # Genre
