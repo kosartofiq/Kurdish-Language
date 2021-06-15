@@ -224,12 +224,13 @@
                 $('#pageList').on('shown.bs.tab', '#page-list-tab > a' ,function(e){
                     // activated page id
                     var activePageId = $(e.target).attr("id");
+                    var ajaxUrl = $(e.target).attr("data-ajax")
                     // extract page id from id of tab list
                     activePageId = activePageId.replace('page-list-','');
                     // console.log(activePageId);
                     // ajax to load page content
                     $.ajax({
-                        url: "/library/book/page/" + activePageId + "/",
+                        url: ajaxUrl,
                         dataType: 'json',
                         success: function (returned_data) {
                             $('#page-' + activePageId).html(returned_data.paragraphs);

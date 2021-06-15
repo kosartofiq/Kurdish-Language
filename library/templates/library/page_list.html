@@ -14,7 +14,7 @@ $(document).ready(function () {
             
             preview_page_id = page.pk;
             
-            str += '<a class="list-group-item" id="page-list-' + page.pk + '" data-toggle="list" href="#page-' + page.pk + '" role="tab">' + page.fields.number + '</a>'
+            str += '<a class="list-group-item" id="page-list-' + page.pk + '" data-toggle="list" href="#page-' + page.pk + '" data-ajax="/library/book/page/' + page.pk + '/" role="tab">' + page.fields.number + '</a>'
             
         }
         $('#page-list-tab').html(str);
