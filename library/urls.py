@@ -12,7 +12,7 @@ urlpatterns = [# library
 
     # page
     path('book/<int:book_pk>/pages/', views.page_list, name='page-list'),
-    path('book/page/<int:page_pk>/', views.page_detail, name='page-detail'), # hard coded in page_list.html change page list tab
+    path('book/page/<int:page_pk>/', views.page_detail, name='page-detail'), # hard coded in page_detail change page list tab
     path('book/<int:book_pk>/page/new/', views.page_create, name='page-create'),
     path('book/page/<int:page_pk>/update/', views.page_update, name='page-update'),
 

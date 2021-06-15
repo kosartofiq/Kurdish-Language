@@ -121,7 +121,7 @@ def page_list(request, book_pk):
 
 def page_detail(request, page_pk):
     page = Page.objects.get(pk=page_pk)
-    paragraph = f"paragraphs for: {page.number} with id: {page.id} > {page.preview_page}"
+    paragraph = f"paragraphs for: {page.number} with id: {page.id}"
     return JsonResponse({'paragraphs':paragraph})
 
 
