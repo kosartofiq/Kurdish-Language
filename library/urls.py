@@ -12,10 +12,11 @@ urlpatterns = [# library
 
     # page
     path('book/<int:book_pk>/pages/', views.page_list, name='page-list'),
-    path('book/page/<int:page_pk>/', views.page_detail, name='page-detail'), # hard coded in page_detail change page list tab
+    path('book/page/<int:page_pk>/', views.page_detail, name='page-detail'), # hard coded in page_detail
     path('book/<int:book_pk>/page/new/', views.page_create, name='page-create'),
-    path('book/page/<int:page_pk>/update/', views.page_update, name='page-update'),
-
+    path('book/page/<int:page_pk>/update/', views.page_update, name='page-update'), # hard coded in page_detail
+    path('book/page/<int:page_pk>/up/', views.page_up, name='page-up'),
+    path('book/page/<int:page_pk>/down/', views.page_down, name='page-down'),
 
     # genre
     path('genre/', views.GenreListView.as_view(), name='genre-list'),

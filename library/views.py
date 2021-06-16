@@ -121,7 +121,7 @@ def page_list(request, book_pk):
 
 def page_detail(request, page_pk):
     page = Page.objects.get(pk=page_pk)
-    paragraph = f"paragraphs for: {page.number} with id: {page.id}"
+    paragraph = f"paragraphs for: {page.number} with id: {page.id} > {page.preview_page}"
     return JsonResponse({'paragraphs':paragraph})
 
 
@@ -172,7 +172,8 @@ def page_update(request, page_pk):
         if form.is_valid():
             form.instance.creator = request.user
             updated_page = form.save()
-            pages = Page.objects.filter(book=updated_page__book)
+            pages = Page.objects.filter(book=updated_page.book)
+            print(pages)
             pagesJson = serialize('json', pages)
 
             page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
@@ -188,6 +189,13 @@ def page_update(request, page_pk):
         rendered_page_create_from = render_to_string('library/page_form.html', {'form': form , 'update': True},request=request)
     return JsonResponse({'form':rendered_page_create_from})
 
+@login_required
+def page_up(request, page_pk):
+    pass
+
+@login_required
+def page_down(request, page_pk):
+    pass
 # #########################
 # Genre
 # #########################

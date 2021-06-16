@@ -202,6 +202,12 @@
 
 {% block javascript %}
 <script>
+    const pageDetailUrlP1 = "/library/book/page/";
+    const pageDetailUrlP2 = "/";
+    const pageUpdateUrlP1 = "/library/book/page/";
+    const pageUpdateUrlP2 = "/update/";
+
+
     // to load history of book
     $(document).ready(function () {
         $("#history_tab").click(function () {
@@ -229,7 +235,7 @@
                     // console.log(activePageId);
                     // ajax to load page content
                     $.ajax({
-                        url: "/library/book/page/" + activePageId + "/",
+                        url: pageDetailUrlP1 + activePageId + pageDetailUrlP2 ,
                         dataType: 'json',
                         success: function (returned_data) {
                             $('#page-' + activePageId).html(returned_data.paragraphs);
@@ -264,9 +270,6 @@
         });
     });
 
-
-
-    ////////////////////////
     ////////////////////////
     // find active page list
     function findActivePage(){
@@ -282,7 +285,7 @@
         }
         return activePageId;
     }
-    ////////////////////////
+
     ////////////////////////
     // form
     // cancel button on page form functions
@@ -290,38 +293,52 @@
         // enable buttons
         buttonsState(true);
     }
-    // this will be active when form loaded
-    function submitHandler(e){
+    // functon to update form
+    function submitHandlerUpdate(e){
+        submitHandler(e, true)
+    }
+    // function to create form, this will be active when form loaded
+    function submitHandler(e, update){
         // it is needed
         e.preventDefault();
-
-        // activePage defaul it  zero
-        var activePage = '0';
+        
         // get id of selected page tab
         var activePageId = $('#page-list-tab > a.active').attr('id');
         // if null it means not any page selected
         if (activePageId == null){
             // get last page
-            activePageId = $('#page-list-tab > a:last').attr('id');
+            activePageId = $('#page-list-tab > a:last').attr('id');            
             // if activePageId is null it means there no page yet for this book, and default value used and it is zero setted before
             // otherwise extract id 
             if (activePageId != null){
-                activePage = activePageId.replace('page-list-','');
+                activePageId = activePageId.replace('page-list-','');
+            }
+            else{
+                activePageId = '0';
             }
         }
         else
         {
-            activePage = activePageId.replace('page-list-','');
+            activePageId = activePageId.replace('page-list-','');
         }
-
 
         // add csrf_token to from
         $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
-        $('#id_preview_page').val(activePage);
+        // if only use in create form, because in update will make preview_page to its id
+        if(update == null){
+            $('#id_preview_page').val(activePageId);
+        }
+        
+        // put default ajax url, if update will change it
+        var ajaxUrl = "{% url 'page-create' book.id %}";
+        if (update){
+            ajaxUrl = pageUpdateUrlP1 + activePageId + pageUpdateUrlP2;
+        }
+        
         //return;
         $.ajax({
             type: 'POST',
-            url: "{% url 'page-create' book.id %}",
+            url: ajaxUrl,
             data: $("#page-form").serialize(),
             dataType:'json',
             success: function(returned_data){
@@ -347,7 +364,6 @@
     function buttonsState(state){
         var activePage = findActivePage();
         if(state){
-            var activePage = findActivePage();
             // remove class from form tab to hide
             $('#page-0').removeClass('active show');
             // enable buttons
@@ -419,6 +435,26 @@
 
     // edit page
     function editPage(){
+        // activated page id
+        var activePageId = findActivePage();
+        $.ajax({
+            url: pageUpdateUrlP1 + activePageId + pageUpdateUrlP2,
+            dataType: 'json',
+            success: function (returned_data) {
+                // load form html
+                $('#page-0').html(returned_data.form);
+
+                // when load page creation form add event to form
+                const form = document.getElementById('page-form');
+                form.addEventListener("submit", submitHandlerUpdate);
+                // disable buttons and list
+                buttonsState(false);
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                console.log(xhr);
+            }
+        });
 
     }
 
