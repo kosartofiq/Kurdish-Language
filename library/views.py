@@ -156,7 +156,7 @@ def page_create(request, book_pk):
                 return JsonResponse({
                     'page_list': page_list,
                     'page_tab': page_tab,
-                    'new_page_id': new_page.id
+                    'page_id': new_page.id
                 })
     else:
         form= PageCreateForm()
@@ -173,7 +173,6 @@ def page_update(request, page_pk):
             form.instance.creator = request.user
             updated_page = form.save()
             pages = Page.objects.filter(book=updated_page.book)
-            print(pages)
             pagesJson = serialize('json', pages)
 
             page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
@@ -181,7 +180,7 @@ def page_update(request, page_pk):
             return JsonResponse({
                 'page_list': page_list,
                 'page_tab': page_tab,
-                'new_page_id': updated_page.id
+                'page_id': updated_page.id
             })
     else:
         form = PageCreateForm(instance=page)
@@ -191,11 +190,93 @@ def page_update(request, page_pk):
 
 @login_required
 def page_up(request, page_pk):
-    pass
+    current_page = Page.objects.get(pk=page_pk)
+    if request.method == 'POST':
+        
+        # page before current page
+        preview_page = Page.objects.get(pk=current_page.preview_page)
+        # page after current page
+        next_page = Page.objects.filter(preview_page=current_page.pk).first()
+        
+
+        # if current page is first page, we disabled happen that by javascript but 
+        # maybe in future api calling should check
+        if preview_page == None:
+            # do nothing because curren page is first page
+            pass
+        else:
+            # update creator with current user that edit
+            current_page.creator = request.user
+            preview_page.creator = request.user
+            # change preview page
+            current_page.preview_page = preview_page.preview_page
+            preview_page.preview_page = current_page.pk 
+            # save
+            current_page.save()
+            preview_page.save()
+            # if current next page is not last page
+            if next_page != None:
+                next_page.creator = request.user
+                next_page.preview_page = preview_page.pk
+                next_page.save()
+        pages = Page.objects.filter(book=current_page.book)
+
+        pagesJson = serialize('json', pages)
+
+        page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
+        page_tab = render_to_string('library/page_tab.html', {'pages': pages})
+        return JsonResponse({
+            'page_list': page_list,
+            'page_tab': page_tab,
+            'page_id': current_page.id
+        })
+    else:
+        rendered_page_create_from = render_to_string('library/page_move.html', {'moveUp': True},request=request)
+    return JsonResponse({'form':rendered_page_create_from})
 
 @login_required
 def page_down(request, page_pk):
-    pass
+    current_page = Page.objects.get(pk=page_pk)
+    if request.method == 'POST':
+        
+        # page after current page
+        next_page = Page.objects.filter(preview_page=current_page.pk).first()
+        # if current page is last page
+        # we disabled happen that by javascript but 
+        # maybe in future api calling should check
+        if next_page == None:
+            pass
+        else:
+            # 2 pages after current page
+            next_next_page = Page.objects.filter(preview_page=next_page.pk).first()
+            # update creator with current user that edit
+            current_page.creator = request.user
+            next_page.creator = request.user
+            # change preview page
+            next_page.preview_page = current_page.preview_page
+            current_page.preview_page = next_page.pk
+            # save
+            current_page.save()
+            next_page.save()
+            # if current next page is not before last page, or after last page , there is another page
+            if next_next_page != None:
+                next_next_page.creator = request.user
+                next_next_page.preview_page = current_page.pk
+                next_next_page.save()
+        pages = Page.objects.filter(book=current_page.book)
+
+        pagesJson = serialize('json', pages)
+
+        page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
+        page_tab = render_to_string('library/page_tab.html', {'pages': pages})
+        return JsonResponse({
+            'page_list': page_list,
+            'page_tab': page_tab,
+            'page_id': current_page.id
+        })
+    else:
+        rendered_page_create_from = render_to_string('library/page_move.html', {'moveUp': False},request=request)
+    return JsonResponse({'form':rendered_page_create_from})
 # #########################
 # Genre
 # #########################

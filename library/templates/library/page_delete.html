@@ -1,0 +1,26 @@
+{% load i18n %}
+
+{% if deletable %}
+
+<div class="content-section">
+    <form method="post" id="page-form">
+        {% csrf_token %}
+        <fieldset class="form-group">
+            {# Translators: Button title. #}
+            {# Translators: تایتڵی دوگمە. #}
+            <a class="btn btn-outline-secondary" onclick="pageFormCancel()">{% trans 'Cancel' %}</a>
+            {# Translators: Button title. #}
+            {# Translators: تایتڵی دوگمە. #}
+            <button class="btn btn-outline-success" type="submit">{% trans 'Delete' %}</button>
+        </fieldset>
+    </form>
+</div>
+
+{% else %}
+
+<div class="content-section">
+    <p>{% trans "You can't delete this page, because there is paragraph in it." %}</p>
+    <a class="btn btn-outline-secondary" onclick="pageFormCancel()">{% trans 'Ok' %}</a>
+</div>
+
+{% endif %}

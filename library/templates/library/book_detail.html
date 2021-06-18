@@ -202,10 +202,12 @@
 
 {% block javascript %}
 <script>
-    const pageDetailUrlP1 = "/library/book/page/";
-    const pageDetailUrlP2 = "/";
-    const pageUpdateUrlP1 = "/library/book/page/";
-    const pageUpdateUrlP2 = "/update/";
+    const pageMainUrl = "/library/book/page/";
+    const pageDetailUrl = "/";
+    const pageUpdateUrl = "/update/";
+    const pageMoveUpUrl = "/up/";
+    const pageMoveDownUrl = "/down/";
+    const pageDeleteUrl = "/delete/";
 
 
     // to load history of book
@@ -235,7 +237,7 @@
                     // console.log(activePageId);
                     // ajax to load page content
                     $.ajax({
-                        url: pageDetailUrlP1 + activePageId + pageDetailUrlP2 ,
+                        url: pageMainUrl + activePageId + pageDetailUrl ,
                         dataType: 'json',
                         success: function (returned_data) {
                             $('#page-' + activePageId).html(returned_data.paragraphs);
@@ -293,12 +295,8 @@
         // enable buttons
         buttonsState(true);
     }
-    // functon to update form
-    function submitHandlerUpdate(e){
-        submitHandler(e, true)
-    }
     // function to create form, this will be active when form loaded
-    function submitHandler(e, update){
+    function submitHandler(e, type){
         // it is needed
         e.preventDefault();
         
@@ -325,14 +323,24 @@
         // add csrf_token to from
         $('#page-form').append('<input type="hidden" name="csrfmiddlewaretoken" value="{{ csrf_token }}">');
         // if only use in create form, because in update will make preview_page to its id
-        if(update == null){
-            $('#id_preview_page').val(activePageId);
-        }
         
         // put default ajax url, if update will change it
-        var ajaxUrl = "{% url 'page-create' book.id %}";
-        if (update){
-            ajaxUrl = pageUpdateUrlP1 + activePageId + pageUpdateUrlP2;
+        var ajaxUrl = pageMainUrl;
+        if(type == "new"){
+            $('#id_preview_page').val(activePageId);
+            ajaxUrl = "{% url 'page-create' book.id %}";
+        }
+        else if (type == "update"){
+            ajaxUrl += activePageId + pageUpdateUrl;
+        } 
+        else if (type == "up"){
+            ajaxUrl += activePageId + pageMoveUpUrl;
+        }
+        else if (type == "down"){
+            ajaxUrl += activePageId + pageMoveDownUrl;
+        }
+        else if (type == "delete"){
+            ajaxUrl += activePageId + pageDeleteUrl;
         }
         
         //return;
@@ -345,7 +353,7 @@
                 $('#page-content-tab').html(returned_data.page_tab);
                 // after updating ready make trigger click for new page
                 $('#pageList').html(returned_data.page_list).ready(function(){
-                    $('#page-list-' + returned_data.new_page_id).trigger('click');
+                    $('#page-list-' + returned_data.page_id).trigger('click');
                 });
 
                 // restore list and buttons like cancel button
@@ -357,6 +365,32 @@
             }
         })
     }
+
+    // functon to new form
+    function submitNew(e){
+        submitHandler(e, "new")
+    }
+
+    // functon to update form
+    function submitUpdate(e){
+        submitHandler(e, "update")
+    }
+
+    // functon to Up form
+    function submitUp(e){
+        submitHandler(e, "up")
+    }
+
+    // functon to down form
+    function submitDown(e){
+        submitHandler(e, "down")
+    }
+
+    // functon to detele form
+    function submitDelete(e){
+        submitHandler(e, "delete")
+    }
+
     ////////////////////////
     ////////////////////////
     // buttons
@@ -422,7 +456,7 @@
 
                 // when load page creation form add event to form
                 const form = document.getElementById('page-form');
-                form.addEventListener("submit", submitHandler);
+                form.addEventListener("submit", submitNew);
                 // disable buttons and list
                 buttonsState(false);
             },
@@ -438,7 +472,7 @@
         // activated page id
         var activePageId = findActivePage();
         $.ajax({
-            url: pageUpdateUrlP1 + activePageId + pageUpdateUrlP2,
+            url: pageMainUrl + activePageId + pageUpdateUrl,
             dataType: 'json',
             success: function (returned_data) {
                 // load form html
@@ -446,7 +480,7 @@
 
                 // when load page creation form add event to form
                 const form = document.getElementById('page-form');
-                form.addEventListener("submit", submitHandlerUpdate);
+                form.addEventListener("submit", submitUpdate);
                 // disable buttons and list
                 buttonsState(false);
             },
@@ -455,22 +489,78 @@
                 console.log(xhr);
             }
         });
-
     }
 
     // up page
     function upPage(){
+        // activated page id
+        var activePageId = findActivePage();
+        $.ajax({
+            url: pageMainUrl + activePageId + pageMoveUpUrl,
+            dataType: 'json',
+            success: function (returned_data) {
+                // load form html
+                $('#page-0').html(returned_data.form);
 
+                // when load page creation form add event to form
+                const form = document.getElementById('page-form');
+                form.addEventListener("submit", submitUp);
+                // disable buttons and list
+                buttonsState(false);
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                console.log(xhr);
+            }
+        });
     }
 
     // down page
     function downPage(){
+        // activated page id
+        var activePageId = findActivePage();
+        $.ajax({
+            url: pageMainUrl + activePageId + pageMoveDownUrl,
+            dataType: 'json',
+            success: function (returned_data) {
+                // load form html
+                $('#page-0').html(returned_data.form);
 
+                // when load page creation form add event to form
+                const form = document.getElementById('page-form');
+                form.addEventListener("submit", submitDown);
+                // disable buttons and list
+                buttonsState(false);
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                console.log(xhr);
+            }
+        });
     }
 
     // delete page
     function deletePage(){
-        
+        // activated page id
+        var activePageId = findActivePage();
+        $.ajax({
+            url: pageMainUrl + activePageId + pageDeleteUrl,
+            dataType: 'json',
+            success: function (returned_data) {
+                // load form html
+                $('#page-0').html(returned_data.form);
+
+                // when load page creation form add event to form
+                const form = document.getElementById('page-form');
+                form.addEventListener("submit", submitDelete);
+                // disable buttons and list
+                buttonsState(false);
+            },
+            error: function(xhr, textStatus, errorThrown){
+                console.log('STATUS: '+textStatus+'\nERROR THROWN: '+errorThrown);
+                console.log(xhr);
+            }
+        });
     }
 
 
