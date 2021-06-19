@@ -136,7 +136,7 @@ def create_paragraph_history(sender, instance, created, **kwargs):
             editor=instance.creator,
             text=instance.text,
             preview_paragraph=instance.preview_paragraph,
-            tail_paragraph=instance.tail_paragraph,
+            trail_paragraph=instance.trail_paragraph,
         )
 
 
@@ -162,7 +162,7 @@ def update_paragraph_history(sender, instance, **kwargs):
                 editor=instance.creator,
                 text=instance.text,
                 preview_paragraph=instance.preview_paragraph,
-                tail_paragraph=instance.tail_paragraph,
+                trail_paragraph=instance.trail_paragraph,
             )
 
 

@@ -6,6 +6,7 @@
     <form method="post" id="page-form">
         {% csrf_token %}
         <fieldset class="form-group">
+            <p>{% trans "Are you sure want to delete this page?" %}</p>
             {# Translators: Button title. #}
             {# Translators: تایتڵی دوگمە. #}
             <a class="btn btn-outline-secondary" onclick="pageFormCancel()">{% trans 'Cancel' %}</a>

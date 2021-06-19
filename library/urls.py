@@ -17,7 +17,7 @@ urlpatterns = [# library
     path('book/page/<int:page_pk>/update/', views.page_update, name='page-update'), # hard coded in page_detail
     path('book/page/<int:page_pk>/up/', views.page_up, name='page-up'), # hard coded in page_detail
     path('book/page/<int:page_pk>/down/', views.page_down, name='page-down'), # hard coded in page_detail
-    path('book/page/<int:page_pk>/delete/', views.page_down, name='page-down'), # hard coded in page_detail
+    path('book/page/<int:page_pk>/delete/', views.page_delete, name='page-delete'), # hard coded in page_detail
 
     # genre
     path('genre/', views.GenreListView.as_view(), name='genre-list'),

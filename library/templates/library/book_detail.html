@@ -353,7 +353,10 @@
                 $('#page-content-tab').html(returned_data.page_tab);
                 // after updating ready make trigger click for new page
                 $('#pageList').html(returned_data.page_list).ready(function(){
-                    $('#page-list-' + returned_data.page_id).trigger('click');
+                    // this for only delete function
+                    if (returned_data.page_id != 0){
+                        $('#page-list-' + returned_data.page_id).trigger('click');
+                    }
                 });
 
                 // restore list and buttons like cancel button
@@ -408,7 +411,11 @@
                 $('#edit-page').prop('disabled', false);
                 $('#delete-page').prop('disabled', false);
 
-                if($('#page-list-tab > a:first').hasClass('active')){
+                // when it is only page
+                if($('#page-list-tab > a:first').hasClass('active') && $('#page-list-tab > a:last').hasClass('active')){
+                    // do nothing because should both button should stay disabled
+                }
+                else if($('#page-list-tab > a:first').hasClass('active')){
                     $('#down-page').prop('disabled', false);
                 }
                 else if ($('#page-list-tab > a:last').hasClass('active')){
@@ -550,9 +557,13 @@
                 // load form html
                 $('#page-0').html(returned_data.form);
 
-                // when load page creation form add event to form
-                const form = document.getElementById('page-form');
-                form.addEventListener("submit", submitDelete);
+                // if deletable 
+                if (returned_data.deletable == true){
+                    // when load page creation form add event to form
+                    const form = document.getElementById('page-form');
+                    form.addEventListener("submit", submitDelete);
+                }
+                
                 // disable buttons and list
                 buttonsState(false);
             },

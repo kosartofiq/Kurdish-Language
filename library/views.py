@@ -15,7 +15,7 @@ from django.utils.translation import ugettext as _
 from global_functions import CleanSerializer
 from language import models
 
-from .models import Book, BookHistory, Page, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, \
+from .models import Book, BookHistory, Page, Paragraph, Genre, GenreHistory, Job, JobHistory, Location, LocationHistory, Publisher, \
     PublisherHistory, Writer, WriterHistory
 from language.models import Language
 
@@ -133,15 +133,18 @@ def page_create(request, book_pk):
         if form.is_valid():
             form.instance.creator = request.user
             form.instance.book = book
-            # get page that after current selected page, before save new one, otherwise new one will be old again. 
-            # and it is problem, will save again new page with preview will be same as it's id
+            # get page that after current selected page, before save new one,
+            # otherwise new one will be old again.
+            # and it is problem, will save again new page with preview will be
+            # same as it's id
             old_page = Page.objects.filter(book=book, preview_page=form.instance.preview_page).first()
             # save new page
             new_page = form.save()
             # if saved and has object
             if new_page:
                 # if there isn't any page it means last page was selected
-                # if there is , it means old page preview page should update to new page
+                # if there is , it means old page preview page should update to
+                # new page
                 if old_page != None:
                     # update old page preview page
                     old_page.preview_page = new_page.id
@@ -159,7 +162,7 @@ def page_create(request, book_pk):
                     'page_id': new_page.id
                 })
     else:
-        form= PageCreateForm()
+        form = PageCreateForm()
         form.fields['preview_page'].widget = forms.HiddenInput()
         rendered_page_create_from = render_to_string('library/page_form.html', {'form': form},request=request)
     return JsonResponse({'form':rendered_page_create_from})
@@ -199,7 +202,8 @@ def page_up(request, page_pk):
         next_page = Page.objects.filter(preview_page=current_page.pk).first()
         
 
-        # if current page is first page, we disabled happen that by javascript but 
+        # if current page is first page, we disabled happen that by javascript
+        # but
         # maybe in future api calling should check
         if preview_page == None:
             # do nothing because curren page is first page
@@ -242,7 +246,7 @@ def page_down(request, page_pk):
         # page after current page
         next_page = Page.objects.filter(preview_page=current_page.pk).first()
         # if current page is last page
-        # we disabled happen that by javascript but 
+        # we disabled happen that by javascript but
         # maybe in future api calling should check
         if next_page == None:
             pass
@@ -258,7 +262,8 @@ def page_down(request, page_pk):
             # save
             current_page.save()
             next_page.save()
-            # if current next page is not before last page, or after last page , there is another page
+            # if current next page is not before last page, or after last page
+            # , there is another page
             if next_next_page != None:
                 next_next_page.creator = request.user
                 next_next_page.preview_page = current_page.pk
@@ -277,6 +282,41 @@ def page_down(request, page_pk):
     else:
         rendered_page_create_from = render_to_string('library/page_move.html', {'moveUp': False},request=request)
     return JsonResponse({'form':rendered_page_create_from})
+
+@login_required
+def page_delete(request, page_pk):
+    current_page = Page.objects.get(pk=page_pk)
+    # default is deletable
+    deletable = True
+    # if this page have any paragraph in it
+    if Paragraph.objects.filter(page = current_page).count() > 0:
+        deletable = False
+    if request.method == 'POST':
+        # get book object from current page before deleting it
+        book = current_page.book
+        # get next page from current
+        next_page = Page.objects.filter(preview_page= current_page.pk).first()
+        # if there, or current not last page
+        if next_page != None:
+            next_page.preview_page = current_page.preview_page
+            next_page.save()
+
+        current_page.delete()
+
+        pages = Page.objects.filter(book=book)
+
+        pagesJson = serialize('json', pages)
+
+        page_list = render_to_string('library/page_list.html', {'pagesJson': pagesJson})
+        page_tab = render_to_string('library/page_tab.html', {'pages': pages})
+        return JsonResponse({
+            'page_list': page_list,
+            'page_tab': page_tab,
+            'page_id': '0'
+        })
+    else:
+        rendered_page_create_from = render_to_string('library/page_delete.html', {'deletable': deletable},request=request)
+    return JsonResponse({'form':rendered_page_create_from, 'deletable':deletable})
 # #########################
 # Genre
 # #########################
