@@ -26,7 +26,7 @@ class Paragraph(models.Model):
         on_delete=models.PROTECT,
         related_name='paragraphs',
         related_query_name='paragraph',
-        verbose_name=_('Location Id')
+        verbose_name=_('Paragraph Id')
     )
 
     # Fields
